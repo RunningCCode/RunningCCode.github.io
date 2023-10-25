@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一、流程简图 dubbo的流程简图： img.png 二、通信协议 dubbo支持多种通信协议，包括： dubbo协议（默认）。单一长连接（消费者和生产者一直保持'><title>dubbo学习笔记</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='dubbo学习笔记'>
+<meta property='og:description' content='一、流程简图 dubbo的流程简图： img.png 二、通信协议 dubbo支持多种通信协议，包括： dubbo协议（默认）。单一长连接（消费者和生产者一直保持'>
+<meta property='og:url' content='https://runningccode.github.io/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='dubbo' /><meta property='article:published_time' content='2019-08-19T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-08-19T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="dubbo学习笔记">
+<meta name="twitter:description" content="一、流程简图 dubbo的流程简图： img.png 二、通信协议 dubbo支持多种通信协议，包括： dubbo协议（默认）。单一长连接（消费者和生产者一直保持">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">dubbo学习笔记</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2019-08-19</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    4113字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一流程简图">一、流程简图</h1>
+<p>dubbo的流程简图：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 249; 
+			flex-basis: 599px"
+	>
+	<a href="/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/img.png" data-size="927x371">
+		<img src="/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/img.png"
+			width="927"
+			height="371"
+			srcset="/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/img_hu966203a3dc49e52907245c3626c42357_221917_480x0_resize_box_3.png 480w, /2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/img_hu966203a3dc49e52907245c3626c42357_221917_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<h1 id="二通信协议">二、通信协议</h1>
+<p>dubbo支持多种通信协议，包括：</p>
+<ul>
+<li>dubbo协议（默认）。单一长连接（消费者和生产者一直保持单一的长连接）+ NIO异步通信（provider作为服务端轮询socket）+ hessian序列化协议。适用传输数据量很小，但是并发量很高，消费者远远大于生产者。</li>
+<li>rmi协议。java序列化+短连接,适用于消费者和提供者数量差不多，适用于文件传输，一般较少用。</li>
+<li>hessian协议。hessian序列化 + 短连接。适用于生产者数量比消费者数量还多，多用于文件传输，一般较少用</li>
+<li>http协议。json序列化</li>
+<li>webservice。soap文本序列化</li>
+</ul>
+<h1 id="三功能介绍">三、功能介绍</h1>
+<h2 id="一负载均衡">（一）负载均衡</h2>
+<p>可配置负载均衡策略有：</p>
+<ul>
+<li>random loadbalance（默认，随机）。随机，按权重设置随机概率</li>
+<li>roundrobin loadbalance（轮询）。按公约后的权重设置轮询比率。存在慢的提供者累积请求的问题</li>
+<li>leastactive loadbalance（最少活跃调用数）。最小活跃数负载均衡。活跃调用数越小，表明该服务提供者效率越高，单位时间内可处理更多的请求。此时优先将请求分配给该服务提供者。在具体实现中，每个服务提供者对应一个活跃数 active。初始情况下，所有服务提供者活跃数均为0。每收到一个请求，活跃数加1，完成请求后则将活跃数减1</li>
+<li>consistanthash loadbalance（一致性 Hash）。相同参数的请求总是发到同一提供者。</li>
+</ul>
+<h2 id="二集群容错">（二）集群容错</h2>
+<p>可配置的集群容错策略有：</p>
+<ul>
+<li>Faliover Cluster（默认）。失败自动切换，当出现失败，重试其它服务器。通常用于读操作，但重试会带来更长延迟。可通过 retries=&ldquo;2&rdquo; 来设置重试次数(不含第一次)。</li>
+<li>Failfast Cluster。快速失败，只发起一次调用，失败立即报错。通常用于非幂等性的写操作，比如新增记录。</li>
+<li>Failsafe Cluster。失败安全，出现异常时，直接忽略。通常用于写入审计日志等操作。</li>
+<li>Failback Cluster。失败自动恢复，后台记录失败请求，定时重发。通常用于消息通知操作。</li>
+<li>Forking Cluster。并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 forks=&ldquo;2&rdquo; 来设置最大并行数。</li>
+<li>Broadcast Cluster。广播调用所有提供者，逐个调用，任意一台报错则报错。通常用于通知所有提供者更新缓存或日志等本地资源信息。</li>
+</ul>
+<h2 id="三动态代理">（三）动态代理</h2>
+<p>dubbo动态生成代理类主要有两种方式，一种是基于Javassist方式动态生成代理类（默认）-基于，另一种是用jdk动态代理。个人也不是很了解Javassist、Cglib、JDK动态代理的底层原理区别。只能说这三种方式都能生成代理类，区别在于Javassist相比较而言比较灵活，API接近底层。JDK的动态代理限制较大，必须实现接口，Cglib生成的动态代理类直接是被代理类的父类。</p>
+<h2 id="四spi机制-service-provider-interface">（四）SPI机制-Service Provider Interface</h2>
+<p>SPI，我的理解就是框架方提供接口，使用方自己实现接口，提高框架扩展性的一个机制。意思就是框架方通过接口约定方法的职责实现了一套逻辑。并没有明确表明这个接口一定要按照那种具体方式实现。所以就用SPI机制让我们自己可以在不改变框架的基础上去自己定义具体的实现。JDK提供了SPI机制的实现方式，但是dubbo不是直接使用的JDK实现的SPI，而是采用了自己的实现。下面介绍两种方式的用法：</p>
+<h3 id="1jdk实现spi">1.JDK实现SPI</h3>
+<h4 id="第一步在jar包或工程的meta-infservice文件夹下创建文件文件名为提供的接口名包含全路径">第一步：在jar包或工程的meta-inf/service文件夹下，创建文件，文件名为提供的接口名（包含全路径）</h4>
+<h4 id="第二步编辑文件内容文件内容为实现类的全路径">第二步：编辑文件内容，文件内容为实现类的全路径。</h4>
+<h4 id="第三步框架方加载实现类">第三步：框架方，加载实现类：</h4>
+<pre><code>ServiceLoader&lt;DriverService&gt; serviceLoader = ServiceLoader.load(DriverService.class);
+        for (DriverService driverService: serviceLoader){
+            System.out.println(driverService.getName());
+        }
+</code></pre>
+<p>DriverService为接口，遍历得到的是在Jar包内找到的实现类。</p>
+<h3 id="2dubbbo实现spi">2、Dubbbo实现SPI</h3>
+<h4 id="名词解释">名词解释：</h4>
+<ul>
+<li>扩展点,称 Dubbo 中被 @SPI 注解的 Interface 为一个扩展点。</li>
+<li>扩展,被 @SPI 注解的 Interface 的实现称为这个扩展点的一个扩展。</li>
+</ul>
+<h4 id="注解解释">注解解释：</h4>
+<ul>
+<li>@SPI：@SPI 注解标识了接口是一个扩展点 ， 属性 value 用来指定默认适配扩展点的名称。</li>
+<li>@Activate:@Activate 注解在扩展点的实现类上 ，表示了一个扩展类被获取到的的条件，符合条件就被获取，不符合条件就不获取 ，根据 @Activate 中的 group 、value 属性来过滤。</li>
+<li>@Adaptive：@Adaptive 注解在类上,这个类就是缺省的适配扩展。@Adaptive 注解在扩展点 Interface 的方法上时 ，dubbo动态的生成一个这个扩展点的适配扩展类（生成代码 ，动态编译实例化 Class ），名称为扩展点 Interface 的简单类名 + $Adaptive ，例如 ： ProxyFactory$Adpative 。这么做的目的是为了在运行时去适配不同的扩展实例 ， 在运行时通过传入的 URL 类型的参数或者内部含有获取 URL 方法的参数 ，从 URL 中获取到要使用的扩展类的名称 ，再去根据名称加载对应的扩展实例 ，用这个扩展实例对象调用相同的方法  。如果运行时没有适配到运行的扩展实例 ，那么就使用 @SPI 注解缺省指定的扩展。通过这种方式就实现了运行时去适配到对应的扩展。</li>
+<li>注意：  若@Adaptive标志了实现类，和@SPI标志的默认实现Key，以及SPI接口方法上也标了 @Adaptive接受Url参数解析实现类，优先级次序是 @Adaptive标志的实现类大于Url参数大于@SPI标志的默认实现.</li>
+</ul>
+<h4 id="扩展dubbo框架中spi接口的方式">扩展dubbo框架中SPI接口的方式</h4>
+<p>dubbo自带了一些spi接口，这里介绍下怎么实现这些SPI接口。</p>
+<ul>
+<li>第一步：添加文件关联实现类</li>
+</ul>
+<p>路径可以是：META-INF/services/（扩展点接口的全类名）、 META-INF/dubbo/（扩展点接口的全类名 ）、 META-INF/dubbo/internal/（扩展点接口的全类名）。</p>
+<p>文件内容，键为扩展名，值为扩展实现类路径，类似：</p>
+<pre><code>adaptive=com.alibaba.dubbo.common.extension.factory.AdaptiveExtensionFactory
+spi=com.alibaba.dubbo.common.extension.factory.SpiExtensionFactory
+spring=com.alibaba.dubbo.config.spring.extension.SpringExtensionFactory
+</code></pre>
+<ul>
+<li>第二步：为dubbo框架中的可扩展点指定实现类</li>
+</ul>
+<p>如 &lt;dubbo：protocol name=&lsquo;my&rsquo; prot=&ldquo;20000&rdquo;/&gt; 可以修改protocol的实现为指定扩展名为my的扩展。</p>
+<h4 id="dubbo框架中的可扩展点">dubbo框架中的可扩展点：</h4>
+<p>包括动态代理方式（ProxyFactory）、负载均衡策略（LoadBalance）、RPC协议（Protocol）、拦截器（Filter）、容器类型（Container）、集群方式（Cluster）和注册中心类型（RegistryFactory）等。</p>
+<h2 id="五服务降级">（五）服务降级</h2>
+<h3 id="配置方式例">配置方式例</h3>
+<p>消费者配置文件：</p>
+<pre><code> &lt;dubbo:reference id=&quot;iUser&quot; interface=&quot;com.dubbosample.iface.IUser&quot;  timeout=&quot;10000&quot; check=&quot;false&quot; mock=&quot;return null&quot;&gt;
+    &lt;/dubbo:reference&gt;
+</code></pre>
+<p>其中，关键属性为mock，其有以下几种属性值：</p>
+<ul>
+<li>false，不使用mock</li>
+<li>true/default/fail，mock调用名为接口+Impl类的对应mock方法</li>
+<li>{mockClass}，mock调用${mockClass}对应方法</li>
+<li>return xxx，直接返回xxx的Mock数据，xxx支持json数据</li>
+<li>throw xxxException，直接抛出异常</li>
+<li>force xxx xxx为接口实现类类名，mock表达式只含有force的话，直接走接口相同路径下类名为“接口+Impl类&quot;对应相同方法的逻辑，不掉接口，相当于直接屏蔽接口。</li>
+</ul>
+<h2 id="六服务重试">（六）服务重试</h2>
+<h3 id="配置方式例-1">配置方式例</h3>
+<p>生产者端：</p>
+<ul>
+<li>使用注解：@Service(retries = 1,timeout = 2000)。</li>
+<li>使用配置：&lt;dubbo:provider retries=&ldquo;0&rdquo; timeout=&ldquo;3000&rdquo;/&gt;</li>
+</ul>
+<h1 id="四可能导致的问题">四、可能导致的问题</h1>
+<h2 id="一幂等性问题">（一）幂等性问题</h2>
+<p>一些写操作接口需要保证幂等性，特别是包含支付逻辑的接口。</p>
+<h3 id="1场景">1.场景</h3>
+<ul>
+<li>单机接收到重复请求</li>
+<li>相同服务不同机器接收到重复请求</li>
+</ul>
+<h3 id="2解决方案">2.解决方案</h3>
+<h4 id="思路">思路</h4>
+<p>针对每个请求都需要标识一个唯一id，每次处理之后必须有一个记录标识这个请求处理过，每次接收到请求时判断是否处理过，如果处理过就直接忽略。</p>
+<h4 id="具体">具体</h4>
+<ul>
+<li>基于数据库唯一索引</li>
+<li>单机可直接基于本地MAP或SET</li>
+<li>分布式的可以基于缓存如redis</li>
+</ul>
+<h2 id="二顺序性问题">（二）顺序性问题</h2>
+<p>针对顺序性的业务，比如先修改后删除的操作，如果执行顺序错了，那么业务就错了。</p>
+<h3 id="1场景-1">1.场景</h3>
+<p>消费者异步调用的生产者的一组服务接口没有阻塞等待确保顺序问题。</p>
+<h3 id="2解决方案-1">2.解决方案</h3>
+<ul>
+<li>使用一致性hash算法负载均衡策略。若这一组服务接口位于同一个服务，可以用一致性hash算法负载均衡策略使得调用的服务被分发到一台机器上，然后这台机器又采取内存队列的形式进行消费。</li>
+<li>使用分布式锁机制。锁的key为对应业务单号，值为顺序号，每个生产者服务接口获取锁的时候判断下业务Key的value中的顺序值然后判断是不是该轮到自己。若是则获取锁。若不是则阻塞一段时间再去获取锁。</li>
+</ul>
+<h1 id="五小结一下设计rpc框架的思路">五、小结一下设计rpc框架的思路</h1>
+<ul>
+<li>依赖zookeeper或其他做一个注册中心</li>
+</ul>
+<p>比如zookeeper，可以为每一个接口的每一个方法注册一个临时节点，然后key为接口方法的唯一标识（包含class路径、方法名称，参数签名），data为服务地址列表</p>
+<ul>
+<li>消费者调用服务</li>
+</ul>
+<p>调用服务应该设计为动态代理，该动态代理类处理，拉取服务信息、负载均衡、序列化参数、发送请求。具体可以设计为先根据调用的接口去查本地缓存有没有该服务地址列表，如果有直接用一定的算法比如轮询取其中之一的地址，然后地址有了之后，将参数和请求id（因为需要将获取的响应关联请求Id）封装为一个对象比如名叫Invoker类，选择一定的序列化协议将数据发送给生产者，同时将Invoker对象放入一个本地内存并发容器中如名叫inProgressInvoker，用requestId作为Key，然后用Invoker对象的wait方法阻塞自己（这里先配置发送通信方式可以使用netty，设定接收到返回的回调方法，接收到生产者响应之后首先压回队列然后通过notifyAll唤醒后台队列的消费线程(1个或多个，可以通过参数配置)）。</p>
+<p>后台消费线程的设计是先从队列取出消息（如果没有取到，则调用上面回调方法里notifyAll中的锁资源的wait方法阻塞自己），如果有消息，则先反序列化接收到生产者返回的内容，然后根据requestId去上面的inProgressInvoker取出Invoker对象，将响应设置到Invoker对象中，同时调用notifyAll或notify方法，唤醒消费那里被阻塞的主线程，</p>
+<ul>
+<li>生产者处理请求</li>
+</ul>
+<p>生产者这边的netty监听到事件之后，通过线程池处理请求，将请求数据反序列化解析为对象，通过接口方法唯一标识，以及参数信息来反射调用真正的接口实现类，处理好之后连带请求id在通过一定序列化协议返回给消费者。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/dubbo/">dubbo</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一负载均衡">（一）负载均衡</a></li>
+    <li><a href="#二集群容错">（二）集群容错</a></li>
+    <li><a href="#三动态代理">（三）动态代理</a></li>
+    <li><a href="#四spi机制-service-provider-interface">（四）SPI机制-Service Provider Interface</a>
+      <ol>
+        <li><a href="#1jdk实现spi">1.JDK实现SPI</a>
+          <ol>
+            <li><a href="#第一步在jar包或工程的meta-infservice文件夹下创建文件文件名为提供的接口名包含全路径">第一步：在jar包或工程的meta-inf/service文件夹下，创建文件，文件名为提供的接口名（包含全路径）</a></li>
+            <li><a href="#第二步编辑文件内容文件内容为实现类的全路径">第二步：编辑文件内容，文件内容为实现类的全路径。</a></li>
+            <li><a href="#第三步框架方加载实现类">第三步：框架方，加载实现类：</a></li>
+          </ol>
+        </li>
+        <li><a href="#2dubbbo实现spi">2、Dubbbo实现SPI</a>
+          <ol>
+            <li><a href="#名词解释">名词解释：</a></li>
+            <li><a href="#注解解释">注解解释：</a></li>
+            <li><a href="#扩展dubbo框架中spi接口的方式">扩展dubbo框架中SPI接口的方式</a></li>
+            <li><a href="#dubbo框架中的可扩展点">dubbo框架中的可扩展点：</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#五服务降级">（五）服务降级</a>
+      <ol>
+        <li><a href="#配置方式例">配置方式例</a></li>
+      </ol>
+    </li>
+    <li><a href="#六服务重试">（六）服务重试</a>
+      <ol>
+        <li><a href="#配置方式例-1">配置方式例</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li><a href="#一幂等性问题">（一）幂等性问题</a>
+      <ol>
+        <li><a href="#1场景">1.场景</a></li>
+        <li><a href="#2解决方案">2.解决方案</a>
+          <ol>
+            <li><a href="#思路">思路</a></li>
+            <li><a href="#具体">具体</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#二顺序性问题">（二）顺序性问题</a>
+      <ol>
+        <li><a href="#1场景-1">1.场景</a></li>
+        <li><a href="#2解决方案-1">2.解决方案</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>redis on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/redis/</link>
+    <description>Recent content in redis on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 02 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis缓存维护方案-怎么解决缓存与数据库不一致</title>
+      <link>https://runningccode.github.io/2019/redis%E7%BC%93%E5%AD%98%E7%BB%B4%E6%8A%A4%E6%96%B9%E6%A1%88-%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8D%E4%B8%80%E8%87%B4/</link>
+      <pubDate>Mon, 02 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/redis%E7%BC%93%E5%AD%98%E7%BB%B4%E6%8A%A4%E6%96%B9%E6%A1%88-%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8D%E4%B8%80%E8%87%B4/</guid>
+      <description>一般常用的缓存方案有两种： 第一种 读的时候，先读缓存，缓存没有的话，读数据库，取出数据后放入缓存，同时返回响应。 更新的时候，先删除缓存，在更新</description>
+    </item>
+    
+    <item>
+      <title>Redis学习笔记</title>
+      <link>https://runningccode.github.io/2019/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、基础知识 （一）Redis的线程模型 img.png 其中： 1.多路IO复用器。 负责轮询监听服务器套接字和客户端套接字，这里是NIO的机制，所以每个套接字</description>
+    </item>
+    
+  </channel>
+</rss>

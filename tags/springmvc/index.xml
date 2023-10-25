@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SpringMVC on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/springmvc/</link>
+    <description>Recent content in SpringMVC on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 12 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/springmvc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot下的SpringMVC配置解析 ——WebMvcConfigurerAdapter和WebMvcConfigurationSupport</title>
+      <link>https://runningccode.github.io/2019/springboot%E4%B8%8B%E7%9A%84springmvc%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90-webmvcconfigureradapter%E5%92%8Cwebmvcconfigurationsupport/</link>
+      <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/springboot%E4%B8%8B%E7%9A%84springmvc%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90-webmvcconfigureradapter%E5%92%8Cwebmvcconfigurationsupport/</guid>
+      <description>一、前言 Sprinboot中配置SpringMVC主要是继承WebMvcConfigurerAdapter（1.x版本）或者WebMvcCo</description>
+    </item>
+    
+  </channel>
+</rss>

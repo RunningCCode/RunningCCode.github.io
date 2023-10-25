@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hystrix on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/hystrix/</link>
+    <description>Recent content in hystrix on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 30 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/hystrix/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hystrix学习笔记</title>
+      <link>https://runningccode.github.io/2019/hystrix%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 30 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/hystrix%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>前言 本文主要介绍Hystrix的基本功能，原理。Hystrix协调分布式系统中各个服务高可用的框架，SpringCloud体系重要的一员。H</description>
+    </item>
+    
+  </channel>
+</rss>

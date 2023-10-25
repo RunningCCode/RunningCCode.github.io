@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JMM on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/jmm/</link>
+    <description>Recent content in JMM on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 04 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/jmm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JMM（java-memory-model,java内存模型）规范</title>
+      <link>https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Fri, 04 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/</guid>
+      <description>来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考 一、 JMM是</description>
+    </item>
+    
+  </channel>
+</rss>

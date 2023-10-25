@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一、TypeHander介绍 typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从'><title>Mybatis自定义全局TypeHander</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='Mybatis自定义全局TypeHander'>
+<meta property='og:description' content='一、TypeHander介绍 typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从'>
+<meta property='og:url' content='https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='mybatis' /><meta property='article:published_time' content='2019-08-13T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-08-13T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="Mybatis自定义全局TypeHander">
+<meta name="twitter:description" content="一、TypeHander介绍 typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/">Mybatis自定义全局TypeHander</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2019-08-13</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    2342字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一typehander介绍">一、TypeHander介绍</h1>
+<p>typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从查询结果映射到Java类型时会调用相应的typeHander的方法完成转换。这里我写了一个小demo以完成自定义List到数据库的转换关系，mybatis自动注册了很多typeHander，比如Java中的基本类型，包装类型，mybatis都为我们注册了，当我们不指定具体的typeHander时，mybatis会自动选择合适的typeHander以完成java类型和jdbc类型的相互转换。</p>
+<h1 id="二过程">二、过程</h1>
+<h2 id="1首先创建list的typehander">1.首先创建List的TypeHander</h2>
+<pre><code>/**
+ * @author chenzhicong
+ * @time 2019/8/13 20:37
+ * @description
+ */
+public class ListTypeHandler extends BaseTypeHandler&lt;List&lt;String&gt;&gt; {
+
+
+    @Override
+    public void setNonNullParameter(PreparedStatement ps, int i, List&lt;String&gt; parameter, JdbcType jdbcType) throws SQLException {
+        if (jdbcType == null) {
+            ps.setString(i, StringUtils.collectionToCommaDelimitedString(parameter));
+        } else {
+            ps.setObject(i, parameter, jdbcType.TYPE_CODE);
+        }
+    }
+
+    @Override
+    public List&lt;String&gt; getNullableResult(ResultSet rs, String columnName) throws SQLException {
+        String s = rs.getString(columnName);
+        return s==null ? null : new ArrayList&lt;String&gt;(Arrays.asList(s.split(&quot;,&quot;)));
+    }
+
+    @Override
+    public List&lt;String&gt; getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+        String s = rs.getString(columnIndex);
+        return s==null ? null : new ArrayList&lt;&gt;(Arrays.asList(s.split(&quot;,&quot;)));
+    }
+
+    @Override
+    public List&lt;String&gt; getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+        String s = cs.getString(columnIndex);
+        return s==null ? null : new ArrayList&lt;&gt;(Arrays.asList(s.split(&quot;,&quot;)));
+    }
+}
+</code></pre>
+<p>首先继承BaseTypeHandler,指定其泛型参数为我们需要转换的java类型，BaseTypeHandler运用了模板方法模式，封装了很多空值判断，异常处理。说明一下：这里这个类型转换器没有指定具体的jdbcType，所以mybatis会自动判断当java类型为List的时候就匹配这个这个转换器。</p>
+<h2 id="2然后注册到mybatis的typehandlerregistry">2.然后注册到Mybatis的TypeHandlerRegistry</h2>
+<p>注册到TypeHandlerRegistry是为了全局自定义效果，如果不注册，需要在Mapper，xml里面的resultMap去指定typeHander如：</p>
+<pre><code>&lt;resultMap id=&quot;personMap&quot; type=&quot;person&quot;&gt;
+        &lt;id property=&quot;id&quot; column=&quot;id&quot;/&gt;
+        &lt;result property=&quot;name&quot; column=&quot;name&quot;/&gt;
+        &lt;result property=&quot;sex&quot; column=&quot;sex&quot;/&gt;
+        &lt;result property=&quot;hobbys&quot; column=&quot;hobbys&quot; typeHandler=&quot;com.sankuai.lkl.typeHandler.ListTypeHandler&quot;/&gt;
+        &lt;result property=&quot;date&quot; column=&quot;data_time&quot;/&gt;
+ &lt;/resultMap&gt;
+</code></pre>
+<p>注册的思路是直接在spring容器加载完bean的时候从容器里面取出TypeHandlerRegistry，然后注册我们自定义的转换器：</p>
+<pre><code>/**
+ * @author chenzhicong
+ * @time 2019/8/13 22:19
+ * @description
+ */
+@Component
+public class CustomTypeHandlerParser implements ApplicationContextAware {
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        //从spring容器获取sqlSessionFactory
+        SqlSessionFactory sqlSessionFactory = applicationContext.getBean(SqlSessionFactory.class);
+        //获取typeHandler注册器
+        TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration().getTypeHandlerRegistry();
+        //注册List的typeHandler
+        typeHandlerRegistry.register(List.class, ListTypeHandler.class);
+
+
+    }
+}
+</code></pre>
+<h1 id="三测试">三、测试</h1>
+<pre><code>@Test
+  public void test() {
+    UserJpaTest userJpaTest = new UserJpaTest();
+    List&lt;String&gt; list = new ArrayList&lt;&gt;();
+    list.add(&quot;phoneNumber1&quot;);
+    list.add(&quot;phoneNumber2&quot;);
+    userJpaTest.setPhoneNumber(list);
+    userJpaTestMapper.insert(userJpaTest);
+
+  }
+</code></pre>
+<h1 id="四效果">四、效果</h1>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 505; 
+			flex-basis: 1212px"
+	>
+	<a href="/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/img.png" data-size="1127x223">
+		<img src="/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/img.png"
+			width="1127"
+			height="223"
+			srcset="/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/img_hudcad709a250e705b6b4720d8c38276ef_112162_480x0_resize_box_3.png 480w, /2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/img_hudcad709a250e705b6b4720d8c38276ef_112162_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>可以看到，在数据库中已经把集合转换为了逗号分隔的字符串。</p>
+<h1 id="五进阶-创建枚举的typehandler">五、进阶-创建枚举的TypeHandler</h1>
+<p>TypeHander还经常应用于枚举与数据库字符串的转换策略，业务中，我们枚举通常有三个变量，一个是给前端的展示字符，一个是存入数据库的字符，另一个是我们在java系统的字符。为了让数据库只识别我们其中存入数据库的字符，同时把数据库中字符转换为我们想要的枚举。我们可以用自定义的转换器来便利的实现。下面介绍下过程：</p>
+<p>首先我们可以把所有枚举抽象为一个接口。如下，我们抽象了所有枚举为一个接口枚举的EntityEnumIFace接口，接口的getDbCode方法为需要转换的数据库字符串，我们通过这个转换器去处理这一类枚举抽象的转换：</p>
+<pre><code>public final class EntityEnumIFaceHandler&lt;T extends Enum&lt;T&gt; &amp; EntityEnumIFace&gt; extends BaseTypeHandler&lt;T&gt; {
+    private Class&lt;T&gt; type;
+
+    public EntityEnumIFaceHandler(Class&lt;T&gt; type) {
+        if (null == type) {
+            throw new IllegalArgumentException(&quot;type参数不能为空&quot;);
+        } else {
+            this.type = type;
+        }
+    }
+@Override
+    public void setNonNullParameter(PreparedStatement preparedStatement, int i, T t, JdbcType jdbcType) throws SQLException {
+        if (jdbcType == null) {
+            preparedStatement.setString(i, ((EntityEnumIFace)t).getDbCode());
+        } else {
+            preparedStatement.setObject(i, ((EntityEnumIFace)t).getDbCode(), jdbcType.TYPE_CODE);
+        }
+
+    }
+    @Override
+    public T getNullableResult(ResultSet resultSet, String s) throws SQLException {
+        String value = resultSet.getString(s);
+        return value == null ? null : valueOf(this.type, value);
+    }
+    @Override
+    public T getNullableResult(ResultSet resultSet, int i) throws SQLException {
+        String value = resultSet.getString(i);
+        return value == null ? null : valueOf(this.type, value);
+    }
+    @Override
+    public T getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
+        String value = callableStatement.getString(i);
+        return value == null ? null : valueOf(this.type, value);
+    }
+
+    private static &lt;E extends Enum&lt;E&gt; &amp; EntityEnumIFace&gt; E valueOf(Class&lt;E&gt; enumClass, String dbCode) {
+       E[] enumConstants = enumClass.getEnumConstants();
+        if (null != enumConstants) {
+            for (E e : enumConstants) {
+                if (e.getDbCode().equals(dbCode)) {
+                    return e;
+                }
+            }
+        }
+        throw new BusinessException(&quot;ENUM_NOT_EXIST&quot;, enumClass.getSimpleName() + &quot;枚举中没有&quot; + dbCode, false);
+    }
+}
+</code></pre>
+<p>可能看了上面会奇怪，为什么前面定义的转换器实例化没有有参构造方法，这里却定义了有参构造方法？这个实例化过程又是怎么样的？别急，等下面我们再看，这里我们先将其注册到容器，我们怎么注册到容器勒？这里可以通过扫描指定包路径然后获取所有枚举的class对象再用typeHandlerRegistry.register注册到mybatis,如：</p>
+<pre><code>try {
+            Set&lt;Class&lt;?&gt;&gt; set =  ClassUtil.listClass(BUSINESS_ENUM_PACKAGE);
+            set.forEach(o-&gt;{
+                if(EntityEnumIFace.class.isAssignableFrom(o.getClass())){
+                    typeHandlerRegistry.register(o.getClass(),EntityEnumIFaceHandler.class);
+                }
+            });
+        }catch (Exception e){
+           log.error(e.getMessage(),e);
+        }
+</code></pre>
+<p>其中ClassUtil.listClass方法逻辑就是扫描包路径，然后用类加载器加载class文件获取class对象。</p>
+<p>我们可以看到这里和注册ListTypeHandler没有两样都是调用的同一个方法register（register(Class<?> javaTypeClass, Class<?> typeHandlerClass)），我们先进入这个方法看一看源码，源码调用了register(javaTypeClass, getInstance(javaTypeClass, typeHandlerClass)，我们在进去getInstance方法看一看，怎么实例化的typeHandler，源码如下：</p>
+<pre><code>public &lt;T&gt; TypeHandler&lt;T&gt; getInstance(Class&lt;?&gt; javaTypeClass, Class&lt;?&gt; typeHandlerClass) {
+    if (javaTypeClass != null) {
+      try {
+        Constructor&lt;?&gt; c = typeHandlerClass.getConstructor(Class.class);
+        return (TypeHandler&lt;T&gt;) c.newInstance(javaTypeClass);
+      } catch (NoSuchMethodException ignored) {
+        // ignored
+      } catch (Exception e) {
+        throw new TypeException(&quot;Failed invoking constructor for handler &quot; + typeHandlerClass, e);
+      }
+    }
+    try {
+      Constructor&lt;?&gt; c = typeHandlerClass.getConstructor();
+      return (TypeHandler&lt;T&gt;) c.newInstance();
+    } catch (Exception e) {
+      throw new TypeException(&quot;Unable to find a usable constructor for &quot; + typeHandlerClass, e);
+    }
+  }
+</code></pre>
+<p>我们可以看到，实例化typeHandler会首先调用有参构造方法，将typeHandlerRegistry.register参数的javaTypeClass传入typeHandlerClass创建typeHandlerClass的实例，若没有反射获取到构造方法即抛了NoSuchMethodException异常，将进行忽略，进而调用无参的构造方法创建typeHandlerClass实例。所以我们ListTypeHandler和EntityEnumIFaceHandler都通过此方法成功实例化了，我想这个方法之所以这么设计应该是想让TypeHandlerClass能够知晓需要处理的具体Class类型然后去做更通用的抽象去处理这一类Class的转换方式吧。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/mybatis/">mybatis</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2019/mybatis%E6%8F%92%E4%BB%B6%E8%BF%90%E7%94%A8%E4%B9%8B%E5%AE%9E%E4%BD%93%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E6%97%B6%E9%97%B4/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> MyBatis插件运用之实体自动修改自己的业务主键和时间</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1首先创建list的typehander">1.首先创建List的TypeHander</a></li>
+    <li><a href="#2然后注册到mybatis的typehandlerregistry">2.然后注册到Mybatis的TypeHandlerRegistry</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

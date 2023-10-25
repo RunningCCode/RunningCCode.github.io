@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>event executor terminated on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/event-executor-terminated/</link>
+    <description>Recent content in event executor terminated on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 09 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/event-executor-terminated/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>生产环境 java.util.concurrent.RejectedExecutionException: event executor terminated 错误分析</title>
+      <link>https://runningccode.github.io/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/</guid>
+      <description>缘由 生产上发生了事故，用户服务其中一台服务很多情况下都不可用，于是查询日志，发现了在从redis获取用户信息缓存的时候出现了错误，栈如下： org.springframework.data.redis.RedisSystemException:</description>
+    </item>
+    
+  </channel>
+</rss>

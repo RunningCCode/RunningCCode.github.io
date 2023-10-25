@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>自定义序列化 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BA%8F%E5%88%97%E5%8C%96/</link>
+    <description>Recent content in 自定义序列化 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 27 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BA%8F%E5%88%97%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jackson自定义全局序列化、反序列化</title>
+      <link>https://runningccode.github.io/2019/jackson%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</link>
+      <pubDate>Sat, 27 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jackson%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</guid>
+      <description>需要自定义Jackson序列化和反序列化有两种方式，一种是全局定义，一种是非全局定义。先来看看全局定义。全局定义的步骤如下，以定义一个loc</description>
+    </item>
+    
+  </channel>
+</rss>

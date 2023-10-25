@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>踩坑记录 on 青葱与志</title>
+    <link>https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</link>
+    <description>Recent content in 踩坑记录 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BUG：方法 A 有环绕切面 a 包含方法 B 有环绕切面 b，然后在 a 切面调用 b 方法，B 方法回调 A 方法的切入点方法，导致的 AopContext.currentProxy () 拿不到方法 A 的代理类</title>
+      <link>https://runningccode.github.io/2021/bug%E6%96%B9%E6%B3%95-a-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-a-%E5%8C%85%E5%90%AB%E6%96%B9%E6%B3%95-b-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-b%E7%84%B6%E5%90%8E%E5%9C%A8-a-%E5%88%87%E9%9D%A2%E8%B0%83%E7%94%A8-b-%E6%96%B9%E6%B3%95b-%E6%96%B9%E6%B3%95%E5%9B%9E%E8%B0%83-a-%E6%96%B9%E6%B3%95%E7%9A%84%E5%88%87%E5%85%A5%E7%82%B9%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84-aopcontext.currentproxy-%E6%8B%BF%E4%B8%8D%E5%88%B0%E6%96%B9%E6%B3%95-a-%E7%9A%84%E4%BB%A3%E7%90%86%E7%B1%BB/</link>
+      <pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2021/bug%E6%96%B9%E6%B3%95-a-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-a-%E5%8C%85%E5%90%AB%E6%96%B9%E6%B3%95-b-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-b%E7%84%B6%E5%90%8E%E5%9C%A8-a-%E5%88%87%E9%9D%A2%E8%B0%83%E7%94%A8-b-%E6%96%B9%E6%B3%95b-%E6%96%B9%E6%B3%95%E5%9B%9E%E8%B0%83-a-%E6%96%B9%E6%B3%95%E7%9A%84%E5%88%87%E5%85%A5%E7%82%B9%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84-aopcontext.currentproxy-%E6%8B%BF%E4%B8%8D%E5%88%B0%E6%96%B9%E6%B3%95-a-%E7%9A%84%E4%BB%A3%E7%90%86%E7%B1%BB/</guid>
+      <description>BUG 前段时间写了个幂等框架 环绕通知是这么写的 @Around(&amp;quot;idempotence()&amp;quot;) public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable { //略 boolean isExists = !idempotenceClient.saveIfAbsent(idempotenceId, () -&amp;gt; { ResultWrapper resultWrapper = new ResultWrapper(); Object result = null; try { result = proceedingJoinPoint.proceed(args); } catch (Throwable e) { resultWrapper.setHasException(true); resultWrapper.setException(e); } try { resultWrapper.setResult((Serializable) result); } catch (ClassCastException e) {</description>
+    </item>
+    
+    <item>
+      <title>生产环境 java.util.concurrent.RejectedExecutionException: event executor terminated 错误分析</title>
+      <link>https://runningccode.github.io/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/</link>
+      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/</guid>
+      <description>缘由 生产上发生了事故，用户服务其中一台服务很多情况下都不可用，于是查询日志，发现了在从redis获取用户信息缓存的时候出现了错误，栈如下： org.springframework.data.redis.RedisSystemException:</description>
+    </item>
+    
+    <item>
+      <title>动态获取方法参数的坑</title>
+      <link>https://runningccode.github.io/2020/%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Thu, 07 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E7%9A%84%E5%9D%91/</guid>
+      <description>问题 问题的背景： 由于springcache并不是很好用，并不针对细粒度的过期时间控制。所以我司基于spel表达式写了一个缓存切面实现类似的功</description>
+    </item>
+    
+  </channel>
+</rss>

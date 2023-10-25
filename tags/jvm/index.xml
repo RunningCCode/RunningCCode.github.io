@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/jvm/</link>
+    <description>Recent content in JVM on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JVM从零开始（二） -垃圾回收机制以及内存分代模型</title>
+      <link>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%BA%8C-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%BA%8C-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B/</guid>
+      <description>JVM中垃圾回收的判定标准 最终目的是将内存中无用的对象回收掉。具体的判定方法有： 引用计数法，不采用，指的是维护对象被引用的次数，次数为0则意</description>
+    </item>
+    
+    <item>
+      <title>JVM从零开始（一）-JVM的类加载、内存区域</title>
+      <link>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%B8%80-jvm%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</link>
+      <pubDate>Sat, 31 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%B8%80-jvm%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</guid>
+      <description>一、前言 自从入行以来，一直没有深入学习过JVM，虽然看过好些书、博客也有一点了解，但都不是专门讲JVM的，所以对JVM停留在浅显的了解上，没</description>
+    </item>
+    
+  </channel>
+</rss>

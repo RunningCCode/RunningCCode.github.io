@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>学习笔记 on 青葱与志</title>
+    <link>https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 学习笔记 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 27 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一致性协议-Paxos,ZAB,Raft 总结</title>
+      <link>https://runningccode.github.io/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Wed, 27 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/</guid>
+      <description>参考资料： 分布式一致性算法——Paxos原理与推导过程 百度开源 / braft Raft 一致性协议完整解析 Paxos，Raft，ZAB的差异对比 前言 用于在多数据</description>
+    </item>
+    
+    <item>
+      <title>JMM（java-memory-model,java内存模型）规范</title>
+      <link>https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Fri, 04 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/</guid>
+      <description>来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考 一、 JMM是</description>
+    </item>
+    
+    <item>
+      <title> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</title>
+      <link>https://runningccode.github.io/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</link>
+      <pubDate>Fri, 18 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/</guid>
+      <description>本文主要源于阅读以下文章整理所得： 似水流年——一篇文章读懂阻塞，非阻塞，同步，异步 似水流年——IO多路复用的三种机制Select，Poll，</description>
+    </item>
+    
+    <item>
+      <title>jdk常用非并发容器整理</title>
+      <link>https://runningccode.github.io/2022/jdk%E5%B8%B8%E7%94%A8%E9%9D%9E%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%95%B4%E7%90%86/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/jdk%E5%B8%B8%E7%94%A8%E9%9D%9E%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%95%B4%E7%90%86/</guid>
+      <description>根据数据结构总结jdk常见的非并发容器，小结。 数据结构 基于数组 ArrayList ArrayDeque(循环数组) 只需要双端队列效果时使用，比linkedLi</description>
+    </item>
+    
+    <item>
+      <title>PriorityQueue取中位数-实现一个能够动态取中位数的容器</title>
+      <link>https://runningccode.github.io/2022/priorityqueue%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%83%BD%E5%A4%9F%E5%8A%A8%E6%80%81%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0%E7%9A%84%E5%AE%B9%E5%99%A8/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/priorityqueue%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%83%BD%E5%A4%9F%E5%8A%A8%E6%80%81%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0%E7%9A%84%E5%AE%B9%E5%99%A8/</guid>
+      <description>闲来无事，复习一遍以前学习《Java编程的逻辑》的笔记，巩固一下基础。里面提到了通过堆这个数据结构取中值的应用场景，但没给出具体解法，这里查</description>
+    </item>
+    
+    <item>
+      <title>Springboot浅析（三）——容器刷新流程</title>
+      <link>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%B8%89%E5%AE%B9%E5%99%A8%E5%88%B7%E6%96%B0%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Mon, 02 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%B8%89%E5%AE%B9%E5%99%A8%E5%88%B7%E6%96%B0%E6%B5%81%E7%A8%8B/</guid>
+      <description>一、 先了解下各种后置处理器扩展点 (一)BeanFactoryPostProcessor——bean工厂后置处理 BeanFactory 标准初始化完毕后(经过包扫描</description>
+    </item>
+    
+    <item>
+      <title>Springboot浅析（二）——容器启动流程</title>
+      <link>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%BA%8C%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%BA%8C%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/</guid>
+      <description>大概是水平有限，最近跟读代码与相关书籍感觉巨费时间，想深入弄明白所有的东西很难，所以也只能带着问题来学习springboot了，以后遇到确切</description>
+    </item>
+    
+    <item>
+      <title>Springboot浅析（一）——自动配置</title>
+      <link>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%B8%80%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/springboot%E6%B5%85%E6%9E%90%E4%B8%80%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE/</guid>
+      <description>为什么学习Springboot勒，一方面主要实在是Springboot应用得太广泛了，加深对其的理解对自己的开发工作很有必要，因为如果遇到或</description>
+    </item>
+    
+    <item>
+      <title>应用启动初始化操作的各个方式及区别总结</title>
+      <link>https://runningccode.github.io/2020/%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C%E7%9A%84%E5%90%84%E4%B8%AA%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Wed, 19 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C%E7%9A%84%E5%90%84%E4%B8%AA%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8C%BA%E5%88%AB%E6%80%BB%E7%BB%93/</guid>
+      <description>业务中经常会涉及到一些初始化操作如加载数据到内存，初始化成员变量等等一系列操作。现将各个方式总结一下。 一、 bean的生命周期 首先我们要明白一</description>
+    </item>
+    
+    <item>
+      <title>非科班生网络通信必会知识点归纳</title>
+      <link>https://runningccode.github.io/2020/%E9%9D%9E%E7%A7%91%E7%8F%AD%E7%94%9F%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%BF%85%E4%BC%9A%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E9%9D%9E%E7%A7%91%E7%8F%AD%E7%94%9F%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%BF%85%E4%BC%9A%E7%9F%A5%E8%AF%86%E7%82%B9%E5%BD%92%E7%BA%B3/</guid>
+      <description>一、 网络模型 网络模型分两种，一种是OSI模型，一种是TCP/IP模型，后者应用更加广泛。这里也主要介绍TCP/IP模型。 （一）TCP/IP模</description>
+    </item>
+    
+    <item>
+      <title>DDD领域驱动设计思想——读《DDD实战课》归纳</title>
+      <link>https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/</guid>
+      <description>本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在： DDD实战课 基于DDD的微服务拆分与设计 一、DDD名词解释 （一</description>
+    </item>
+    
+    <item>
+      <title>线程协作工具之Semaphore、CountDownLatch、CyclicBarrier</title>
+      <link>https://runningccode.github.io/2019/%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%B7%A5%E5%85%B7%E4%B9%8Bsemaphorecountdownlatchcyclicbarrier/</link>
+      <pubDate>Fri, 20 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%B7%A5%E5%85%B7%E4%B9%8Bsemaphorecountdownlatchcyclicbarrier/</guid>
+      <description>各种线程协作工具 常见线程协作工具： 读写锁ReadWriteLock 信号量Semaphore 倒计时门栓CountDownLatch 循环栅栏Cy</description>
+    </item>
+    
+    <item>
+      <title>设计模式之状态模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Fri, 22 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Allow an object to alter its behavior when its internal state changes.The object will appear to change its class.（当一个对象内在状态改变时允许其改变行为，这个对象看起来像改变了其类。） UML类图 img.png 角色</description>
+    </item>
+    
+    <item>
+      <title>设计模式之访问者模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Represent an operation to be performed on the elements of an object structure. Visitor lets you define a new operation without changing the classes of the elements on which it operates. （封装一些作用于某种数据结构中的各元素的操作，它可以在不改变数据结构的前提</description>
+    </item>
+    
+    <item>
+      <title>设计模式之观察者模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Define a one-to-many dependency between objects so that when one object changes state,all its dependents are notified and updated automatically.（定义对象间一种一对多的依赖关系，使得每 当一个对象改变状态，则所有依赖</description>
+    </item>
+    
+    <item>
+      <title>设计模式之门面模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%97%A8%E9%9D%A2%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Provide a unified interface to a set of interfaces in a subsystem.Facade defines a higher-level interface that makes the subsystem easier to use.（要求一个子系统的外部与其内部的通信必须通 过一个统一的对象进行。门面模式提供一个高层</description>
+    </item>
+    
+    <item>
+      <title>设计模式之责任链模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request.Chain the receiving objects and pass the request along the chain until an object handles it.（使多个对象都有机会处理请求，从而避免了请求的发送者和接受</description>
+    </item>
+    
+    <item>
+      <title>设计模式之装饰器模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Attach additional responsibilities to an object dynamically keeping the same interface.Decorators provide a flexible alternative to subclassing for extending functionality.（动态地给一个对象添加一些额外的职责。 就增加功能来说，装饰模式相比生成</description>
+    </item>
+    
+    <item>
+      <title>设计模式之组合模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 17 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 将对象组合成树形结构以表示“部分-整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。 UML类图 组合模式有两种不同的实现，一</description>
+    </item>
+    
+    <item>
+      <title>设计模式之命令模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>定义 Encapsulate a request as an object,thereby letting you parameterize clients with different requests,queue or log requests,and support undoable operations.（将一个请求封装成一个对象，从而让你使用不同的请求把客户端参数化，对请 求排队或</description>
+    </item>
+    
+    <item>
+      <title>安装docker，并在docker下用nexus3搭建maven私服</title>
+      <link>https://runningccode.github.io/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/</link>
+      <pubDate>Mon, 04 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/</guid>
+      <description>一、前言 前几天阿里云服务器（低配）86块一年，于是赶紧入手了，主要是拿来练练手，今天就是在这个这台服务器上练了下手搭了一个docker和ne</description>
+    </item>
+    
+    <item>
+      <title>UML类图知识整理</title>
+      <link>https://runningccode.github.io/2019/uml%E7%B1%BB%E5%9B%BE%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</link>
+      <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/uml%E7%B1%BB%E5%9B%BE%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</guid>
+      <description>之所以学习UML类图，是因为想把前面看的《设计模式之禅》再看一遍，但文章都用到了uml类图，前面其实都一知半解，觉得自己挺low的，所以觉得</description>
+    </item>
+    
+    <item>
+      <title>Springboot下的SpringMVC配置解析 ——WebMvcConfigurerAdapter和WebMvcConfigurationSupport</title>
+      <link>https://runningccode.github.io/2019/springboot%E4%B8%8B%E7%9A%84springmvc%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90-webmvcconfigureradapter%E5%92%8Cwebmvcconfigurationsupport/</link>
+      <pubDate>Sat, 12 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/springboot%E4%B8%8B%E7%9A%84springmvc%E9%85%8D%E7%BD%AE%E8%A7%A3%E6%9E%90-webmvcconfigureradapter%E5%92%8Cwebmvcconfigurationsupport/</guid>
+      <description>一、前言 Sprinboot中配置SpringMVC主要是继承WebMvcConfigurerAdapter（1.x版本）或者WebMvcCo</description>
+    </item>
+    
+    <item>
+      <title>Mysql系列（三）—— Mysql字符集和比较规则</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%89-mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%AF%94%E8%BE%83%E8%A7%84%E5%88%99/</link>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%89-mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%AF%94%E8%BE%83%E8%A7%84%E5%88%99/</guid>
+      <description>一、前言 字符集表示的是存储的二进制与字符如何映射的关系，比较规则指的是字符如何排序的规则，比如字符如果使用order by到底按什么规则进行排</description>
+    </item>
+    
+    <item>
+      <title>Mysql系列（二）—— 系统变量与状态变量</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Sun, 06 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F/</guid>
+      <description>系统变量 什么是系统变量 系统变量，就是Mysql针对自己程序运行的一些参数配置。例如通过系统变量我们可以指定诸如允许同时连入的客户端数量、客户</description>
+    </item>
+    
+    <item>
+      <title>Mysql系列（一）—— 简单梳理一下Mysql的查询流程</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AE%80%E5%8D%95%E6%A2%B3%E7%90%86%E4%B8%80%E4%B8%8Bmysql%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 06 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AE%80%E5%8D%95%E6%A2%B3%E7%90%86%E4%B8%80%E4%B8%8Bmysql%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B/</guid>
+      <description>写在前面 最近在学习作者小孩子的掘金专栏《MySQL是怎样运行的：从根儿上理解MySQL》,现将学习心得总结梳理为一个系列。 img.png Mysql查询流</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（四）—— CAS原理与JDK8的优化</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E5%9B%9B-cas%E5%8E%9F%E7%90%86%E4%B8%8Ejdk8%E7%9A%84%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E5%9B%9B-cas%E5%8E%9F%E7%90%86%E4%B8%8Ejdk8%E7%9A%84%E4%BC%98%E5%8C%96/</guid>
+      <description>什么是CAS CAS-CompareAndSet，是JDK原子变量类AtomicInteger、AtomicLong、AtomicIntege</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（五）—— 显式锁与显式条件</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%94-%E6%98%BE%E5%BC%8F%E9%94%81%E4%B8%8E%E6%98%BE%E5%BC%8F%E6%9D%A1%E4%BB%B6/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%94-%E6%98%BE%E5%BC%8F%E9%94%81%E4%B8%8E%E6%98%BE%E5%BC%8F%E6%9D%A1%E4%BB%B6/</guid>
+      <description>显式锁-Lock与ReadWriteLock JDK针对Lock的主要实现是ReentrantLock，ReadWriteLock实现是Ree</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（二）—— 线程的基本协作机制: wait和notify</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6-wait%E5%92%8Cnotify/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6-wait%E5%92%8Cnotify/</guid>
+      <description>前言 线程间通信主要是通过wait、notify来实现的，使用这种机制实现线程通信是非常效率的，相比而言，不知道的同学针对线程通信可能只会想到</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（三）—— 线程的中断</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%AD%E6%96%AD/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%AD%E6%96%AD/</guid>
+      <description>需要进行线程中断的场景 很多线程的运行模式是死循环，比如在生产者/消费者模式中，消费者主体就是一个死循环，它不停的从队列中接受任务，执行任务，</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（一）—— 竞态条件与内存可见性</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%86%85%E5%AD%98%E5%8F%AF%E8%A7%81%E6%80%A7/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%86%85%E5%AD%98%E5%8F%AF%E8%A7%81%E6%80%A7/</guid>
+      <description>前言 今天回家火车上没事情干，一直在看石杉码农老大的技术博客。其中看了些并发系列的文章，虽然都是以前学习JDK源码的时候都了解到的东西，但是隔</description>
+    </item>
+    
+    <item>
+      <title>JVM从零开始（二） -垃圾回收机制以及内存分代模型</title>
+      <link>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%BA%8C-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%BA%8C-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%BB%A5%E5%8F%8A%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B/</guid>
+      <description>JVM中垃圾回收的判定标准 最终目的是将内存中无用的对象回收掉。具体的判定方法有： 引用计数法，不采用，指的是维护对象被引用的次数，次数为0则意</description>
+    </item>
+    
+    <item>
+      <title>Redis缓存维护方案-怎么解决缓存与数据库不一致</title>
+      <link>https://runningccode.github.io/2019/redis%E7%BC%93%E5%AD%98%E7%BB%B4%E6%8A%A4%E6%96%B9%E6%A1%88-%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8D%E4%B8%80%E8%87%B4/</link>
+      <pubDate>Mon, 02 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/redis%E7%BC%93%E5%AD%98%E7%BB%B4%E6%8A%A4%E6%96%B9%E6%A1%88-%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%BC%93%E5%AD%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8D%E4%B8%80%E8%87%B4/</guid>
+      <description>一般常用的缓存方案有两种： 第一种 读的时候，先读缓存，缓存没有的话，读数据库，取出数据后放入缓存，同时返回响应。 更新的时候，先删除缓存，在更新</description>
+    </item>
+    
+    <item>
+      <title>JVM从零开始（一）-JVM的类加载、内存区域</title>
+      <link>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%B8%80-jvm%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</link>
+      <pubDate>Sat, 31 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jvm%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E4%B8%80-jvm%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F/</guid>
+      <description>一、前言 自从入行以来，一直没有深入学习过JVM，虽然看过好些书、博客也有一点了解，但都不是专门讲JVM的，所以对JVM停留在浅显的了解上，没</description>
+    </item>
+    
+    <item>
+      <title>Hystrix学习笔记</title>
+      <link>https://runningccode.github.io/2019/hystrix%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 30 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/hystrix%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>前言 本文主要介绍Hystrix的基本功能，原理。Hystrix协调分布式系统中各个服务高可用的框架，SpringCloud体系重要的一员。H</description>
+    </item>
+    
+    <item>
+      <title>分布式环境中分库分表、读写分离相关问题总结</title>
+      <link>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</guid>
+      <description>一、为什么要用分库分表 当不使用分库分表的情况下，系统的性能瓶颈主要体现在： 当面临高并发场景的时候，为了避免Mysql崩溃（MySql性能一般</description>
+    </item>
+    
+    <item>
+      <title>分布式锁之Redis锁和ZK锁</title>
+      <link>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B9%8Bredis%E9%94%81%E5%92%8Czk%E9%94%81/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%B9%8Bredis%E9%94%81%E5%92%8Czk%E9%94%81/</guid>
+      <description>分布式锁 分布式系统中，常见的分布式锁有两种，一种是基于Redis实现的分布式锁，一种是基于ZooKeeper锁。本篇文章简要介绍下其原理及方</description>
+    </item>
+    
+    <item>
+      <title>dubbo学习笔记</title>
+      <link>https://runningccode.github.io/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Mon, 19 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/dubbo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、流程简图 dubbo的流程简图： img.png 二、通信协议 dubbo支持多种通信协议，包括： dubbo协议（默认）。单一长连接（消费者和生产者一直保持</description>
+    </item>
+    
+    <item>
+      <title> MyBatis插件运用之实体自动修改自己的业务主键和时间</title>
+      <link>https://runningccode.github.io/2019/mybatis%E6%8F%92%E4%BB%B6%E8%BF%90%E7%94%A8%E4%B9%8B%E5%AE%9E%E4%BD%93%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Wed, 14 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mybatis%E6%8F%92%E4%BB%B6%E8%BF%90%E7%94%A8%E4%B9%8B%E5%AE%9E%E4%BD%93%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E6%97%B6%E9%97%B4/</guid>
+      <description>一、前言 一直很好奇，公司脚手架具体是如何自动在插入或修改数据库的时候自动去改修改时间，创建时间，如何去生成业务主键。今天仔细看了下mybat</description>
+    </item>
+    
+    <item>
+      <title>Mybatis自定义全局TypeHander</title>
+      <link>https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/</guid>
+      <description>一、TypeHander介绍 typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从</description>
+    </item>
+    
+    <item>
+      <title>Redis学习笔记</title>
+      <link>https://runningccode.github.io/2019/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、基础知识 （一）Redis的线程模型 img.png 其中： 1.多路IO复用器。 负责轮询监听服务器套接字和客户端套接字，这里是NIO的机制，所以每个套接字</description>
+    </item>
+    
+    <item>
+      <title>关于伪删除的表如何设计唯一索引以满足外键关联只有一个保证插入幂等的小技巧</title>
+      <link>https://runningccode.github.io/2019/%E5%85%B3%E4%BA%8E%E4%BC%AA%E5%88%A0%E9%99%A4%E7%9A%84%E8%A1%A8%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%A4%96%E9%94%AE%E5%85%B3%E8%81%94%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BF%9D%E8%AF%81%E6%8F%92%E5%85%A5%E5%B9%82%E7%AD%89%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%85%B3%E4%BA%8E%E4%BC%AA%E5%88%A0%E9%99%A4%E7%9A%84%E8%A1%A8%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%A4%96%E9%94%AE%E5%85%B3%E8%81%94%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BF%9D%E8%AF%81%E6%8F%92%E5%85%A5%E5%B9%82%E7%AD%89%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>刚来公司时看到很多表都有一个valid_code字段，最开始还不懂是什么含义，问了同事才明白。 比如一张业务表有id，code，外键code,</description>
+    </item>
+    
+    <item>
+      <title>elasticsSearch学习笔记</title>
+      <link>https://runningccode.github.io/2019/elasticssearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 06 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/elasticssearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、前言 在分布式搜索引擎中，elasticsSearch逐渐变成一种标准了，其通过简单连贯的RESTful API让全文搜索变得简单并隐藏Lu</description>
+    </item>
+    
+    <item>
+      <title>消息队列学习笔记</title>
+      <link>https://runningccode.github.io/2019/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 30 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、市面上流行的消息队列对比 ActivityMQ activityMQ是老牌的消息队列，技术相对成熟，但吞吐量一般，目前行业趋势渐渐用的少了，社区也相比其他mq</description>
+    </item>
+    
+    <item>
+      <title>jackson自定义全局序列化、反序列化</title>
+      <link>https://runningccode.github.io/2019/jackson%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</link>
+      <pubDate>Sat, 27 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jackson%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97%E5%8C%96%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</guid>
+      <description>需要自定义Jackson序列化和反序列化有两种方式，一种是全局定义，一种是非全局定义。先来看看全局定义。全局定义的步骤如下，以定义一个loc</description>
+    </item>
+    
+    <item>
+      <title>初识LCN分布式事务框架</title>
+      <link>https://runningccode.github.io/2019/%E5%88%9D%E8%AF%86lcn%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Sat, 27 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%88%9D%E8%AF%86lcn%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6/</guid>
+      <description>今天无意中发现了一款分布式事务框架，LCN,看了下网上介绍感觉挺强大的。这里做一下笔记。 一、环境基础 LCN框架基础需要一台服务器作为事务管理</description>
+    </item>
+    
+    <item>
+      <title>分布式事务相关概念及解决方案模型</title>
+      <link>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Sat, 27 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B/</guid>
+      <description>一、基本知识概念 （一）数据库事务4大特性：ACID 数据库事务需要实现下面4大特性： A-Atomicity-原子性，指的是事务要么成功提交，要</description>
+    </item>
+    
+    <item>
+      <title>Springboot 2.1.5 配置JPA多数据源</title>
+      <link>https://runningccode.github.io/2019/springboot-2.1.5-%E9%85%8D%E7%BD%AEjpa%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/</link>
+      <pubDate>Thu, 18 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/springboot-2.1.5-%E9%85%8D%E7%BD%AEjpa%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/</guid>
+      <description>最近在学springJpa，照着网上博客想试着配一下Jpa的多数据源，但发现因为springboot版本太高的问题，网上的demo都不适用，</description>
+    </item>
+    
+    <item>
+      <title>idea快速生成entity、dao、service</title>
+      <link>https://runningccode.github.io/2019/idea%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90entitydaoservice/</link>
+      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/idea%E5%BF%AB%E9%80%9F%E7%94%9F%E6%88%90entitydaoservice/</guid>
+      <description>经常写一些业务代码，学会快速生成项目上业务代码所需的类entity、dao、service类对我们提高工作效率很有帮助，整理步骤如下： 一、准</description>
+    </item>
+    
+    <item>
+      <title>Activiti流程引擎学习笔记</title>
+      <link>https://runningccode.github.io/2019/activiti%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Fri, 10 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/activiti%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>img.png 本文原载于runningccode.github.io，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</description>
+    </item>
+    
+    <item>
+      <title>设计模式之代理模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一、定义 Provide a surrogate or placeholder for another object to control access to it.（为其他对象提供一种代理以控制对这个对象的访问。） 二、基本组成 （一）类图 img.png （二）角色定义 Subject</description>
+    </item>
+    
+    <item>
+      <title>设计模式之原型模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>img.png 简而言之，原型模式就是通过一个创建好的已经初始化完成的一个模板对象，拷贝获取另一个一样的对象，能便利的获取基于原型模板的对象。并且能解决并</description>
+    </item>
+    
+    <item>
+      <title>设计模式之中介者模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一、什么是中介者模式 Define an object that encapsulates how a set of objects interact.Mediator promotes loose coupling by keeping objects from referring to each other explicitly,and it lets you vary their interaction independently.（用一个中介对象封装一系列的对象交</description>
+    </item>
+    
+    <item>
+      <title>设计模式之建造者模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一、定义 Separate the construction of a complex object from its representation so that the same construction process can create different representations.（将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创</description>
+    </item>
+    
+    <item>
+      <title>设计模式之模板方法模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 09 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一、定义 Define the skeleton of an algorithm in an operation,deferring some steps to subclasses.Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm&amp;rsquo;s structure.（定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（六）：开闭原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%85%AD%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%85%AD%E5%BC%80%E9%97%AD%E5%8E%9F%E5%88%99/</guid>
+      <description>一、定义 Software entities like classes,modules and functions should be open for extension but closed for modifications.（一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。） 开闭原则相比前面</description>
+    </item>
+    
+    <item>
+      <title>设计模式之单例模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>单例模式应该都很熟悉，就简单上一张图吧： img.png 本文原载于runningccode.github.io，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</description>
+    </item>
+    
+    <item>
+      <title>设计模式之工厂模式</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>一、定义 Define an interface for creating an object,but let subclasses decide which class to instantiate.Factory Method lets a class defer instantiation to subclasses.（定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（三）：依赖倒置原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%89%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Sat, 06 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%89%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99/</guid>
+      <description>一、定义 High level modules should not depend upon low level modules.Both should depend upon abstractions.Abstractions should not depend upon details.Details should depend upon abstractions.（高层模块不应该依赖低层模块，两者都应该依赖其抽象。 抽象不应该</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（五）：最少知识原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%BA%94%E6%9C%80%E5%B0%91%E7%9F%A5%E8%AF%86%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Sat, 06 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%BA%94%E6%9C%80%E5%B0%91%E7%9F%A5%E8%AF%86%E5%8E%9F%E5%88%99/</guid>
+      <description>一、定义 一个对象应该对其他对象有最少的了解。 在介绍具体含义之前先解释下什么是朋友类： 出现在成员变量、方法的输入输出参数中的类称为成员朋友类，</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（二）：里式替换原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%BA%8C%E9%87%8C%E5%BC%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%BA%8C%E9%87%8C%E5%BC%8F%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%88%99/</guid>
+      <description>一、里氏替换原则的概念 里氏替换由Barbara Liskov女士提出，其给出了两种定义： If for each object o1 of type S there is an object o2 of type T such that for all programs P defined in terms of T,the</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（一）：单一职责原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%80%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%80%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
+      <description>什么是单一职责原则 单一职责原则的原话是： There should never be more than one reason for a class to change。 翻译过来就是应该有且仅有一个原因引起类的变更。 要知道，我们的方</description>
+    </item>
+    
+    <item>
+      <title>设计模式六大设计原则（一）：单一职责原则</title>
+      <link>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%80%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</link>
+      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E4%B8%80%E5%8D%95%E4%B8%80%E8%81%8C%E8%B4%A3%E5%8E%9F%E5%88%99/</guid>
+      <description>什么是单一职责原则 单一职责原则的原话是： There should never be more than one reason for a class to change。 翻译过来就是应该有且仅有一个原因引起类的变更。 要知道，我们的方</description>
+    </item>
+    
+    <item>
+      <title>MarkDown学习笔记</title>
+      <link>https://runningccode.github.io/2019/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 02 Apr 2019 16:17:00 +0800</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/markdown%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>img.png 本文原载于runningccode.github.io，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</description>
+    </item>
+    
+  </channel>
+</rss>

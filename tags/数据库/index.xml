@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据库 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+    <description>Recent content in 数据库 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mysql系列（三）—— Mysql字符集和比较规则</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%89-mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%AF%94%E8%BE%83%E8%A7%84%E5%88%99/</link>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%89-mysql%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%AF%94%E8%BE%83%E8%A7%84%E5%88%99/</guid>
+      <description>一、前言 字符集表示的是存储的二进制与字符如何映射的关系，比较规则指的是字符如何排序的规则，比如字符如果使用order by到底按什么规则进行排</description>
+    </item>
+    
+    <item>
+      <title>Mysql系列（二）—— 系统变量与状态变量</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Sun, 06 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F%E4%B8%8E%E7%8A%B6%E6%80%81%E5%8F%98%E9%87%8F/</guid>
+      <description>系统变量 什么是系统变量 系统变量，就是Mysql针对自己程序运行的一些参数配置。例如通过系统变量我们可以指定诸如允许同时连入的客户端数量、客户</description>
+    </item>
+    
+    <item>
+      <title>Mysql系列（一）—— 简单梳理一下Mysql的查询流程</title>
+      <link>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AE%80%E5%8D%95%E6%A2%B3%E7%90%86%E4%B8%80%E4%B8%8Bmysql%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B/</link>
+      <pubDate>Sun, 06 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mysql%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AE%80%E5%8D%95%E6%A2%B3%E7%90%86%E4%B8%80%E4%B8%8Bmysql%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%B5%81%E7%A8%8B/</guid>
+      <description>写在前面 最近在学习作者小孩子的掘金专栏《MySQL是怎样运行的：从根儿上理解MySQL》,现将学习心得总结梳理为一个系列。 img.png Mysql查询流</description>
+    </item>
+    
+    <item>
+      <title>关于伪删除的表如何设计唯一索引以满足外键关联只有一个保证插入幂等的小技巧</title>
+      <link>https://runningccode.github.io/2019/%E5%85%B3%E4%BA%8E%E4%BC%AA%E5%88%A0%E9%99%A4%E7%9A%84%E8%A1%A8%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%A4%96%E9%94%AE%E5%85%B3%E8%81%94%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BF%9D%E8%AF%81%E6%8F%92%E5%85%A5%E5%B9%82%E7%AD%89%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E5%85%B3%E4%BA%8E%E4%BC%AA%E5%88%A0%E9%99%A4%E7%9A%84%E8%A1%A8%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E5%94%AF%E4%B8%80%E7%B4%A2%E5%BC%95%E4%BB%A5%E6%BB%A1%E8%B6%B3%E5%A4%96%E9%94%AE%E5%85%B3%E8%81%94%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E4%BF%9D%E8%AF%81%E6%8F%92%E5%85%A5%E5%B9%82%E7%AD%89%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>刚来公司时看到很多表都有一个valid_code字段，最开始还不懂是什么含义，问了同事才明白。 比如一张业务表有id，code，外键code,</description>
+    </item>
+    
+  </channel>
+</rss>

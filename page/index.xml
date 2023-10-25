@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on 青葱与志</title>
+    <link>https://runningccode.github.io/page/</link>
+    <description>Recent content in Pages on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 24 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于</title>
+      <link>https://runningccode.github.io/%E5%85%B3%E4%BA%8E/</link>
+      <pubDate>Tue, 24 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/%E5%85%B3%E4%BA%8E/</guid>
+      <description>关于本人: 一个努力向大佬学习的菜鸡，擅长语言只有JAVA，其他都是辣鸡，苟且于重庆 可以通过微信公众号找到我,会做一些有意思的东西在上面，比如</description>
+    </item>
+    
+    <item>
+      <title>Friends</title>
+      <link>https://runningccode.github.io/links/</link>
+      <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/links/</guid>
+      <description>你好，这里是青葱与志的博客！ 刚起步的小博客，欢迎交换友链！ 可联系我的邮箱（c_man777@163.com）提供以下格式： 名称： 简介： 地址：</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://runningccode.github.io/archives/</link>
+      <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>搜索</title>
+      <link>https://runningccode.github.io/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/search/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

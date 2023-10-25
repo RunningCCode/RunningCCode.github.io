@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一、基本知识概念 （一）数据库事务4大特性：ACID 数据库事务需要实现下面4大特性： A-Atomicity-原子性，指的是事务要么成功提交，要'><title>分布式事务相关概念及解决方案模型</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='分布式事务相关概念及解决方案模型'>
+<meta property='og:description' content='一、基本知识概念 （一）数据库事务4大特性：ACID 数据库事务需要实现下面4大特性： A-Atomicity-原子性，指的是事务要么成功提交，要'>
+<meta property='og:url' content='https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='分布式事务' /><meta property='article:published_time' content='2019-07-27T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-07-27T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="分布式事务相关概念及解决方案模型">
+<meta name="twitter:description" content="一、基本知识概念 （一）数据库事务4大特性：ACID 数据库事务需要实现下面4大特性： A-Atomicity-原子性，指的是事务要么成功提交，要">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%A8%A1%E5%9E%8B/">分布式事务相关概念及解决方案模型</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2019-07-27</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    4333字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一基本知识概念">一、基本知识概念</h1>
+<h2 id="一数据库事务4大特性acid">（一）数据库事务4大特性：ACID</h2>
+<p>数据库事务需要实现下面4大特性：</p>
+<ol>
+<li>A-Atomicity-原子性，指的是事务要么成功提交，要么失败回滚</li>
+<li>C-Consistency-一致性，指事务操作前后，数据库的完整性不会产生变化，因为事务不可能执行一半，导致数据库内容不正确</li>
+<li>I-Isolation-隔离性 事务不能互相影响，简单来说就是事务的中间状态不应该被其他事务察觉</li>
+<li>D-Durability-持久性 一旦事务提交则会永久保存在数据库中</li>
+</ol>
+<p>其中，只有隔离性根据数据库不同的隔离级别有不同的标准，其他三点都是数据库事务必须具备的。</p>
+<h2 id="二分布式事务">（二）分布式事务</h2>
+<p>单机事务机制可以有数据库本地事务实现良好的控制，但分布式事务由于涉及多个数据源。这种情况主要有两种：</p>
+<ul>
+<li>一种是分库分表导致了一台服务器多数据源，这种情况可以通过二阶段提交实现简单的事务控制。</li>
+<li>一种是应用的微服务化，一个请求由多个服务协作完成，而多个服务又配置了不同的数据源。这种情况如果是支付等严格要求数据一致性的场景可以用TCC事务模型控制，如果是要求并发性能，但对数据一致性要求不高可以用最终一致性方案控制。</li>
+</ul>
+<p>在介绍事务控制模型之前先介绍一下针对分布式事务，我们需要关注的指标:</p>
+<h3 id="1cap理论">1.CAP理论</h3>
+<ol>
+<li>C-Consistency -一致性，一个节点数据更新，其他节点保存的数据也应该同步更新</li>
+<li>A-Availability-可用性，节点收到请求，合理时间内必须返回基于请求合理的响应</li>
+<li>P-Partition tolerance-分区容错性 能够允许部分节点网络故障
+CAP理论表示这三个指标必然不能同时满足，最多只能满足其中两个。这里简单推论一下：</li>
+</ol>
+<p>同时满足这三个指标的情况相当于承认当一个节点无法与其他节点通信的时候，还能保证在合理时间返回与其他节点一致的合理响应。这显然是不可能的。由此可以得出3个指标不能同时满足。</p>
+<p>因为P是分布式的基础，我们设计分布式系统不可能不考虑P，如果不考虑P那么这个分布式系统是极其不稳定的，所以针对CAP理论，一般选择满足CP或AP。</p>
+<ul>
+<li>选择CP意味着当出现部分节点通信挂了，为了一致性必须阻塞请求，等待数据同步。</li>
+<li>选择AP意味着当出现部分节点通信挂了，为了可用性，针对请求，节点只能返回一个不能保证一致性的返回给请求方。</li>
+</ul>
+<p>顺带一提，基于此ZooKeeper集群是注重的是CP，当50%的节点挂了之后，那服务发现功能也就挂了。EureKa集群注重CA，注册中心只要有一台能够使用，则不会影响正常的服务发现，另外客户端还会缓存服务、消费者数据。</p>
+<h2 id="2base理论">2.BASE理论</h2>
+<p>BASE理论算是对CAP理论的一种指导性意见。</p>
+<ol>
+<li>BA-Basically Available-基本可用，分布式系统出现不可预料故障的时候，要尽量将故障减小到不影响核心功能。</li>
+<li>S-Soft state-软状态，允许部分节点的数据存在一定的延时，这个延时不影响可用性，这是对强一致的一种妥协，因为真正的强一致是所有节点数据时时刻刻都保持一致，而CAP理论要求的C忽略了网络通信延迟。</li>
+<li>E-Eventually consistent -最终一致性，最终一致是指经过一段时间后，所有节点数据都将会达到一致。</li>
+</ol>
+<p>总体上来说BASE理论强调的是用最终一致代替了CAP理论的强一致，用基本可用代替了CAP理论的完全可用。</p>
+<h1 id="二分布式事务解决方案模型">二、分布式事务解决方案模型</h1>
+<h2 id="一二阶段提交-2pc--xa-transactions">（一）二阶段提交-2PC- XA Transactions</h2>
+<h3 id="1角色">1.角色</h3>
+<p>在二阶段提交中涉及的角色有两个：</p>
+<ul>
+<li>事务管理器，对资源管理器的事务调度者，可能是一个组件，也可以是一个中间件。</li>
+<li>本地资源管理器，一般指的是数据库服务，如Oracle，Mysql。</li>
+</ul>
+<h3 id="2应用场景">2.应用场景</h3>
+<p>本地资源管理器一致性的管理。</p>
+<h3 id="3过程">3.过程</h3>
+<ul>
+<li>第一阶段，事务管理器发送preCommit消息每个源管理器事务并执行业务逻辑，并阻塞等待每个数据源undo，redo日志写入完毕，就差提交</li>
+<li>第二阶段，如果每个数据源都没有发生异常，表示可以提交，则事务管理器发送commit给资源管理器所有数据库的事务，如果有数据源异常了，则回滚所有事务。
+强调一点，二阶段提交协议只是事务管理器和本地资源管理器之间的协议，没有明确规定事务管理器的角色，可能在单点服务器多个数据源中事务管理器就是一个组件，用于控制多个数据源的事务，可能在微服务中又是一个中间件。</li>
+</ul>
+<h3 id="5缺点">5.缺点</h3>
+<p>缺点主要有：</p>
+<ul>
+<li>单点问题,如果事务管理器宕机，资源管理器将阻塞并且锁住资源</li>
+<li>同步阻塞,准备就绪到事务管理器发送请求这段时间对于资源管理器来说是不必要的阻塞与占用资源时间(资源管理器通过锁机制保证隔离性)，对于性能上是一种浪费，在微服务链路中时间中阻塞可能耗时更长。</li>
+<li>脑裂问题，没有完全解决数据不一致，不能保证事务管理器发出的commit命令操作正确到达本地资源管理器，如果与某个本地资源管理器通信失败了，事务管理器是无法察觉的，结果还是不一致的。</li>
+</ul>
+<h2 id="二三阶段提交协议">（二）三阶段提交协议</h2>
+<p>跟二阶段提交协议差不多，只不过在PreCommit之前引入了CanCommit阶段，该阶段不做任何实质性操作，只是测试事务管理器与资源管理器之间的通信是否异常。同时引入超时机制，如果本地事务管理器没有收到第三阶段的消息，默认是事务管理器宕机，自动commit本地事务。（因为通过第一阶段的测试，大概率认定所有资源管理器都收到preCommit消息，此时自动提交大概率不会出错）。</p>
+<h2 id="三tcc模型">（三）TCC模型</h2>
+<h3 id="1角色-1">1.角色</h3>
+<p>涉及的角色有微服务应用，不同数据源，同一个TCC管理框架，之所以要引用TCC管理框架的原因在于对于Try操作失败成功的感知，如果涉及微服务调用链是极其复杂的。</p>
+<h3 id="1应用场景">1.应用场景</h3>
+<p>微服务应用，不同数据源，不要求高并发，一致性要求较高。</p>
+<h3 id="2过程">2.过程</h3>
+<h4 id="1-第一阶段-try">(1) 第一阶段-Try</h4>
+<p>根服务调用各个服务的Try方法，各个服务根据业务锁定资源-业务层面上的，没有引入数据库事务，就是将业务涉及的资源存入各个服务的本地方便之后回滚的时候恢复，然后返回给根服务是否执行成功。</p>
+<h4 id="2-第二阶段-confirm或cancel">(2) 第二阶段-Confirm或Cancel</h4>
+<ul>
+<li>Confirm,根服务获取各个服务try是否执行成功，若成功则调用各个服务的Confirm方法，confirm开始把锁定的资源正式刷到业务数据中，如果confirm不成功，则一直重试，务必保证confirm成功。</li>
+<li>Cancel,如果各个服务的try有一个不成功，则调用各个服务的cancel方法，释放锁定的资源，如果调用不成功，也会重试。</li>
+</ul>
+<p>注意：Try阶段成功意味着数据库层面的操作大概率是没有问题的，后续的异常只会发生在极端情况下，所以这是tcc根据try操作，去不停重试confirm或cancel的原因。</p>
+<h3 id="3缺点">3.缺点</h3>
+<ul>
+<li>confirm和cancel方法因为有可能被重复调用，所以得从代码上保证幂等，对代码侵入性有点强，复杂度搞。</li>
+<li>由于整个TCC过程需要锁定资源所以对高并发场景不太友好。</li>
+</ul>
+<h2 id="四本地消息表方案模型">（四）本地消息表方案模型</h2>
+<h3 id="1角色-2">1.角色</h3>
+<ul>
+<li>上游根服务</li>
+<li>MQ消息中间件</li>
+<li>下游服务</li>
+</ul>
+<h3 id="2思路">2.思路</h3>
+<p>不关注MQ丢不丢消息，只关注根服务的本地事务，如果本地事务执行成功，那么记录所需发送的消息表也被插入成功。</p>
+<p>此时唯一需要关注的只是消息能够被消费者消费掉，用轮询本地消息表的方式重复发送消息保证最终消息一致性即可。</p>
+<h3 id="3具体方案">3.具体方案</h3>
+<p>根服务完成事务后，将需要与其他服务协调的请求消息存入本地消息表并将状态置为待确认。然后有一个后台线程定时轮询消息表，将待确认消息推送给MQ，MQ再推送给消费者，消费者收到消息后，再消费消息。当消费完消息后，消费者通过一定方式如zookepper或接口回调根服务，然后根服务修改消息表状态为已完成。</p>
+<h3 id="3缺点-1">3.缺点</h3>
+<p>强依赖于本地的消息表，数据库压力较大。</p>
+<h2 id="五最终一致性方案模型">（五）最终一致性方案模型</h2>
+<h3 id="1角色-3">1.角色</h3>
+<ul>
+<li>上游根服务</li>
+<li>可靠消息服务</li>
+<li>MQ消息中间件</li>
+<li>下游服务（可能有多个）</li>
+</ul>
+<h3 id="2应用场景-1">2.应用场景</h3>
+<p>主要应用于不要求强一致，并发要求度高，微服务异步调用场景中。</p>
+<h3 id="3思路">3.思路</h3>
+<p>这个模型主要关注三点：</p>
+<ul>
+<li>在根服务本地事务完成和失败的情况下，确保消息能够正确投递到消费者或取消投递。</li>
+<li>在下游服务本地事务失败的情况下，确保消息能够被重发。</li>
+<li>不关注各个优秀MQ框架消息可靠性的保证，即默认消息能够被丢失。</li>
+</ul>
+<p>为了解决上述问题，引入了可靠消息服务，用以协调上游服务的事务状态和下游事务状态。通过维护消息的三种状态：待确认、已发送、已成功，确保事务的最终一致性。</p>
+<h3 id="3过程-1">3.过程</h3>
+<h4 id="1-上游根服务调用可靠消息服务">(1) 上游根服务调用可靠消息服务。</h4>
+<p>上游根服务同步调用可靠消息服务，参数包含调用下游服务的参数，这些数据由可靠消息服务存入自己的表中，并将这条记录的状态置为待确认。</p>
+<h4 id="2-上游根服务执行完自己的业务之后在再次调用可靠消息服务">(2) 上游根服务执行完自己的业务之后在再次调用可靠消息服务。</h4>
+<p>上游根服务执行完自己的业务之后，将业务执行结果传入可靠消息服务，可靠消息服务根据业务失败结果，若失败则删除消息表中关于这个业务的所有消息表记录，若成功则通过MQ发送消息给下游服务，然后更新刚刚存入的记录将状态置为已发送。注意可靠消息服务的这个方法中，判断业务成功失败，需安排在同一个本地事务（因为发送消息和更新记录必须保证原子性）。</p>
+<h4 id="3-下游服务接收消息之后消费消息执行业务完成后回调可靠消息服务">（3） 下游服务接收消息之后消费消息，执行业务完成后回调可靠消息服务。</h4>
+<p>下游服务接收消息之后消费消息，执行业务完成后回调可靠消息服务。可靠消息服务受到请求后，将本地记录状态置为已完成。</p>
+<h3 id="4注意">4.注意</h3>
+<h4 id="1-如何保证上游服务对可靠消息服务的100可靠投递">(1) 如何保证上游服务对可靠消息服务的100%可靠投递</h4>
+<ul>
+<li>第一次调用如果失败，这种情况上游根服务会收到可靠消息服务错误返回，这种情况上游根服务直接放弃流程。</li>
+<li>第二次调用如果失败，这种情况可靠消息服务后台定时检查记录中为待确认消息的记录，如果待确认状态时间较长，则对上游服务发起请求，看上游服务是否完成了自己的业务逻辑。若完成，则自动更新记录状态，反之删除记录。（上游服务需要维护自己的事务执行状态在本地表中）</li>
+</ul>
+<h4 id="2-如何保证下游服务对可靠消息服务的100可靠投递">(2) 如何保证下游服务对可靠消息服务的100%可靠投递</h4>
+<p>可靠消息服务定时检查记录中已发送状态维持时间超时的记录，然后重复发送请求给下游服务。所以这里同时也要求下游服务方法的幂等性。</p>
+<h2 id="五另外几种想到的解决办法">（五）另外几种想到的解决办法</h2>
+<p>使用RabbitMQ的消息确认机制和消费者开启手动ACK是能够确保消息一定被消费。唯一需要关注的问题在于如何处理本地事务失败、消息者成功消费造成的数据不一致的情况。</p>
+<p>对于这种情况，可以这么做：</p>
+<ul>
+<li>在发送消息的时候，绑定两个监听队列到一个交换机上。一个监听队列负责对这种情况进行补偿，补偿操作为判断本地事务是否成功，若不成功则进行补偿。一个监听队列负责完成下游服务。</li>
+</ul>
+<h2 id="heading"></h2>
+<h1 id="三小结">三、小结</h1>
+<p>其实这些模型有很多都有相似的地方，也能做很多变通，很多通过回调、轮询、长连接监听、同步调用的方式其实都可以根据具体场景互相替换或选择不同的优秀架构。另外需要注意的就是，引入分布式事务是需要维护成本和性能成本的，很多情况下，需要根据业务来看需不需要引入分布式事务。不是很严格的情况，用监控、日志记录的方式采取人工补偿的策略有可能成本更小。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一数据库事务4大特性acid">（一）数据库事务4大特性：ACID</a></li>
+    <li><a href="#二分布式事务">（二）分布式事务</a>
+      <ol>
+        <li><a href="#1cap理论">1.CAP理论</a></li>
+      </ol>
+    </li>
+    <li><a href="#2base理论">2.BASE理论</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#一二阶段提交-2pc--xa-transactions">（一）二阶段提交-2PC- XA Transactions</a>
+      <ol>
+        <li><a href="#1角色">1.角色</a></li>
+        <li><a href="#2应用场景">2.应用场景</a></li>
+        <li><a href="#3过程">3.过程</a></li>
+        <li><a href="#5缺点">5.缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#二三阶段提交协议">（二）三阶段提交协议</a></li>
+    <li><a href="#三tcc模型">（三）TCC模型</a>
+      <ol>
+        <li><a href="#1角色-1">1.角色</a></li>
+        <li><a href="#1应用场景">1.应用场景</a></li>
+        <li><a href="#2过程">2.过程</a>
+          <ol>
+            <li><a href="#1-第一阶段-try">(1) 第一阶段-Try</a></li>
+            <li><a href="#2-第二阶段-confirm或cancel">(2) 第二阶段-Confirm或Cancel</a></li>
+          </ol>
+        </li>
+        <li><a href="#3缺点">3.缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#四本地消息表方案模型">（四）本地消息表方案模型</a>
+      <ol>
+        <li><a href="#1角色-2">1.角色</a></li>
+        <li><a href="#2思路">2.思路</a></li>
+        <li><a href="#3具体方案">3.具体方案</a></li>
+        <li><a href="#3缺点-1">3.缺点</a></li>
+      </ol>
+    </li>
+    <li><a href="#五最终一致性方案模型">（五）最终一致性方案模型</a>
+      <ol>
+        <li><a href="#1角色-3">1.角色</a></li>
+        <li><a href="#2应用场景-1">2.应用场景</a></li>
+        <li><a href="#3思路">3.思路</a></li>
+        <li><a href="#3过程-1">3.过程</a>
+          <ol>
+            <li><a href="#1-上游根服务调用可靠消息服务">(1) 上游根服务调用可靠消息服务。</a></li>
+            <li><a href="#2-上游根服务执行完自己的业务之后在再次调用可靠消息服务">(2) 上游根服务执行完自己的业务之后在再次调用可靠消息服务。</a></li>
+            <li><a href="#3-下游服务接收消息之后消费消息执行业务完成后回调可靠消息服务">（3） 下游服务接收消息之后消费消息，执行业务完成后回调可靠消息服务。</a></li>
+          </ol>
+        </li>
+        <li><a href="#4注意">4.注意</a>
+          <ol>
+            <li><a href="#1-如何保证上游服务对可靠消息服务的100可靠投递">(1) 如何保证上游服务对可靠消息服务的100%可靠投递</a></li>
+            <li><a href="#2-如何保证下游服务对可靠消息服务的100可靠投递">(2) 如何保证下游服务对可靠消息服务的100%可靠投递</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#五另外几种想到的解决办法">（五）另外几种想到的解决办法</a></li>
+    <li><a href="#heading"></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

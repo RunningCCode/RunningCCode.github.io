@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>es on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/es/</link>
+    <description>Recent content in es on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 06 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/es/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>elasticsSearch学习笔记</title>
+      <link>https://runningccode.github.io/2019/elasticssearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 06 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/elasticssearch%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、前言 在分布式搜索引擎中，elasticsSearch逐渐变成一种标准了，其通过简单连贯的RESTful API让全文搜索变得简单并隐藏Lu</description>
+    </item>
+    
+  </channel>
+</rss>

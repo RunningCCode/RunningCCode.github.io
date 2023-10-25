@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>幂等 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E5%B9%82%E7%AD%89/</link>
+    <description>Recent content in 幂等 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 17 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E5%B9%82%E7%AD%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>手写一个幂等组件分享</title>
+      <link>https://runningccode.github.io/2020/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%B9%82%E7%AD%89%E7%BB%84%E4%BB%B6%E5%88%86%E4%BA%AB/</link>
+      <pubDate>Thu, 17 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%B9%82%E7%AD%89%E7%BB%84%E4%BB%B6%E5%88%86%E4%BA%AB/</guid>
+      <description>前言 最近学了极客时间王争的《设计模式之美》，感觉以前对设计模式理解的太浅显了。文章上有一篇设计幂等框架的练习，作者给了简单的思路和实现，但是</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一、为什么要用分库分表 当不使用分库分表的情况下，系统的性能瓶颈主要体现在： 当面临高并发场景的时候，为了避免Mysql崩溃（MySql性能一般'><title>分布式环境中分库分表、读写分离相关问题总结</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='分布式环境中分库分表、读写分离相关问题总结'>
+<meta property='og:description' content='一、为什么要用分库分表 当不使用分库分表的情况下，系统的性能瓶颈主要体现在： 当面临高并发场景的时候，为了避免Mysql崩溃（MySql性能一般'>
+<meta property='og:url' content='https://runningccode.github.io/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='分库分表' /><meta property='article:tag' content='读写分离' /><meta property='article:published_time' content='2019-08-26T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-08-26T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="分布式环境中分库分表、读写分离相关问题总结">
+<meta name="twitter:description" content="一、为什么要用分库分表 当不使用分库分表的情况下，系统的性能瓶颈主要体现在： 当面临高并发场景的时候，为了避免Mysql崩溃（MySql性能一般">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">分布式环境中分库分表、读写分离相关问题总结</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2019-08-26</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    3524字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一为什么要用分库分表">一、为什么要用分库分表</h1>
+<p>当不使用分库分表的情况下，系统的性能瓶颈主要体现在：</p>
+<ul>
+<li>当面临高并发场景的时候，为了避免Mysql崩溃（MySql性能一般的服务器建议2000/s读写并发以下），只能使用消息队列来削峰。</li>
+<li>受制于单机限制。数据库磁盘容量吃紧。</li>
+<li>数据库单表数据量太大，sql越跑越慢</li>
+</ul>
+<p>而分库分表正是为了解决这些问题，提高数据库读写并发量，磁盘容量大大提高，单表数据量降低，提高查询效率。</p>
+<h1 id="二垂直拆分和水平拆分">二、垂直拆分和水平拆分</h1>
+<h2 id="以表的维度来说">以表的维度来说：</h2>
+<ul>
+<li>垂直拆分 指根据表的字段进行拆分，其实很常见，有时候在数据库设计的时候就完成了，属于数据库设计范式，如订单表、订单支付表、商品表。</li>
+<li>水平拆分 表结构一样，数据进行拆分。如原本的t_order表变为t_order_0,t_order_1，t_order_3</li>
+</ul>
+<h2 id="以库的维度来说">以库的维度来说：</h2>
+<ul>
+<li>垂直拆分 指把原本的大库，按业务不同拆到不同的库（微服务一般都是这么设计的，即专库专用）</li>
+<li>水平拆分 一个服务对应多个库，每个库有相同的业务表，如库1有t_order表，库2也有t_order表。业务系统通过数据库中间件或中间层操作t_order表，分库操作对于业务代码透明。</li>
+</ul>
+<p>所以，我们平常说的分库分表，一般都是指的水平拆分</p>
+<h1 id="三分库分表工具">三、分库分表工具</h1>
+<p>主要关注MyCat和sharding-jdbc。</p>
+<p>两者对比：</p>
+<ul>
+<li>MyCat:基于中间件的形式，提供读写分离、分库、分表功能。只不过好久都没更新了，我使用的是1.6版本，并不支持一个逻辑表的分库、分表同时存在。</li>
+<li>sharding-jdbc：基于jar包中间层的形式，提供读写分离、分库、分表功能。社区较活跃。支持功能强大。</li>
+</ul>
+<h1 id="四分库分表的两种策略">四、分库分表的两种策略</h1>
+<ul>
+<li>hash分法，按一个键进行hash取模，然后分发到某张表或库。优点是可以平摊每张表的压力，缺点是扩容时会存在数据迁移问题。</li>
+<li>range分法，按范围或时间分发，比如按某个键的值区间、或创建时间进行分发，优点是可以很方便的进行扩容，缺点是会造成数据热点问题。从分表上说还好，如果是分库，将导致某一个库节点压力过大，节点间负载不均。</li>
+</ul>
+<p>这里，我认为最好的分法是hash分库、range分表。因为对库来说重要得是负载要均衡，对表来说重要的是可以动态扩容。</p>
+<h1 id="五分库分表数据迁移方案">五、分库分表数据迁移方案</h1>
+<h2 id="停机分库分表">停机分库分表</h2>
+<p>方案很简单，就是停机维护时，用后台临时程序基于数据库中间件将老库数据直接分发到需要迁移的数据库</p>
+<p>此方案的主要缺点是一定会出现几个小时的停机，如果没搞定要回滚，第二天继续搞，开发人员心是慌得。</p>
+<h2 id="不停机双写方案">不停机双写方案</h2>
+<p>主要步骤：</p>
+<ul>
+<li>修改系统中的所有写库的代码，同时写老库和数据库中间件（包括新增、更新、删除操作）</li>
+<li>然后后台用工具将老库之前的老库数据迁移到新的数据库中间件，注意比对修改时间，若id一样，按修改时间决定是否覆盖。</li>
+<li>使用后台工具比对一次数据，看是否完全一样，不一样，则后台再用工具进行一次迁移。（避免有些数据因为网络问题没有迁移成功，或业务上的bug导致），这个过程通常需要好几天。</li>
+<li>以此循环几次，数据完全一样时，就切换为只读写新库</li>
+</ul>
+<p>该方案解决了停机造成的服务不可用。</p>
+<h1 id="六分库分表下的动态扩容问题">六、分库分表下的动态扩容问题</h1>
+<p>在分库分表的情况下，如何在已经分库分表的基础上进一步分库分表提高系统效率，是一个麻烦的问题。特别是基于hash分片的服务器，再次分库分表，一般只能对服务器进行停机，然后将所有数据又基于新的规则插入到不同的库与表。为了避免这种问题，可以在第一次分库分表的时候就将库切分的较细，避免二次扩容。比如：</p>
+<ul>
+<li>最开始就将库分为32个库，最开始业务量没那么大，可以将多个库放在同一台机器上，以后按照2-4-8-16-32来进行扩容，如最开始2台机器能够满足数据库读写并发，此时一台服务器上有16个库，后来不够了，就扩容为4台机器，每台机器8个库。。。依次类推，这样做的好处是只需要迁移需要迁移的库，并且是按照整个库进行迁移，不需要重新进行分发，同时分库分表的分片机制也不用修改，只需要修改其数据源就行了。</li>
+<li>对于分表来说，也可以分的多一些，推荐分为32张表。</li>
+<li>以上，分为了32个库32张表，总共数据量可以达到32 * 32 = 1024张表，按每张表500万正常的容量来算，可以容纳约50亿数据，足以满足大部分过扩容需求。</li>
+<li>另外这种方案推荐扩容方案为2-4-8-16-32倍数进行扩容，深层原因是32是这些数的公倍数，按照约数进行扩容更容易让每个机器负载的库都一样。</li>
+<li>需要注意的是如果按照同一分片键进行同样的分片策略分库分表，会导致数据只会达到某库的某表比如1库的1表，2库的2表，（因为库和表的数量也是一样）所以分库我们可以按32取模策略，分表的话我们可以按整除之后的余数再对32取模进行分表。</li>
+</ul>
+<h1 id="七全局id的生成策略">七、全局id的生成策略</h1>
+<p>几种生成id的方式对比：</p>
+<ul>
+<li>通过数据库自增</li>
+</ul>
+<p>往公用的一张表（这张表是自增主键）插入一条数据，获取id的返回值，用这个id再去插入中间件当中去。oracle可以通过自增序列。</p>
+<p>缺点：不适合并发高的场景，毕竟不管是自增序列还是采取自增键的方式来生成，会并发竞争写锁，效率太低。</p>
+<ul>
+<li>UUID</li>
+</ul>
+<p>缺点：uuid太长了，不规则</p>
+<ul>
+<li>时间戳</li>
+</ul>
+<p>一般联合其他业务字段拼接作为一个Id，如时间戳+用户id+业务含义编码</p>
+<p>缺点：并发高容易重复</p>
+<ul>
+<li>雪花算法</li>
+</ul>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 448; 
+			flex-basis: 1075px"
+	>
+	<a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_1.png" data-size="569x127">
+		<img src="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_1.png"
+			width="569"
+			height="127"
+			srcset="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_1_hu1b47bfabe37919d6d2fb14f0016a6e5d_12765_480x0_resize_box_3.png 480w, /2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_1_hu1b47bfabe37919d6d2fb14f0016a6e5d_12765_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_1.png">
+	</a>
+	
+	<figcaption>img_1.png</figcaption>
+	
+</figure></p>
+<p>原理：前面1位为定值0+41位为时间戳+5位机房id+5位为机器id+12位为序号,唯一需要保证同步的地方是生成一个序号，锁粒度较低。另外这个算法可用于分布式环境中。最大的优点是不需要依赖任何中间件，核心原理是用5位机房id，5位机器id标志了唯一一台机器，所以不需要分布式锁去保证不同机器生成id的同步性，只需要在当前机器保证生成的序号不一样就行了。</p>
+<ul>
+<li>redis中间件生成</li>
+</ul>
+<p>原理：利用redis单线程工作线程属性去维护一个自增变量。</p>
+<h1 id="八读写分离">八、读写分离</h1>
+<h2 id="为什么要读写分离">为什么要读写分离</h2>
+<ul>
+<li>理论上来说读写请求不要超过2000/s，如果加了缓存之后，到数据库请求还是超过2000以上考虑读写分离</li>
+<li>使得读请求可以在不同机器并发，用了读写分离之后可以通过动态扩展读服务器增加读效率，这与redis中的主从架构读写分离、copyOnWrite机制的并发容器、以及数据库MVCC机制有点相识，都是通过读请求的数据备份增加读写并发效率。</li>
+<li>适用于业务场景中，读请求大于写请求的情况，读写分离使得系统能够更多的容纳读请求并发。</li>
+</ul>
+<h2 id="读写分离的实现方式">读写分离的实现方式</h2>
+<p>一般来说是基于mysql自带的主从复制功能。mysql主从复制的流程图如下：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 253; 
+			flex-basis: 608px"
+	>
+	<a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img.png" data-size="864x341">
+		<img src="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img.png"
+			width="864"
+			height="341"
+			srcset="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_hu22557f95c6fab433bbc8c02682e5264c_165582_480x0_resize_box_3.png 480w, /2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_hu22557f95c6fab433bbc8c02682e5264c_165582_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>总结mysql的主从复制过程大体是主库有一个进程专门是将将记录的Binlog日志发送到从库，从库有一个io线程（5.6.x之后IO线程可以多线程写入relay日志）将收到的数据写入relay日志当中，另外还有一个SQL进程专门读取relay日志，根据relay日志重做命令(5.7版本之后，从可以并行读取relay log重放命令（按库并行，每个库一个线程）)。</p>
+<h2 id="主从同步的三种模式">主从同步的三种模式：</h2>
+<ul>
+<li>异步模式（mysql async-mode）</li>
+</ul>
+<p>异步模式如下图所示，这种模式下，主节点不会主动push bin log到从节点，这样有可能导致failover的情况下，也许从节点没有即时地将最新的bin log同步到本地。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 226; 
+			flex-basis: 544px"
+	>
+	<a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_2.png" data-size="640x282">
+		<img src="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_2.png"
+			width="640"
+			height="282"
+			srcset="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_2_hu7c6f38dcc543100200d78cb42fa814d6_107664_480x0_resize_box_3.png 480w, /2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_2_hu7c6f38dcc543100200d78cb42fa814d6_107664_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_2.png">
+	</a>
+	
+	<figcaption>img_2.png</figcaption>
+	
+</figure></p>
+<ul>
+<li>半同步模式（mysql semi-sync）</li>
+</ul>
+<p>这种模式下主节点只需要接收到其中一台从节点的返回信息，就会commit；否则需要等待直到超时时间然后切换成异步模式再提交；这样做的目的可以使主从数据库的数据延迟缩小，可以提高数据安全性，确保了事务提交后，binlog至少传输到了一个从节点上，不能保证从节点将此事务更新到db中。性能上会有一定的降低，响应时间会变长。如下图所示：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 214; 
+			flex-basis: 513px"
+	>
+	<a href="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_3.png" data-size="640x299">
+		<img src="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_3.png"
+			width="640"
+			height="299"
+			srcset="/2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_3_hu574ff00c308b5d9215663f5ba2195a72_140697_480x0_resize_box_3.png 480w, /2019/%E5%88%86%E5%B8%83%E5%BC%8F%E7%8E%AF%E5%A2%83%E4%B8%AD%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/img_3_hu574ff00c308b5d9215663f5ba2195a72_140697_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_3.png">
+	</a>
+	
+	<figcaption>img_3.png</figcaption>
+	
+</figure></p>
+<ul>
+<li>同步模式（mysql semi-sync）</li>
+</ul>
+<p>全同步模式是指主节点和从节点全部执行了commit并确认才会向客户端返回成功。</p>
+<h2 id="读写分离场景下主从延迟可能导致的问题">读写分离场景下主从延迟可能导致的问题</h2>
+<p>在代码中插入之后，又查询这样的操作是不可靠，可能导致插入之后，查出来的时候还没有同步到从库，所以查出来为null。如何应对这种情况了？其实并不能从根本上解决这种情况的方案。只能一定程度通过降低主从延迟来尽量避免。</p>
+<p>降低主从延迟的方法有：</p>
+<ul>
+<li>拆主库，降低主库并发，降低主库并发，此时主从延迟可以忽略不计，但并不能保证一定不会出现上述情况。</li>
+<li>打开并行复制-但这个效果一般不大，因为写入数据可能只针对某个库并发高，而mysql的并行粒度并不小，是以库为粒度的。</li>
+</ul>
+<p>但这并不能根本性解决这个问题，其实面对这种情况最好的处理方式是：</p>
+<ul>
+<li>重写代码，插入之后不要更新</li>
+<li>如果确实是存在先插入，立马就能查询到，然后立马执行一些操作，那么可以对这个查询设置直连主库（通过中间件可以办到）</li>
+</ul>
+<p>参考：<a class="link" href="https://baijiahao.baidu.com/s?id=1617888740370098866&amp;wfr=spider&amp;for=pc"  target="_blank" rel="noopener"
+    >深度探索MySQL主从复制原理</a></p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/">分库分表</a>
+        
+            <a href="/tags/%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">读写分离</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#以表的维度来说">以表的维度来说：</a></li>
+    <li><a href="#以库的维度来说">以库的维度来说：</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#停机分库分表">停机分库分表</a></li>
+    <li><a href="#不停机双写方案">不停机双写方案</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#为什么要读写分离">为什么要读写分离</a></li>
+    <li><a href="#读写分离的实现方式">读写分离的实现方式</a></li>
+    <li><a href="#主从同步的三种模式">主从同步的三种模式：</a></li>
+    <li><a href="#读写分离场景下主从延迟可能导致的问题">读写分离场景下主从延迟可能导致的问题</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

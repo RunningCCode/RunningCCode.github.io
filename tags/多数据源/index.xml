@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多数据源 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/</link>
+    <description>Recent content in 多数据源 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 18 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot 2.1.5 配置JPA多数据源</title>
+      <link>https://runningccode.github.io/2019/springboot-2.1.5-%E9%85%8D%E7%BD%AEjpa%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/</link>
+      <pubDate>Thu, 18 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/springboot-2.1.5-%E9%85%8D%E7%BD%AEjpa%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90/</guid>
+      <description>最近在学springJpa，照着网上博客想试着配一下Jpa的多数据源，但发现因为springboot版本太高的问题，网上的demo都不适用，</description>
+    </item>
+    
+  </channel>
+</rss>

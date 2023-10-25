@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在： DDD实战课 基于DDD的微服务拆分与设计 一、DDD名词解释 （一'><title>DDD领域驱动设计思想——读《DDD实战课》归纳</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='DDD领域驱动设计思想——读《DDD实战课》归纳'>
+<meta property='og:description' content='本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在： DDD实战课 基于DDD的微服务拆分与设计 一、DDD名词解释 （一'>
+<meta property='og:url' content='https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DDD' /><meta property='article:tag' content='领域驱动开发' /><meta property='article:published_time' content='2020-02-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2020-02-04T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="DDD领域驱动设计思想——读《DDD实战课》归纳">
+<meta name="twitter:description" content="本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在： DDD实战课 基于DDD的微服务拆分与设计 一、DDD名词解释 （一">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/">DDD领域驱动设计思想——读《DDD实战课》归纳</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2020-02-04</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    4480字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在：</p>
+<p><a class="link" href="https://time.geekbang.org/column/intro/238"  title="DDD实战课 基于DDD的微服务拆分与设计"
+     target="_blank" rel="noopener"
+    >DDD实战课 基于DDD的微服务拆分与设计</a></p>
+<h1 id="一ddd名词解释">一、DDD名词解释</h1>
+<h2 id="一域">（一）域</h2>
+<p>对业务领域细分后对一定范围内的问题划定边界，这个范围内的问题组成了域，域是有层次的，一个域可以由多个‘子域’聚合。
+子域的种类可以分为：</p>
+<ul>
+<li>核心域 决定公司产品核心竞争力的子域</li>
+<li>通用域 同时被多个子域使用的功能的子域</li>
+<li>支撑域 既不包含决定产品和公司核心竞争力的功能，也不包含通用功能的子域，它就是支撑域，例如数据代码类的数据字典等系统。</li>
+</ul>
+<p>子域还可根据需要进一步拆分为子子域，比如，支付子域可继续拆分为收款和付款子子域。拆到一定程度后，有些子子域的领域边界就可能变成限界上下文的边界了。</p>
+<h2 id="二限界上下文">（二）限界上下文</h2>
+<p>限界上下文定义领域模型的边界，每个领域模型都有自己的领域边界，在领域边界内即限界上下文。限界上下文内限制了统一的通用语言（在限界上下文当中在事件风暴过程中，通过团队交流达成共识的，能够简单、清晰、准确描述业务涵义和规则的语言就是通用语言），以及领域对象等。一般来说，在微服务架构中，不考虑其他因素的话（如技术异构、团队沟通等）可以按照限界上下文来定义微服务。</p>
+<h2 id="三聚合实体值对象聚合根">（三）聚合、实体、值对象、聚合根</h2>
+<p>实体和值对象是聚合的基础单元，聚合是构成领域模型的基础单元。在事件风暴中，我们会根据一些业务操作和行为找出实体（Entity）或值对象（ValueObject），进而将业务关联紧密的实体和值对象进行组合，构成聚合，再根据业务语义将多个聚合划定到同一个限界上下文（Bounded Context）中并在限界上下文内完成领域建模。</p>
+<ul>
+<li>聚合 聚合就是由业务和逻辑紧密关联的实体和值对象组合而成的</li>
+<li>实体 用来描述业务操作和行为的基础载体，有唯一标识符。</li>
+<li>值对象 实体有可能聚合了值对象，值对象相当于一个多个字段的数据载体，依赖于实体存在，不包含业务逻辑，没有唯一标识符，在业务中只涉及整体替换和数据初始化。在数据库建模中有两个方式，一个方式是将一个字段设计为大字段存放值对象的Json,一个方式是将值对象的所有字段都与实体的其他属性字段并列来创建新的字段。</li>
+<li>聚合根 也被称为根实体，聚合之间的通信通过聚合根来管理，它以聚合根 ID 关联的方式接受外部任务和请求，也就是说，一个聚合内如果需要访问其它聚合的实体，就要先访问聚合根，再导航到聚合内部实体，外部对象不能直接访问聚合内实体。</li>
+</ul>
+<h2 id="四领域事件">（四）领域事件</h2>
+<p>DDD提倡聚合之间产生的业务协同使用领域事件的方式来完成，领域事件就是将上游聚合处理完成这个动作通过事件的方式抽象，封装完成下游聚合所需的数据，通过消息队列中间件（跨微服务）或本地应用中的消息总线框架（同一个微服务跨聚合）来完成聚合之间业务的解耦。</p>
+<h1 id="二ddd-分层架构以及实战中代码分层">二、DDD 分层架构以及实战中代码分层</h1>
+<h2 id="一四层架构">（一）四层架构</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 111; 
+			flex-basis: 266px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img.png" data-size="1106x996">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img.png"
+			width="1106"
+			height="996"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_hu22f0ccbbbf7ba5e8a6bc6ba0695ea1c3_205230_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_hu22f0ccbbbf7ba5e8a6bc6ba0695ea1c3_205230_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<ul>
+<li>
+<p>用户接口层 用于提供统一对外的接口，同样一个应用服务可能用于不同的端，入参和出参不太一样，所以在上游添加一个用户接口层对不同格式入参出参进行处理，提供对应用服务层的复用。</p>
+</li>
+<li>
+<p>应用层 对各个领域服务或其他微服务的提供的接口进行编排，协作完成业务操作。应用服务粒度较粗，需要注意可复用性。应用服务还可以进行安全认证、权限校验、事务控制、发送或订阅领域事件等。另外，应用层代码较薄，不包含业务规则或逻辑，主要是控制业务流程走向，逻辑部分委托给领域层。</p>
+</li>
+<li>
+<p>领域层 主要包含实体类、值对象类、事件类、领域服务。领域服务供应用层调用，实现业务的规则和逻辑，但对于只与单一实体自己相关的一些动作，这部分逻辑由实体类自己来实现。</p>
+</li>
+<li>
+<p>基础层 基础层是贯穿所有层的，它的作用就是为其它各层提供通用的技术和基础服务，包括第三方工具、驱动、消息中间件、网关、文件、缓存以及数据库等。</p>
+</li>
+</ul>
+<h2 id="二代码分层参考">（二）代码分层参考</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 87; 
+			flex-basis: 210px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_1.png" data-size="687x784">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_1.png"
+			width="687"
+			height="784"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_1_huc9d3afb9520b522ce8f226dd2ef60605_147421_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_1_huc9d3afb9520b522ce8f226dd2ef60605_147421_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_1.png">
+	</a>
+	
+	<figcaption>img_1.png</figcaption>
+	
+</figure>
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 109; 
+			flex-basis: 261px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_2.png" data-size="682x625">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_2.png"
+			width="682"
+			height="625"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_2_hu2063f8d82e706eb49ad11da333f43027_98071_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_2_hu2063f8d82e706eb49ad11da333f43027_98071_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_2.png">
+	</a>
+	
+	<figcaption>img_2.png</figcaption>
+	
+</figure></p>
+<h3 id="1api-方便deploy供同步调用">1、api （方便deploy,供同步调用）</h3>
+<p>主要包括:</p>
+<ul>
+<li>dto包，即数据传输对象，即内部接口之间的数据传输字段封装。包括 requestDTO 和 responseDTO 两部分。</li>
+<li>api接口，即api接口，供feignClient接口继承。</li>
+</ul>
+<h3 id="2interfaces用户接口层">2、Interfaces（用户接口层）</h3>
+<p>二级目录包括：</p>
+<ul>
+<li>Assembler 实现 DTO 与领域对象之间的相互转换和数据交换。一般来说 Assembler 与 DTO 总是一同出现。</li>
+<li>Facade 提供较粗粒度的调用接口，将用户请求委派给一个或多个应用服务进行处理。</li>
+<li>dto 接口间数据传输的封装</li>
+</ul>
+<h3 id="3application应用层">3、Application（应用层）</h3>
+<p>二级目录有：</p>
+<ul>
+<li>Service（应用服务）：对多个领域服务或其他微服务应用服务进行封装、编排和组合，对外提供粗粒度的服务。可以将所有应用服务放在一个应用服务类里，也可以把一个应用服务设计为一个应用服务类，以防应用服务类代码量过大。</li>
+</ul>
+<h3 id="4domain领域层">4、Domain（领域层）</h3>
+<p>由一个或多个聚合包构成，共同实现领域模型的核心业务逻辑。聚合包内的目录：</p>
+<ul>
+<li>entity（实体） 存放聚合根、实体、值对象以及工厂模式（处理DO到PO的初始化,DO到PO的初始化，指当聚合根被创建时，聚合内所有依赖的对象将会被同时创建，将所有依赖的DO对象一次性转换为PO对象）相关代码。</li>
+<li>event（事件） 存放事件实体以及与事件活动相关的业务逻辑代码，分为publish和subscribe目录，publish存放事件发布相关代码，listener存放事件订阅相关代码。</li>
+<li>service(领域服务) 存放领域服务代码。一个领域服务是多个实体组合出来的一段业务逻辑</li>
+<li>repository（仓储）仓储实现本应该属于基础层代码，但在微服务架构中的演进过程中会涉及到聚合的拆分，所以这里把仓储层放在这是为了与聚合进行整体迁移方便，其中包括facade、mapper、persistence包，facade为统一为其他层提供服务定义的接口，mapper是各个框架中需实现的mapper接口，persistence用于PO与查询结果和查询条件间的适配。</li>
+</ul>
+<h3 id="5infrastructure基础层">5、Infrastructure（基础层）</h3>
+<p>二级目录包括：</p>
+<ul>
+<li>config 主要存放配置相关代码。</li>
+<li>util 主要存放平台、开发框架、消息、数据库、缓存、文件、总线、网关、第三方类库、通用算法等基础代码</li>
+<li>client 存放feignClient。</li>
+</ul>
+<h1 id="三中台建设与ddd">三、中台建设与DDD</h1>
+<h2 id="一什么是中台">（一）什么是中台</h2>
+<p>我对中台的粗浅的理解是中台首先是一种基础的理念架构，没有很固定的规范，核心思想就是构建一个个小基础服务，联通起来共同支撑上游的业务，最大的好处就是能力的复用。</p>
+<h2 id="二用ddd思想完成中台建模">（二）用DDD思想完成中台建模</h2>
+<p>首先，用DDD去理解中台架构的话，对应关系可以如图示：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 158; 
+			flex-basis: 381px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_3.png" data-size="1399x880">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_3.png"
+			width="1399"
+			height="880"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_3_huf859b972da7e438deb7f8222256d66aa_376537_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_3_huf859b972da7e438deb7f8222256d66aa_376537_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_3.png">
+	</a>
+	
+	<figcaption>img_3.png</figcaption>
+	
+</figure></p>
+<p>我们完成了DDD领域建模，也就完成了中台建模，那么具体如何做勒？
+有两种策略：</p>
+<ul>
+<li>
+<p>自顶而下的策略,自顶而下逐级梳理领域，最后细分到领域，划定中台边界,适用于推倒重建，或新开发的情况。</p>
+</li>
+<li>
+<p>自底向上的策略，先用事件风暴（后文会说）分别梳理原来各个系统的各个聚合，划分限界，构成领域模型（对应上图中的领域模型，一个领域模型对应一个中台服务，由多个聚合构成），然后对梳理的领域模型进行归类，对齐业务域（对应上图中的子域，，比领域模型更抽象，比如用户认证、权限共同属于用户业务域，划分业务域的意义在于划分不同的中台产品，不同产品的人力投资及其他可能不一样），然后对同一业务域中的领域模型的差异和共同点进行分析（粒度控制在聚合，尽量不要在聚合内部划分），将通用功能进行沉淀，重新定义限界上下文，划分领域模型，然后再来根据进行领域模型归类（通用中台，核心中台），然后这样重构后，原有系统中的聚合该合并的合并，该迁移的迁移。</p>
+</li>
+</ul>
+<h1 id="四事件风暴实践-构建领域模型的关键">四、事件风暴实践-构建领域模型的关键</h1>
+<h2 id="一事件风暴的核心">（一）事件风暴的核心</h2>
+<p>以产品愿景为核心，分析业务场景，集中关注业务场景中的事件、命令和实体等领域对象，找出实体、聚合根、划分聚合、构建限界上下文，拆分为微服务。</p>
+<h2 id="二事件风暴的准备工作">（二）事件风暴的准备工作</h2>
+<h3 id="1事件风暴的参与者">1、事件风暴的参与者</h3>
+<p>可以包括：</p>
+<ul>
+<li>领域专家，即对业务或问题域有深刻见解的主题专家，</li>
+<li>DDD 专家</li>
+<li>架构师</li>
+<li>产品经理</li>
+<li>项目经理</li>
+<li>开发人员</li>
+<li>测试人员等</li>
+</ul>
+<h3 id="2-准备材料">2、 准备材料</h3>
+<p>即时贴和水笔，用于“刷墙”，即将不同颜色的即时贴贴在墙上</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 235; 
+			flex-basis: 564px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_4.png" data-size="1680x714">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_4.png"
+			width="1680"
+			height="714"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_4_huce97c48ea0a756c66d89e075e2eff5b6_148314_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_4_huce97c48ea0a756c66d89e075e2eff5b6_148314_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_4.png">
+	</a>
+	
+	<figcaption>img_4.png</figcaption>
+	
+</figure></p>
+<h3 id="3场地">3、场地</h3>
+<p>足够长的墙和足够大的空间。</p>
+<h2 id="三事件风暴的过程">（三）事件风暴的过程</h2>
+<h3 id="1梳理产品愿景">1、梳理产品愿景</h3>
+<p>由领域专家、业务需求方、产品经理、项目经理和开发经理参与，目的是对产品顶层价值进行设计，使产品目标用户、核心价值、差异化竞争点等信息达成一致，避免产品偏离方向。比如梳理成以下愿景墙，以设计一个用户中台产品为例，每个人对每一个点发表意见，贴在墙上：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 142; 
+			flex-basis: 342px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_5.png" data-size="1680x1176">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_5.png"
+			width="1680"
+			height="1176"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_5_hu3898233a5db5a04293795fdc7aeebc6e_646966_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_5_hu3898233a5db5a04293795fdc7aeebc6e_646966_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_5.png">
+	</a>
+	
+	<figcaption>img_5.png</figcaption>
+	
+</figure></p>
+<h3 id="2业务场景分析">2、业务场景分析</h3>
+<p>由领域专家、产品经理、需求分析人员、架构师、项目经理、开发经理和测试经理参与，从用户视角出发的，根据业务流程或用户旅程，采用用例和场景分析，探索领域中的典型场景，找出领域事件、实体和命令等领域对象，支撑领域建模。以设计用户中台为例，用户中台有这样三个典型的业务场景：第一个是系统和岗位设置，设置系统中岗位的菜单权限；第二个是用户权限配置，为用户建立账户和密码，设置用户岗位；第三个是用户登录系统和权限校验，生成用户登录和操作日志。一步一步搜寻用户业务流程中的关键领域事件，比如岗位已创建，用户已创建等事件。再找出什么行为会引起这些领域事件，这些行为可能是一个或若干个命令组合在一起产生的，比如创建用户时，第一个命令是从公司 HR 系统中获取用户信息，第二个命令是根据 HR 的员工信息在用户中台创建用户，创建完用户后就会产生用户已创建的领域事件。当然这个领域事件可能会触发下一步的操作，比如发布到邮件系统通知用户已创建，但也可能到此就结束了。梳理如图：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 144; 
+			flex-basis: 347px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_6.png" data-size="1960x1354">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_6.png"
+			width="1960"
+			height="1354"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_6_hu0b7c497ae6dd6f34d551a6b74d565801_785957_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_6_hu0b7c497ae6dd6f34d551a6b74d565801_785957_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_6.png">
+	</a>
+	
+	<figcaption>img_6.png</figcaption>
+	
+</figure></p>
+<h3 id="3领域建模">3、领域建模</h3>
+<p>由领域专家、产品经理、需求分析人员、架构师、项目经理、开发经理和测试经理参与，根据场景分析过程中产生的领域对象，比如命令、事件等之间关系，找出产生命令的实体，分析实体之间的依赖关系组成聚合，为聚合划定限界上下文，建立领域模型以及模型之间的依赖。</p>
+<h4 id="1-第一步-找出实体">(1) 第一步-找出实体</h4>
+<p>从前面得到命令和事件中提取产生这些行为的实体，如图，对上面分析得到的命令和事件进行梳理得到对应的实体，用绿色贴纸表示：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 186; 
+			flex-basis: 447px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_7.png" data-size="2040x1094">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_7.png"
+			width="2040"
+			height="1094"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_7_hu2f534d4b2b68e84cbd8d2a5b430ab3c1_497935_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_7_hu2f534d4b2b68e84cbd8d2a5b430ab3c1_497935_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_7.png">
+	</a>
+	
+	<figcaption>img_7.png</figcaption>
+	
+</figure></p>
+<h4 id="2第二步-找出聚合根划分聚合">（2）第二步-找出聚合根，划分聚合</h4>
+<p>根据聚合根的管理性质在前面的实体中找到聚合根，然后根据业务依赖和业务内聚原则，将聚合根以及它关联的实体和值对象组合为聚合。比如前面的系统和菜单实体可以组合为“系统功能”聚合，按此方方法，用户中台就有了系统功能、岗位、用户信息、用户日志、账户和认证票据六个聚合。。</p>
+<h4 id="3划定限界上下文将聚合归类">（3）划定限界上下文，将聚合归类</h4>
+<p>我的理解是就是将前面的聚合根据业务进一步抽象归类，以便划分微服务。如图，将前面得到的聚合进行归类，分为了三个领域模型：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 172; 
+			flex-basis: 413px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_8.png" data-size="1322x768">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_8.png"
+			width="1322"
+			height="768"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_8_hucf200c475fd8642a19138fbff378458c_328356_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_8_hucf200c475fd8642a19138fbff378458c_328356_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_8.png">
+	</a>
+	
+	<figcaption>img_8.png</figcaption>
+	
+</figure></p>
+<p><strong>另外：</strong></p>
+<p><strong>由于领域建模的过程中产生的领域对象实在太多了，我们可以借助表格来记录，如图：</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 247; 
+			flex-basis: 593px"
+	>
+	<a href="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_9.png" data-size="1252x506">
+		<img src="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_9.png"
+			width="1252"
+			height="506"
+			srcset="/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_9_hucf6ec82ac9b3091e5324f6f8268a5a73_137895_480x0_resize_box_3.png 480w, /2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/img_9_hucf6ec82ac9b3091e5324f6f8268a5a73_137895_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_9.png">
+	</a>
+	
+	<figcaption>img_9.png</figcaption>
+	
+</figure></p>
+<h4 id="4-划分微服务">4、 划分微服务</h4>
+<p>理论上一个领域模型可以为一个微服务，但也不绝对，也有其他需要考虑的因素如技术异构，比如用户日志数据量巨大，大到需要采用大数据技术来实现，这时用户信息聚合与用户日志聚合就会有技术异构。这两个聚合就不适合放在一个微服务里面了。另外还有需要考虑比如将敏态与稳态业务的分离、非功能性需求（如弹性伸缩要求、安全性等要求）、团队组织和沟通效率、软件包大小以及技术异构（使用的技术环境不一样）等非业务因素。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/ddd/">DDD</a>
+        
+            <a href="/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/">领域驱动开发</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一域">（一）域</a></li>
+    <li><a href="#二限界上下文">（二）限界上下文</a></li>
+    <li><a href="#三聚合实体值对象聚合根">（三）聚合、实体、值对象、聚合根</a></li>
+    <li><a href="#四领域事件">（四）领域事件</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#一四层架构">（一）四层架构</a></li>
+    <li><a href="#二代码分层参考">（二）代码分层参考</a>
+      <ol>
+        <li><a href="#1api-方便deploy供同步调用">1、api （方便deploy,供同步调用）</a></li>
+        <li><a href="#2interfaces用户接口层">2、Interfaces（用户接口层）</a></li>
+        <li><a href="#3application应用层">3、Application（应用层）</a></li>
+        <li><a href="#4domain领域层">4、Domain（领域层）</a></li>
+        <li><a href="#5infrastructure基础层">5、Infrastructure（基础层）</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li><a href="#一什么是中台">（一）什么是中台</a></li>
+    <li><a href="#二用ddd思想完成中台建模">（二）用DDD思想完成中台建模</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#一事件风暴的核心">（一）事件风暴的核心</a></li>
+    <li><a href="#二事件风暴的准备工作">（二）事件风暴的准备工作</a>
+      <ol>
+        <li><a href="#1事件风暴的参与者">1、事件风暴的参与者</a></li>
+        <li><a href="#2-准备材料">2、 准备材料</a></li>
+        <li><a href="#3场地">3、场地</a></li>
+      </ol>
+    </li>
+    <li><a href="#三事件风暴的过程">（三）事件风暴的过程</a>
+      <ol>
+        <li><a href="#1梳理产品愿景">1、梳理产品愿景</a></li>
+        <li><a href="#2业务场景分析">2、业务场景分析</a></li>
+        <li><a href="#3领域建模">3、领域建模</a>
+          <ol>
+            <li><a href="#1-第一步-找出实体">(1) 第一步-找出实体</a></li>
+            <li><a href="#2第二步-找出聚合根划分聚合">（2）第二步-找出聚合根，划分聚合</a></li>
+            <li><a href="#3划定限界上下文将聚合归类">（3）划定限界上下文，将聚合归类</a></li>
+            <li><a href="#4-划分微服务">4、 划分微服务</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>画图 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E7%94%BB%E5%9B%BE/</link>
+    <description>Recent content in 画图 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 01 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E7%94%BB%E5%9B%BE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UML类图知识整理</title>
+      <link>https://runningccode.github.io/2019/uml%E7%B1%BB%E5%9B%BE%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</link>
+      <pubDate>Fri, 01 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/uml%E7%B1%BB%E5%9B%BE%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86/</guid>
+      <description>之所以学习UML类图，是因为想把前面看的《设计模式之禅》再看一遍，但文章都用到了uml类图，前面其实都一知半解，觉得自己挺low的，所以觉得</description>
+    </item>
+    
+  </channel>
+</rss>

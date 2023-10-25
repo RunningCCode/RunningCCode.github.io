@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mybatis on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/mybatis/</link>
+    <description>Recent content in mybatis on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 14 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/mybatis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title> MyBatis插件运用之实体自动修改自己的业务主键和时间</title>
+      <link>https://runningccode.github.io/2019/mybatis%E6%8F%92%E4%BB%B6%E8%BF%90%E7%94%A8%E4%B9%8B%E5%AE%9E%E4%BD%93%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E6%97%B6%E9%97%B4/</link>
+      <pubDate>Wed, 14 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mybatis%E6%8F%92%E4%BB%B6%E8%BF%90%E7%94%A8%E4%B9%8B%E5%AE%9E%E4%BD%93%E8%87%AA%E5%8A%A8%E4%BF%AE%E6%94%B9%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%9A%E5%8A%A1%E4%B8%BB%E9%94%AE%E5%92%8C%E6%97%B6%E9%97%B4/</guid>
+      <description>一、前言 一直很好奇，公司脚手架具体是如何自动在插入或修改数据库的时候自动去改修改时间，创建时间，如何去生成业务主键。今天仔细看了下mybat</description>
+    </item>
+    
+    <item>
+      <title>Mybatis自定义全局TypeHander</title>
+      <link>https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/</link>
+      <pubDate>Tue, 13 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/mybatis%E8%87%AA%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80typehander/</guid>
+      <description>一、TypeHander介绍 typeHander就是mybatis处理Java类型和Jdbc类型时转换策略。mybatis在查询设置参数和从</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ThreadLocal on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/threadlocal/</link>
+    <description>Recent content in ThreadLocal on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 06 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/threadlocal/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>浅谈ThreadLocal的内存泄露问题</title>
+      <link>https://runningccode.github.io/2020/%E6%B5%85%E8%B0%88threadlocal%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E6%B5%85%E8%B0%88threadlocal%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98/</guid>
+      <description>写在前面 因为有个交流群里突然有个小伙伴问为什么jdk建议threadLocal用private static修饰，于是小研究了下。这里就记录一</description>
+    </item>
+    
+  </channel>
+</rss>

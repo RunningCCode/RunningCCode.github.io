@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>springEl on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/springel/</link>
+    <description>Recent content in springEl on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 07 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/springel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>动态获取方法参数的坑</title>
+      <link>https://runningccode.github.io/2020/%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Thu, 07 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E5%8A%A8%E6%80%81%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E7%9A%84%E5%9D%91/</guid>
+      <description>问题 问题的背景： 由于springcache并不是很好用，并不针对细粒度的过期时间控制。所以我司基于spel表达式写了一个缓存切面实现类似的功</description>
+    </item>
+    
+  </channel>
+</rss>

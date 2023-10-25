@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>领域驱动开发 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/</link>
+    <description>Recent content in 领域驱动开发 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 04 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DDD领域驱动设计思想——读《DDD实战课》归纳</title>
+      <link>https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/ddd%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E8%AF%BBddd%E5%AE%9E%E6%88%98%E8%AF%BE%E5%BD%92%E7%BA%B3/</guid>
+      <description>本文是学习极客时间《DDD实战课》后结合自己思考所整理的归纳总结，课程链接在： DDD实战课 基于DDD的微服务拆分与设计 一、DDD名词解释 （一</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考 一、 JMM是'><title>JMM（java-memory-model,java内存模型）规范</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='JMM（java-memory-model,java内存模型）规范'>
+<meta property='og:description' content='来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考 一、 JMM是'>
+<meta property='og:url' content='https://runningccode.github.io/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='JMM' /><meta property='article:published_time' content='2022-03-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2022-03-04T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="JMM（java-memory-model,java内存模型）规范">
+<meta name="twitter:description" content="来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考 一、 JMM是">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">JMM（java-memory-model,java内存模型）规范</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2022-03-04</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    3830字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p>来源于《深入理解JAVA内存模型》——程晓明加上个人理解，因为有些知识点查了很多还是不确定是什么意思，有个人理解在里面，仅供参考</p>
+</blockquote>
+<h4 id="一-jmm是什么">一、 JMM是什么</h4>
+<p>JAVA的并发编程模型，屏蔽硬件层，是一种高层次的抽象，把内存区域划分为主内存和本地内存（逻辑划分，不用对应某一块真实的区域），屏蔽硬件层，对多线程编程可能导致的有序性，内存可见性问题，提出的解决模型。</p>
+<p>JMM把内存抽象为主内存和本地内存，图示：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 121; 
+			flex-basis: 290px"
+	>
+	<a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img.png" data-size="628x519">
+		<img src="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img.png"
+			width="628"
+			height="519"
+			srcset="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_hu820734fcc6e28902edf5c743981daa09_114154_480x0_resize_box_3.png 480w, /2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_hu820734fcc6e28902edf5c743981daa09_114154_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>注意:</p>
+<ul>
+<li>这里线程间共享变量，主要指堆以及元空间，栈中的信息不会在线程之间共享，不会有内存可见性问题，也不受JMM影响。</li>
+<li>这里的主内存与本地内存的区分，主要是受缓存，写缓冲区，寄存器，以及其他硬件和编译器优化影响产生的区分，导致线程的本地内存和主内存存在差异。</li>
+</ul>
+<h4 id="二--前置知识">二、  前置知识</h4>
+<h5 id="数据依赖性">数据依赖性</h5>
+<p>两个操作访问一个变量，其中一个操作为写，则两个操作有数据依赖性，比如写后读，写后写，读后写。</p>
+<h5 id="控制依赖性">控制依赖性</h5>
+<p>A和B操作存在控制依赖性，指的是B操作是否执行依赖于A的结果，编译器和处理器可能用猜测执行的方式对A操作和B操作进行重排，比如提前执行B操作获取B操作的结果存在一个临时变量里，当A有结果的时候再把这个临时变量赋值给应该被赋值的变量。</p>
+<p>单线程中，这样是没问题的，但多线程中，可能会改变程序的执行结果。</p>
+<h5 id="重排序">重排序</h5>
+<p>java中的重排序，主要有以下几个原因：</p>
+<ul>
+<li>JIT编译重排序 JIT编译的时候会基于效率优化指令执行顺序。JIT指Java即时编译，针对热点代码 进行深层的机器码编译,够加快代码执行速度，因为一次访问一次解释执行的速度比不上直接执行编译后的机器码速度</li>
+<li>指令重排序 cpu执行指令也可能不是按顺序执行的，会基于效率去优化执行顺序。</li>
+<li>内存重排序 由于硬件写缓冲区 和 无效队列的存在，写没有完成写入到主存就执行下面的代码了，其他cpu对前面的指令执行无法感知，也是一种顺序错乱。（有些人说有缓存一致性协议，为什么还会产生内存重排序，其原因是MESI没有完全解决问题，因为后来硬件上又优化了写缓冲区和无效队列，这就只能使用内存屏障的汇编指令在编码层面进行控制了）。</li>
+</ul>
+<p>后面两种指令重排序和内存重排序可以合并看为<strong>CPU重排序</strong>。</p>
+<p>注：<strong>任何重排序都会考虑数据依赖性，不会改变存在数据依赖性的两个操作的执行顺序，仅仅指单个线程或单个处理器中执行的操作的数据依赖性，不同处理器或不同线程之间产生的逻辑上的数据依赖性不被编译器和处理器考虑。</strong></p>
+<p>重排序的结果：<br>
+可能导致多线程程序出现<strong>内存可见性</strong>问题，上面的重排序虽然单线程/单处理器下不会出现问题，但没有考虑在多线程情况下，若两个线程有数据依赖性，则应该使用同步机制来避免。</p>
+<h4 id="三-jmm核心概念">三、 JMM核心概念</h4>
+<h5 id="happens-before原则">happens-before原则</h5>
+<p>JSR-133（JMM规范提案）提出的概念，用以阐述操作之间的内存可见性，提供一个简单易懂的规则给程序员，用以判断两个操作之间的内存可见性情况，使得程序员不用关心内存可见性之下的原因，这些原因可能涉及复杂的重排序规则和这些规则的具体实现。内容包括：</p>
+<ul>
+<li>程序顺序规则：一个线程中的每个操作,happen-before与该线程中的任意后续操作（个人理解，就是代码书写下的程序顺序）。</li>
+<li>volatile 变量规则，对于 volatile 修饰的变量的写的操作， 一定 happens-before 后续对于 volatile 变量的读操作;</li>
+<li>监视器锁规则：对一个监视器的解锁，happens-before于随后对这个监视器的加锁（监视器锁，指的synchronized）</li>
+<li>传递性：如果A happens-before B，且B happens-before C，那么A happens-before C。</li>
+</ul>
+<h6 id="happen-before含义">happen-before含义:</h6>
+<p>操作A happens-before 操作B 的意义是指 操作A的结果对操作B可见。意义只是操作A的结果对操作B可见。<br>
+并不要求A一定先于B执行 当B不需要A的执行结果可见的时候（不存在数据依赖性），A和B还是可以被重排序，这样的重排序并不是非法的。</p>
+<h5 id="as-if-serial语义">as-if-serial语义</h5>
+<p>是一个语义，编译器，runtime,处理器都会遵守。指不管怎么重排序，程序的执行结果不能被改变。个人理解，产生数据依赖性的操作，顺序不能变，但没有数据依赖性的操作，顺序可能变。</p>
+<h5 id="顺序一致性内存模型">顺序一致性内存模型</h5>
+<p>是一个理论模型，JMM并不是顺序一致性模型，指<strong>一个线程的所有操作必须按程序的顺序来执行</strong>，所有线程都只能看到一个单一的操作执行顺序。在顺序一致性内存模型中，每个操作都必须原子执行且立刻对所有线程可见。<br>
+JMM与其的区别：</p>
+<ul>
+<li>不保证单线程的操作按照程序顺序执行</li>
+<li>不保证所有线程看到一致的执行顺序</li>
+<li>不保证64位变量写的原子性（32位系统）</li>
+</ul>
+<p>但是JMM做了一个保证:  如果程序是正确同步的，程序的执行将具有顺序一致性-即程序的执行结果与该程序在顺序一致性模型中的执行结果相同。但JMM允许在不改变正确同步程序结果的情况下还是可以让编译器和cpu优化比如synchoronized保证临界区内编码的原子性不允许其内部的指令逸出临界区外，但可以在临界区内被重排序。</p>
+<h4 id="四jmm中保证正确同步的实现方式">四、JMM中保证正确同步的实现方式</h4>
+<p><strong>注：</strong> 以下是个人理解的比较懵的地方，网上也没有找到统一答案，这里权当作个记录，仅供参考。</p>
+<p>主要指volatile，synchoronized等java提供的同步机制。他们使用到了内存屏障（注，这里的内存屏障和硬件层的内存屏障语义不一样，这里的内存屏障指的是JMM抽象的内存屏障）。这里主要介绍下volatile关键字，synchoronized留着后面在单独总结下吧。</p>
+<p>volatile特性是保证内存可见性，保证单个变量读写的原子性。<br>
+其中内存层面的语义是：<strong>读volatile</strong>将本地内存变量置为失效，从主内存读。<strong>写volatile</strong>把把本地内存共享变量同步至主内存。</p>
+<p>主要如何实现这个内存语义勒。我的理解是：</p>
+<h5 id="写volatile的时候">写volatile的时候：</h5>
+<ol>
+<li>v写的时候当前线程正常程序流的读写都已经完成，这样才能确保所有应该写入主内存的刷入主内存，其他线程如果读v，也能按顺序一致性模型来分析当前线程。</li>
+<li>确保写完成的时候同步到主内存。</li>
+</ol>
+<h5 id="读volatile的时候">读volatile的时候：</h5>
+<ol>
+<li>v读的时候正常程序流下后面所有的读都没有执行，这样才能确保v读之后读的数据都是主内存的。</li>
+<li>同时应该避免v读之后的写重排到v读之前，确保当其他线程执行v写的时候不应该写入主内存的就还没有被写入。</li>
+</ol>
+<p>前面已经说了重排序分为编译器重排和CPU重排。下面说说JMM是怎么解决这两个重排的。</p>
+<h5 id="编译器重排">编译器重排</h5>
+<p>主要是基于重排序规则如下图：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 323; 
+			flex-basis: 776px"
+	>
+	<a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_1.png" data-size="806x249">
+		<img src="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_1.png"
+			width="806"
+			height="249"
+			srcset="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_1_hu63cbae71ecb4104b29687b45632ebb9c_77023_480x0_resize_box_3.png 480w, /2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_1_hu63cbae71ecb4104b29687b45632ebb9c_77023_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_1.png">
+	</a>
+	
+	<figcaption>img_1.png</figcaption>
+	
+</figure></p>
+<p>注：第一个操作 第二个操作并不是指相邻的两个操作，而是指单线程前后的两个操作。</p>
+<p>从图中可以看到：</p>
+<ul>
+<li>当第二个操作是volatile写的时候，不管第一个操作是什么，都不能重排到volatile写之后。</li>
+<li>当第一个操作是volatile读的时候，不管第二个操作是什么，都不能重排到volaite读之前。</li>
+<li>当第一个操作是volatile写，第二个操作是volatile读的时候，不能重排序。</li>
+</ul>
+<p>个人理解：</p>
+<ul>
+<li>使得当构成线程通信的时候（A线程volatile写，B线程volatile读），这个时机的触发，可以按照顺序一致性内存模型分析A线程，即B线程可以理解A线程volatile写之前的指令已经执行完毕，A线程可以理解B线程volatile读之后的命令还没有执行。</li>
+<li>这里保证了编译器重排序不会影响可见性（默认变量的任意读写在各个线程的本地内存是没有差异的），因为引起各个线程本地内存差异的原因是cpu重排序，所以要解决这个问题还得在cpu重排序的层面引入内存屏障解决cpu重排序。</li>
+</ul>
+<h5 id="cpu重排序">CPU重排序</h5>
+<p>主要是引入了内存屏障，内存屏障是java在编译生成字节码的时候插入的，并没有具体到硬件层面，他是属于JMM中抽象概念，不同处理器，实现可能略有不同，有四种：</p>
+<ul>
+<li>LoadLoad屏障</li>
+</ul>
+<p>顺序控制语义： 前面的Load和后面的Load不能乱序。</p>
+<ul>
+<li>StoreStore屏障</li>
+</ul>
+<p>顺序控制语义： 前面的Store和后面的Store不能乱序。
+刷新主存控制语义：前面的Store在后面的Store之前也会把线程本地内存刷新到主内存。</p>
+<ul>
+<li>LoadStore屏障</li>
+</ul>
+<p>顺序控制语义：  前面的Load和后面的Store不能乱序。
+刷新主存控制语义： 确保后一个Store刷新主存之前执行Load。</p>
+<ul>
+<li>StoreLoad屏障</li>
+</ul>
+<p>顺序控制语义：前面的Store和后面的Load不能乱序。
+刷新主存控制语义： Store完成后会把线程本地内存刷新到主内存。</p>
+<p>以上是个人理解含有的语义，可能会有偏差，下面贴出书中的概念：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 85; 
+			flex-basis: 204px"
+	>
+	<a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_2.png" data-size="448x527">
+		<img src="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_2.png"
+			width="448"
+			height="527"
+			srcset="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_2_hud9e0501949bb9a58fe2c10e3130e5e0e_133732_480x0_resize_box_3.png 480w, /2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_2_hud9e0501949bb9a58fe2c10e3130e5e0e_133732_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_2.png">
+	</a>
+	
+	<figcaption>img_2.png</figcaption>
+	
+</figure></p>
+<p>另外，个人觉得前后的Load,Store,应该是以多个线程而不是单个线程内来说的把。比如StoreLoad之后，Load不光指本线程的Load，也指其他线程的Load把，如果不是这样，感觉解释不通。</p>
+<h6 id="volaite读写插入的内存屏障">volaite读写插入的内存屏障</h6>
+<p>其实这部分，为什么这么插入，自己也不是理解得很透彻，有些疑问，所以就大概按照书中的介绍写把，不作过多介绍。</p>
+<p><strong>volatile写：</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 157; 
+			flex-basis: 377px"
+	>
+	<a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_3.png" data-size="663x422">
+		<img src="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_3.png"
+			width="663"
+			height="422"
+			srcset="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_3_hu61b11e21a48a41f5b627630188b6610b_86087_480x0_resize_box_3.png 480w, /2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_3_hu61b11e21a48a41f5b627630188b6610b_86087_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_3.png">
+	</a>
+	
+	<figcaption>img_3.png</figcaption>
+	
+</figure></p>
+<p>在每个volatile写操作前插入StoreStore屏障，在写操作后插入StoreLoad屏障；</p>
+<p>疑问：为什么在前面不加LoadStore屏障？（编译器重排序规则明明写了普通读和volatile写不能重排）</p>
+<p><strong>volatile读：</strong></p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 170; 
+			flex-basis: 409px"
+	>
+	<a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_4.png" data-size="710x416">
+		<img src="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_4.png"
+			width="710"
+			height="416"
+			srcset="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_4_hu054c33a06867259f1d45c6877f145013_93769_480x0_resize_box_3.png 480w, /2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/img_4_hu054c33a06867259f1d45c6877f145013_93769_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_4.png">
+	</a>
+	
+	<figcaption>img_4.png</figcaption>
+	
+</figure></p>
+<p>在每个volatile读操作后插入LoadLoad屏障，以及LoadStore屏障；</p>
+<p><strong>注：</strong> 上面的内存屏障过于保守，在操作系统差异，还有某些不必要的情况下比如屏障重复，编译器会根据情况作优化，省略屏障。</p>
+<p><strong>最后</strong>：感觉自己还是太菜了，看了这个概念纠结了一星期左右，还是不太明白，但还是做个记录把。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/jmm/">JMM</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/priorityqueue%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%83%BD%E5%A4%9F%E5%8A%A8%E6%80%81%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0%E7%9A%84%E5%AE%B9%E5%99%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">PriorityQueue取中位数-实现一个能够动态取中位数的容器</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#一-jmm是什么">一、 JMM是什么</a></li>
+            <li><a href="#二--前置知识">二、  前置知识</a></li>
+            <li><a href="#三-jmm核心概念">三、 JMM核心概念</a></li>
+            <li><a href="#四jmm中保证正确同步的实现方式">四、JMM中保证正确同步的实现方式</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

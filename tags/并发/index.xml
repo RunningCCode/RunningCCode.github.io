@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>并发 on 青葱与志</title>
+    <link>https://runningccode.github.io/tags/%E5%B9%B6%E5%8F%91/</link>
+    <description>Recent content in 并发 on 青葱与志</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>jdk常用非并发容器整理</title>
+      <link>https://runningccode.github.io/2022/jdk%E5%B8%B8%E7%94%A8%E9%9D%9E%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%95%B4%E7%90%86/</link>
+      <pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2022/jdk%E5%B8%B8%E7%94%A8%E9%9D%9E%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%95%B4%E7%90%86/</guid>
+      <description>根据数据结构总结jdk常见的非并发容器，小结。 数据结构 基于数组 ArrayList ArrayDeque(循环数组) 只需要双端队列效果时使用，比linkedLi</description>
+    </item>
+    
+    <item>
+      <title>浅谈ThreadLocal的内存泄露问题</title>
+      <link>https://runningccode.github.io/2020/%E6%B5%85%E8%B0%88threadlocal%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2020/%E6%B5%85%E8%B0%88threadlocal%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%97%AE%E9%A2%98/</guid>
+      <description>写在前面 因为有个交流群里突然有个小伙伴问为什么jdk建议threadLocal用private static修饰，于是小研究了下。这里就记录一</description>
+    </item>
+    
+    <item>
+      <title>线程协作工具之Semaphore、CountDownLatch、CyclicBarrier</title>
+      <link>https://runningccode.github.io/2019/%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%B7%A5%E5%85%B7%E4%B9%8Bsemaphorecountdownlatchcyclicbarrier/</link>
+      <pubDate>Fri, 20 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/%E7%BA%BF%E7%A8%8B%E5%8D%8F%E4%BD%9C%E5%B7%A5%E5%85%B7%E4%B9%8Bsemaphorecountdownlatchcyclicbarrier/</guid>
+      <description>各种线程协作工具 常见线程协作工具： 读写锁ReadWriteLock 信号量Semaphore 倒计时门栓CountDownLatch 循环栅栏Cy</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（四）—— CAS原理与JDK8的优化</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E5%9B%9B-cas%E5%8E%9F%E7%90%86%E4%B8%8Ejdk8%E7%9A%84%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E5%9B%9B-cas%E5%8E%9F%E7%90%86%E4%B8%8Ejdk8%E7%9A%84%E4%BC%98%E5%8C%96/</guid>
+      <description>什么是CAS CAS-CompareAndSet，是JDK原子变量类AtomicInteger、AtomicLong、AtomicIntege</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（五）—— 显式锁与显式条件</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%94-%E6%98%BE%E5%BC%8F%E9%94%81%E4%B8%8E%E6%98%BE%E5%BC%8F%E6%9D%A1%E4%BB%B6/</link>
+      <pubDate>Fri, 04 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%94-%E6%98%BE%E5%BC%8F%E9%94%81%E4%B8%8E%E6%98%BE%E5%BC%8F%E6%9D%A1%E4%BB%B6/</guid>
+      <description>显式锁-Lock与ReadWriteLock JDK针对Lock的主要实现是ReentrantLock，ReadWriteLock实现是Ree</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（二）—— 线程的基本协作机制: wait和notify</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6-wait%E5%92%8Cnotify/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%BA%8C-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6-wait%E5%92%8Cnotify/</guid>
+      <description>前言 线程间通信主要是通过wait、notify来实现的，使用这种机制实现线程通信是非常效率的，相比而言，不知道的同学针对线程通信可能只会想到</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（三）—— 线程的中断</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%AD%E6%96%AD/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%89-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%AD%E6%96%AD/</guid>
+      <description>需要进行线程中断的场景 很多线程的运行模式是死循环，比如在生产者/消费者模式中，消费者主体就是一个死循环，它不停的从队列中接受任务，执行任务，</description>
+    </item>
+    
+    <item>
+      <title>JDK并发包温故知新系列（一）—— 竞态条件与内存可见性</title>
+      <link>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%86%85%E5%AD%98%E5%8F%AF%E8%A7%81%E6%80%A7/</link>
+      <pubDate>Wed, 02 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2019/jdk%E5%B9%B6%E5%8F%91%E5%8C%85%E6%B8%A9%E6%95%85%E7%9F%A5%E6%96%B0%E7%B3%BB%E5%88%97%E4%B8%80-%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%86%85%E5%AD%98%E5%8F%AF%E8%A7%81%E6%80%A7/</guid>
+      <description>前言 今天回家火车上没事情干，一直在看石杉码农老大的技术博客。其中看了些并发系列的文章，虽然都是以前学习JDK源码的时候都了解到的东西，但是隔</description>
+    </item>
+    
+  </channel>
+</rss>

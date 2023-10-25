@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一、前言 前几天阿里云服务器（低配）86块一年，于是赶紧入手了，主要是拿来练练手，今天就是在这个这台服务器上练了下手搭了一个docker和ne'><title>安装docker，并在docker下用nexus3搭建maven私服</title>
+
+<link rel='canonical' href='https://runningccode.github.io/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/'>
+
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='安装docker，并在docker下用nexus3搭建maven私服'>
+<meta property='og:description' content='一、前言 前几天阿里云服务器（低配）86块一年，于是赶紧入手了，主要是拿来练练手，今天就是在这个这台服务器上练了下手搭了一个docker和ne'>
+<meta property='og:url' content='https://runningccode.github.io/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/'>
+<meta property='og:site_name' content='青葱与志'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='docker' /><meta property='article:published_time' content='2019-11-04T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-11-04T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="安装docker，并在docker下用nexus3搭建maven私服">
+<meta name="twitter:description" content="一、前言 前几天阿里云服务器（低配）86块一年，于是赶紧入手了，主要是拿来练练手，今天就是在这个这台服务器上练了下手搭了一个docker和ne">
+    <link rel="shortcut icon" href="%5cfavicon.ico" />
+<style>
+    :root {
+        --article-font-family: "Noto Serif SC", var(--base-font-family);
+    }
+</style>
+
+<script> 
+		(function () {
+		    const customFont = document.createElement('link');
+		    customFont.href = "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;700&display=swap"; 
+		    customFont.type = "text/css";
+		    customFont.rel = "stylesheet";
+		
+		    document.head.appendChild(customFont);
+		}());
+</script>
+
+    </head>
+    <body class="
+    article-page
+">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/%E5%A4%B4%E5%83%8F_huabefc0c79572798c2bbcaa4b62fabc2a_288278_300x0_resize_q75_box.jpg" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <h1 class="site-name"><a href="/">青葱与志</a></h1>
+        <h2 class="site-description">向往真实、随性、善意、珍惜、同理心</h2><ol class="social-menu">
+                
+                    <li>
+                        <a 
+                            href='mailto:c_man777@163.com'
+                            target="_blank"
+                            title="Email"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053041829" class="icon" viewBox="0 0 1228 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5773" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M32 108.733c0-42.365 34.474-76.733 76.807-76.733h998.393c42.413 0 76.8 34.454 76.8 76.733v806.534c0 42.374-34.474 76.733-76.81 76.733h-998.39c-42.413 0-76.8-34.454-76.8-76.733v-806.534zM128 896h960v-768h-960v768zM822.954 472.832c3.293 2.333 6.346 5.126 9.063 8.37l332.64 397.584c6.958 8.272 11.185 19.043 11.185 30.802 0 26.511-21.491 48.002-48.002 48.002-14.752 0-27.951-6.655-36.756-17.127l-332.7-397.667c-5.319-6.313-9.065-14.122-10.524-22.708l-110.388 97.003c-8.046 6.307-18.315 10.114-29.472 10.114s-21.426-3.807-29.577-10.192l-111.706-86.897c-1.824 4.492-4.368 8.774-7.642 12.691l-332.659 397.584c-8.865 10.545-22.063 17.2-36.816 17.2-26.511 0-48.002-21.491-48.002-48.002 0-11.758 4.227-22.529 11.245-30.875l332.601-397.521c2.506-2.986 5.298-5.597 8.304-7.824l-333.619-259.488c-11.253-8.867-18.412-22.495-18.412-37.795 0-26.51 21.49-48.001 48.001-48.001 11.106 0 21.33 3.772 29.463 10.103l488.82 380.204 488.928-380.285c8.046-6.305 18.315-10.113 29.472-10.113 26.512 0 48.004 21.492 48.004 48.004 0 15.354-7.207 29.025-18.427 37.812l-333.033 259.011z" fill="currentColor" p-id="5774"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://github.com/RunningCCode'
+                            target="_blank"
+                            title="GitHub"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698031818861" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4662" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M465.981 1001.74a89.578 89.578 0 0 1-89.889-88.955l-0.356-63.666c-176.662 38.422-213.927-74.93-213.927-74.93-28.895-73.372-70.523-92.873-70.523-92.873-57.61-39.446 4.364-38.645 4.364-38.645 63.71 4.452 97.28 65.447 97.28 65.447 56.631 97.058 148.569 69.009 184.765 52.803 5.699-41.049 22.172-69.053 40.337-84.947-141.045-16.028-289.303-70.523-289.303-313.79 0-69.32 24.799-125.952 65.447-170.429-6.589-16.028-28.316-80.584 6.144-168.025 0 0 53.337-17.052 174.659 65.09a609.28 609.28 0 0 1 158.943-21.37c53.915 0.223 108.276 7.257 159.031 21.37C814.186 6.679 867.434 23.73 867.434 23.73c34.549 87.485 12.822 152.042 6.233 168.025 40.693 44.433 65.358 101.109 65.358 170.43 0 243.89-148.57 297.583-289.926 313.299 22.751 19.723 43.053 58.323 43.053 117.582 0 84.992-0.312 119.674-0.312 119.674a89.622 89.622 0 0 1-89.8 89H465.98z" fill="currentColor" p-id="4663"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a 
+                            href='https://my.oschina.net/u/4101481'
+                            target="_blank"
+                            title="OSChina"
+                        >
+                            
+                            
+                                <?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg t="1698053859815" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4921" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24"><path d="M518.4 691.2c-99.2 0-182.4-64-185.6-185.6-6.4-112 92.8-188.8 188.8-192 108.8-3.2 176 121.6 176 121.6l281.6-102.4S864 32 547.2 32C252.8 35.2 48 236.8 48 512c0 243.2 192 489.6 489.6 476.8C867.2 976 979.2 688 979.2 688L688 592c3.2 3.2-57.6 99.2-169.6 99.2" fill="currentColor" p-id="4922"></path></svg>
+                            
+                        </a>
+                    </li>
+                
+            </ol></header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+<main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
+                学习笔记
+            </a>
+        
+    </header>
+    
+
+    <h2 class="article-title">
+        <a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/">安装docker，并在docker下用nexus3搭建maven私服</a>
+    </h2>
+
+    
+
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2019-11-04</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-words">
+                    2133字
+                </time>
+            </div>
+        
+    </footer>
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="一前言">一、前言</h1>
+<p>前几天阿里云服务器（低配）86块一年，于是赶紧入手了，主要是拿来练练手，今天就是在这个这台服务器上练了下手搭了一个docker和nexus，当自己的私服用，想着平时可以把一些自己写的一些常用的工具、配置类搞上去。现在梳理一下搭建的流程把。</p>
+<h1 id="二安装docker">二、安装docker</h1>
+<h2 id="一-安装依赖">（一） 安装依赖</h2>
+<pre><code>yum install -y yum-utils
+yum install -y device-mapper-persistent-data
+yum install -y lvm2
+</code></pre>
+<h2 id="二-安装-docker">(二) 安装 Docker</h2>
+<p>运行以下命令：</p>
+<pre><code>yum install docker
+</code></pre>
+<p>Docker 官方为了简化安装流程，提供了一套便捷的安装脚本，CentOS 系统上可以使用这套脚本安装：</p>
+<pre><code>curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+</code></pre>
+<p>然后执行<code>docker version</code>查看是否安装完成，如图：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 199; 
+			flex-basis: 478px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img.png" data-size="842x422">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img.png"
+			width="842"
+			height="422"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_hud213c8074ba5f99cb7db4249a79b208b_261906_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_hud213c8074ba5f99cb7db4249a79b208b_261906_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>然后启动 Docker：</p>
+<pre><code>systemctl enable docker
+systemctl start docker
+</code></pre>
+<h2 id="三配置镜像加速">（三）配置镜像加速</h2>
+<p>另外，我们知道，类似maven，如果我们在国内每次都从官方仓库里面去下镜像是很慢的，所以一般也需要配置镜像加速。</p>
+<pre><code>vi /etc/docker/daemon.json
+</code></pre>
+<p>打开配置为：</p>
+<pre><code># 填写自己的加速器地址
+{
+    &quot;registry-mirrors&quot;: [&quot;https://xxxxxx.mirror.aliyuncs.com&quot;]
+}
+</code></pre>
+<p>注意了，我是使用的阿里云镜像加速，实际上还有其他站点，阿里云加速地址需要去阿里云登录后获取，获取地址为<a class="link" href="https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors"  target="_blank" rel="noopener"
+    >阿里云镜像加速地址获取</a>，如图：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 240; 
+			flex-basis: 577px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_1.png" data-size="1857x772">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_1.png"
+			width="1857"
+			height="772"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_1_hu956059f0456ee475e2c2a46dd595bb5e_169953_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_1_hu956059f0456ee475e2c2a46dd595bb5e_169953_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_1.png">
+	</a>
+	
+	<figcaption>img_1.png</figcaption>
+	
+</figure></p>
+<p>把这个地址复制到daemon.json就行了。然后重启daemon和docker服务：</p>
+<pre><code>systemctl daemon-reload
+systemctl restart docker
+</code></pre>
+<h2 id="四docker常用命令总结">（四）docker常用命令总结</h2>
+<p>概念性的知识我就不介绍了，我也正在学习，这里总结一下常用命令：</p>
+<ul>
+<li>docker search 关键词:搜索镜像</li>
+<li>docker pull xxx:下载镜像</li>
+<li>docker images:查看本地有哪些镜像</li>
+<li>docker rm container_name/container_id:删除镜像</li>
+<li>docker run -t -i container_name/container_id /bin/bash:运行容器中的镜像，并且调用镜像里面的 bash</li>
+<li>docker ps -a:查看有哪些容器在运行</li>
+<li>docker start container_name/container_id:运行容器</li>
+<li>docker stop container_name/container_id:停止容器</li>
+<li>docker restart container_name/container_id:重启容器</li>
+<li>docker attach container_name/container_id:进入容器</li>
+<li>exit:退出容器</li>
+<li>docker rm container_name/container_id:删除容器</li>
+</ul>
+<h1 id="三docker下安装nexus3">三、docker下安装nexus3</h1>
+<h2 id="一查找nexus3镜像">（一）查找nexus3镜像</h2>
+<pre><code>docker search nexus3
+</code></pre>
+<p>我是下的这个：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 256; 
+			flex-basis: 614px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_2.png" data-size="1677x655">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_2.png"
+			width="1677"
+			height="655"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_2_huf6e655385ffc1dcac0e1d3cd27bdd13a_1030839_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_2_huf6e655385ffc1dcac0e1d3cd27bdd13a_1030839_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_2.png">
+	</a>
+	
+	<figcaption>img_2.png</figcaption>
+	
+</figure></p>
+<h2 id="二拉取镜像">（二）拉取镜像</h2>
+<pre><code>docker pull docker.io/sonatype/nexus3
+</code></pre>
+<p>看拉下来没有可以执行：</p>
+<pre><code>docker images
+</code></pre>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 1055; 
+			flex-basis: 2532px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_3.png" data-size="1150x109">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_3.png"
+			width="1150"
+			height="109"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_3_huae7c261b2610e923a9b9f99c6776b5ec_134462_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_3_huae7c261b2610e923a9b9f99c6776b5ec_134462_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_3.png">
+	</a>
+	
+	<figcaption>img_3.png</figcaption>
+	
+</figure></p>
+<h2 id="三执行镜像">（三）执行镜像</h2>
+<pre><code>docker run -d -p 8081:8081 --name nexus3 --restart=always sonatype/nexus3
+</code></pre>
+<p>这里的参数分别表示：</p>
+<ul>
+<li>-d：表示在docker守护线程运行这个镜像；</li>
+<li>-p：表示绑定端口，前面的端口表示宿主机端口，后面的表示容器端口，如果宿主机的8081端口已经被占用了，那么可以改为8082：8081，为什么后面的是8081端口？这是Nexus服务自己设定的，可以修改，但是跑docker的话没必要了，下面都是以8081为nexus的端口；</li>
+<li>&ndash;restart=always：这个指定docker重启启动容器，当服务器或者docker进程重启之后，nexus容器会在docker守护进程启动后由docker守护进程启动容器，容器的重启策略很多，大家可以自己去看看对应的资料；</li>
+<li>&ndash;name <container-name>：这里是指定了容器建立后的名称；</li>
+<li>最后面的sonatype/nexus3是镜像名。</li>
+</ul>
+<p>如果需要查看日志执行：</p>
+<pre><code>docker logs nexus3
+</code></pre>
+<h2 id="四进入nexus">(四)进入nexus</h2>
+<p>访问你的服务器地址+端口8081进入nexus管理后台。</p>
+<p>这里可能会遇到两个问题：</p>
+<p>第一个问题是阿里云服务器端口必须要配置一下外网才可以访问。</p>
+<p>第二个问题是密码错误的问题。</p>
+<p>默认nexus的账号和密码是admin/admin123，但是不知道为什么可能是版本原因我这里下的nexus需要默认密码要进入容器内去找，怎么查看勒,执行：</p>
+<pre><code>docker exec -it 容器id或者容器名 /bin/bash
+</code></pre>
+<p>容器id或容器名通过<code>docker ps -a</code>查看。</p>
+<p>然后cd到nexus-data目录，cat admin.password，查看密码：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 256; 
+			flex-basis: 614px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_4.png" data-size="1063x415">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_4.png"
+			width="1063"
+			height="415"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_4_hu470dc118c9557499b4bb6bacff8877ae_244029_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_4_hu470dc118c9557499b4bb6bacff8877ae_244029_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_4.png">
+	</a>
+	
+	<figcaption>img_4.png</figcaption>
+	
+</figure></p>
+<p>将密码复制出来，进行登录就可以了。</p>
+<h2 id="五创建仓库">（五）创建仓库</h2>
+<p>然后登录nexus，根据需要创建自己的仓库或者就用默认的仓库也行，我是创建了一个新的仓库，如果需要创建依次点击如图：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 244; 
+			flex-basis: 585px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_5.png" data-size="1887x773">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_5.png"
+			width="1887"
+			height="773"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_5_hu4f38f1678044a5feb472ca65bc24e320_489296_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_5_hu4f38f1678044a5feb472ca65bc24e320_489296_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_5.png">
+	</a>
+	
+	<figcaption>img_5.png</figcaption>
+	
+</figure></p>
+<p>选择maven2(hosted)</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 245; 
+			flex-basis: 588px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_6.png" data-size="1552x633">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_6.png"
+			width="1552"
+			height="633"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_6_hu843629a5d1cc4dd2056e49f68fc79a7d_146160_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_6_hu843629a5d1cc4dd2056e49f68fc79a7d_146160_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_6.png">
+	</a>
+	
+	<figcaption>img_6.png</figcaption>
+	
+</figure></p>
+<p>不同的类型区别是：</p>
+<ul>
+<li>hosted：本地存储。像官方仓库一样提供本地私库功能</li>
+<li>proxy：提供代理其它仓库的类型</li>
+<li>group：组类型，能够组合多个仓库为一个地址提供服务</li>
+</ul>
+<p>然后创建仓库，用默认设置就行：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 220; 
+			flex-basis: 528px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_7.png" data-size="1426x648">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_7.png"
+			width="1426"
+			height="648"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_7_huabf174f5bafdd0d33c4d3e524191692d_131309_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_7_huabf174f5bafdd0d33c4d3e524191692d_131309_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_7.png">
+	</a>
+	
+	<figcaption>img_7.png</figcaption>
+	
+</figure></p>
+<h2 id="六将仓库地址copy出来">（六）将仓库地址copy出来</h2>
+<p>接下来把刚刚的仓库地址copy出来就行了。</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 255; 
+			flex-basis: 613px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_8.png" data-size="1585x620">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_8.png"
+			width="1585"
+			height="620"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_8_hu196b4b67ed61468a6070ec447ec4abe5_286758_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_8_hu196b4b67ed61468a6070ec447ec4abe5_286758_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_8.png">
+	</a>
+	
+	<figcaption>img_8.png</figcaption>
+	
+</figure></p>
+<h1 id="四设置maven的settingxml以及pom文件并上传jar包">四、设置maven的setting.xml以及pom文件并上传jar包</h1>
+<h2 id="一配置settingxml">（一）配置setting.xml</h2>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 302; 
+			flex-basis: 725px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_9.png" data-size="1015x336">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_9.png"
+			width="1015"
+			height="336"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_9_hu020290f784b8f2779be426d0fcfc1e3c_87774_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_9_hu020290f784b8f2779be426d0fcfc1e3c_87774_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_9.png">
+	</a>
+	
+	<figcaption>img_9.png</figcaption>
+	
+</figure></p>
+<p>注意了，这里的id必须与设定下载jar主仓库的<repositories>标签和设定发布仓库的<distributionManagement>标签内的id保持一致。</p>
+<p>设置下载Jar仓库可以在Pom里面写也可以在setting.xml里面写，在setting.xml写表示全局，我是在setting.xml里面写的：</p>
+<p><profiles>标签下添加：</p>
+<pre><code>&lt;profile&gt;
+		&lt;id&gt;my-nexus&lt;/id&gt;
+		&lt;repositories&gt;
+			&lt;repository&gt;
+			&lt;id&gt;my-nexus&lt;/id&gt;
+			&lt;name&gt;my-nexus&lt;/name&gt;
+			&lt;url&gt;刚刚复制的仓库地址&lt;/url&gt;
+			&lt;/repository&gt;
+		&lt;/repositories&gt;
+&lt;/profile&gt;
+</code></pre>
+<p><activeProfiles>标签下添加：</p>
+<pre><code>&lt;activeProfile&gt;my-nexus&lt;/activeProfile&gt;
+</code></pre>
+<p>然后如果需要上传到私服，配置pom：</p>
+<pre><code>&lt;distributionManagement&gt;
+   &lt;repository&gt;
+      &lt;id&gt;my-nexus&lt;/id&gt;
+      &lt;url&gt;你的仓库地址&lt;/url&gt;
+   &lt;/repository&gt;
+&lt;/distributionManagement&gt;
+</code></pre>
+<p>以上保证repository标签下的Id和server下的id一样就行。</p>
+<p>配置好了就可以使用maven打包了，我是用的idea自带的maven插件直接deploey就行了：
+<figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 114; 
+			flex-basis: 275px"
+	>
+	<a href="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_10.png" data-size="441x384">
+		<img src="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_10.png"
+			width="441"
+			height="384"
+			srcset="/2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_10_huf6fb5d09ab85e7a385a1b3256683f273_66194_480x0_resize_box_3.png 480w, /2019/%E5%AE%89%E8%A3%85docker%E5%B9%B6%E5%9C%A8docker%E4%B8%8B%E7%94%A8nexus3%E6%90%AD%E5%BB%BAmaven%E7%A7%81%E6%9C%8D/img_10_huf6fb5d09ab85e7a385a1b3256683f273_66194_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_10.png">
+	</a>
+	
+	<figcaption>img_10.png</figcaption>
+	
+</figure></p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/docker/">docker</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一致性协议-Paxos,ZAB,Raft 总结</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/jmmjava-memory-modeljava%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%84%E8%8C%83/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">JMM（java-memory-model,java内存模型）规范</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2022/bio/nio-%E5%90%8C%E6%AD%A5/%E5%BC%82%E6%AD%A5-%E9%98%BB%E5%A1%9E/%E9%9D%9E%E9%98%BB%E5%A1%9E-select/poll/epoll-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title"> BIO/NIO 同步/异步 阻塞/非阻塞 select/poll/epoll 知识点整理</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
+  
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<script>
+(function(u, c) {
+  var d = document, t = 'script', o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+  s.parentNode.insertBefore(o, s);
+})('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+  pangu.spacingPage();
+});
+</script>
+
+    <section class="copyright">
+        &copy; 
+        
+        2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
+      共书写了136.6k字·共 71篇文章</br><span><p>
+    </section>
+    
+    <section class="powerby">
+         <br />
+        <br />
+         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">© Licensed Under CC BY-NC-SA 4.0</a>
+    </section>
+
+<script>
+var s1 = '2023-10-24';
+s1 = new Date(s1.replace(/-/g, "/"));
+s2 = new Date();
+var days = s2.getTime() - s1.getTime();
+var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+document.getElementById('days').innerHTML = number_of_days;
+</script>
+    
+</footer>
+
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
+            </main>
+    
+    
+    
+    <aside class="sidebar right-sidebar sticky">
+        
+            <form action="/search/" class="search-form widget" >
+        <p>
+            <label>搜索</label>
+            <input name="keyword" required placeholder="输入关键词..." />
+        
+            <button title="搜索">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+            </button>
+        </p>
+    </form>
+        
+            
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一-安装依赖">（一） 安装依赖</a></li>
+    <li><a href="#二-安装-docker">(二) 安装 Docker</a></li>
+    <li><a href="#三配置镜像加速">（三）配置镜像加速</a></li>
+    <li><a href="#四docker常用命令总结">（四）docker常用命令总结</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#一查找nexus3镜像">（一）查找nexus3镜像</a></li>
+    <li><a href="#二拉取镜像">（二）拉取镜像</a></li>
+    <li><a href="#三执行镜像">（三）执行镜像</a></li>
+    <li><a href="#四进入nexus">(四)进入nexus</a></li>
+    <li><a href="#五创建仓库">（五）创建仓库</a></li>
+    <li><a href="#六将仓库地址copy出来">（六）将仓库地址copy出来</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#一配置settingxml">（一）配置setting.xml</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+        
+            <section class="widget categories">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+  
+        </div> 
+        <h2 class="widget-title section-title">分类</h2>
+    <div class="widget-categories--list">
+<div class="widget">
+    <h3 class="widget-title"> </h3>
+    <div class="widget-body">
+        <div class="category-list">
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-list-link">学习笔记<span class="category-list-count">64</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" class="category-list-link">技术杂谈<span class="category-list-count">4</a>
+            </span></div>
+            <div class="category-list-item"><a href="https://runningccode.github.io/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" class="category-list-link">踩坑记录<span class="category-list-count">3</a>
+            </span></div>
+        </div>
+    </div>
+</div>
+    </div>
+    </section>
+        
+            <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-infinity" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M9.828 9.172a4 4 0 1 0 0 5.656 a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828 a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">归档</h2>
+
+        
+        
+        
+        
+        
+        <div class="widget-archive--list">
+            <div class="archives-year">
+                    <a href="/archives/#2022">
+                        
+                            <span class="year">2022</span>
+                            <span class="count">5</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2021">
+                        
+                            <span class="year">2021</span>
+                            <span class="count">1</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2020">
+                        
+                            <span class="year">2020</span>
+                            <span class="count">12</span>
+                        
+                    </a> 
+                </div>
+            <div class="archives-year">
+                    <a href="/archives/#2019">
+                        
+                            <span class="year">2019</span>
+                            <span class="count">53</span>
+                        
+                    </a> 
+                </div>
+            
+        </div>
+    </section>
+        
+            <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">标签云</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="font_size_21">
+                设计模式
+            </a>
+        
+            <a href="/tags/%E5%B9%B6%E5%8F%91/" class="font_size_8">
+                并发
+            </a>
+        
+            <a href="/tags/springboot/" class="font_size_5">
+                SpringBoot
+            </a>
+        
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="font_size_4">
+                数据库
+            </a>
+        
+            <a href="/tags/mysql/" class="font_size_3">
+                mysql
+            </a>
+        
+            <a href="/tags/jvm/" class="font_size_2">
+                JVM
+            </a>
+        
+            <a href="/tags/mybatis/" class="font_size_2">
+                mybatis
+            </a>
+        
+            <a href="/tags/redis/" class="font_size_2">
+                redis
+            </a>
+        
+            <a href="/tags/activity/" class="font_size_1">
+                activity
+            </a>
+        
+            <a href="/tags/aopcontext/" class="font_size_1">
+                AopContext
+            </a>
+        
+    </div>
+</section>
+        
+    </aside>
+
+
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
