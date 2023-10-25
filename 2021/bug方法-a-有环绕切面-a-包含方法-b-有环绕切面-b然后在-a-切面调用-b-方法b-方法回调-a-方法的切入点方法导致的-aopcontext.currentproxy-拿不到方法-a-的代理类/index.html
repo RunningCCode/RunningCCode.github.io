@@ -12,7 +12,7 @@
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='切面' /><meta property='article:tag' content='AopContext' /><meta property='article:published_time' content='2021-08-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2021-08-03T00:00:00&#43;00:00'/>
 <meta name="twitter:title" content="BUG：方法 A 有环绕切面 a 包含方法 B 有环绕切面 b，然后在 a 切面调用 b 方法，B 方法回调 A 方法的切入点方法，导致的 AopContext.currentProxy () 拿不到方法 A 的代理类">
 <meta name="twitter:description" content="BUG 前段时间写了个幂等框架 环绕通知是这么写的 @Around(&amp;quot;idempotence()&amp;quot;) public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable { //略 boolean isExists = !idempotenceClient.saveIfAbsent(idempotenceId, () -&amp;gt; { ResultWrapper resultWrapper = new ResultWrapper(); Object result = null; try { result = proceedingJoinPoint.proceed(args); } catch (Throwable e) { resultWrapper.setHasException(true); resultWrapper.setException(e); } try { resultWrapper.setResult((Serializable) result); } catch (ClassCastException e) {">
-    <link rel="shortcut icon" href="%5cfavicon.ico" />
+    <link rel="shortcut icon" href="/favicon.ico" />
 <style>
     :root {
         --article-font-family: "Noto Serif SC", var(--base-font-family);
