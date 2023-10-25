@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 青葱与志</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 27 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>记录SpringApplicationEvent事件监听的坑</title>
+      <link>https://runningccode.github.io/2023/%E8%AE%B0%E5%BD%95springapplicationevent%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Wed, 25 Oct 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://runningccode.github.io/2023/%E8%AE%B0%E5%BD%95springapplicationevent%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E7%9A%84%E5%9D%91/</guid>
+      <description>监听器会被执行多次 如果在spring.factories注册一个监听器，形如:org.springframework.context.App</description>
+    </item>
+    
     <item>
       <title>一致性协议-Paxos,ZAB,Raft 总结</title>
       <link>https://runningccode.github.io/2022/%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AE-paxoszabraft-%E6%80%BB%E7%BB%93/</link>
