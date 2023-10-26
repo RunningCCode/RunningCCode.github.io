@@ -8,12 +8,12 @@
     <language>zh-cn</language>
     <lastBuildDate>Thu, 26 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://runningccode.github.io/tags/springboot/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>TransactionSynchronizationManager#registerSynchronization方法 afterCommit afterCompletion 坑记录</title>
-      <link>https://runningccode.github.io/2023/transactionsynchronizationmanager#registersynchronization%E6%96%B9%E6%B3%95-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/</link>
+      <title>TransactionSynchronizationManager  afterCommit afterCompletion 坑记录</title>
+      <link>https://runningccode.github.io/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/</link>
       <pubDate>Thu, 26 Oct 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://runningccode.github.io/2023/transactionsynchronizationmanager#registersynchronization%E6%96%B9%E6%B3%95-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/</guid>
-      <description>坑场景 1. 事务 A 里面注册事务成功回调 B，B 为一个加了 @Transactional 注解的方法。但结果会导致 B 里面的事务失效。 坑场景 1.事务A里面注册事务成功回调B，B为一</description>
+      <guid>https://runningccode.github.io/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/</guid>
+      <description>坑场景 1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。 参考Transac</description>
     </item>
     
     <item>

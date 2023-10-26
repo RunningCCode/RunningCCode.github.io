@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-    <head>
-	<meta name="generator" content="Hugo 0.119.0"><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='向往真实、随性、善意、珍惜、同理心'><title>青葱与志</title>
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='坑场景 1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。 参考Transac'><title>TransactionSynchronizationManager  afterCommit afterCompletion 坑记录</title>
 
-<link rel='canonical' href='https://runningccode.github.io/'>
+<link rel='canonical' href='https://runningccode.github.io/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/'>
 
-<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='青葱与志'>
-<meta property='og:description' content='向往真实、随性、善意、珍惜、同理心'>
-<meta property='og:url' content='https://runningccode.github.io/'>
+<link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='TransactionSynchronizationManager  afterCommit afterCompletion 坑记录'>
+<meta property='og:description' content='坑场景 1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。 参考Transac'>
+<meta property='og:url' content='https://runningccode.github.io/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/'>
 <meta property='og:site_name' content='青葱与志'>
-<meta property='og:type' content='website'><meta property='og:updated_time' content=' 2023-10-26T00:00:00&#43;00:00 '/>
-<meta name="twitter:title" content="青葱与志">
-<meta name="twitter:description" content="向往真实、随性、善意、珍惜、同理心"><link rel="alternate" type="application/rss&#43;xml" href="https://runningccode.github.io/index.xml">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='SpringBoot' /><meta property='article:tag' content='事务' /><meta property='article:published_time' content='2023-10-26T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2023-10-26T00:00:00&#43;00:00'/>
+<meta name="twitter:title" content="TransactionSynchronizationManager  afterCommit afterCompletion 坑记录">
+<meta name="twitter:description" content="坑场景 1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。 参考Transac">
     <link rel="shortcut icon" href="/favicon.ico" />
 <style>
     :root {
@@ -32,7 +31,9 @@
 </script>
 
     </head>
-    <body class="">
+    <body class="
+    article-page
+">
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
@@ -55,7 +56,26 @@
         }
     })();
 </script>
-<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky">
+<div class="container main-container flex 
+    <!-- 
+        extended
+     -->
+    on-phone--column extended
+">
+    
+<div id="article-toolbar">
+    <a href="https://runningccode.github.io" class="back-home">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+        <span>返回</span>
+    </a>
+</div>
+    <aside class="sidebar left-sidebar sticky">
     <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
         <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -257,134 +277,9 @@
         
     </ol>
 </aside>
+
 <main class="main full-width">
-    
-    
-    
-    
-
-    <section class="article-list">
-        
-            
-<article class="">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
-                学习笔记
-            </a>
-        
-    </header>
-    
-
-    <h2 class="article-title">
-        <a href="/2022/jdk%E5%B8%B8%E7%94%A8%E9%9D%9E%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E6%95%B4%E7%90%86/">jdk常用非并发容器整理</a>
-    </h2>
-
-    
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">2022-02-16</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-words">
-                    718字
-                </time>
-            </div>
-        
-    </footer>
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" >
-                学习笔记
-            </a>
-        
-    </header>
-    
-
-    <h2 class="article-title">
-        <a href="/2022/priorityqueue%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E8%83%BD%E5%A4%9F%E5%8A%A8%E6%80%81%E5%8F%96%E4%B8%AD%E4%BD%8D%E6%95%B0%E7%9A%84%E5%AE%B9%E5%99%A8/">PriorityQueue取中位数-实现一个能够动态取中位数的容器</a>
-    </h2>
-
-    
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">2022-02-16</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-words">
-                    1104字
-                </time>
-            </div>
-        
-    </footer>
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="">
+    <article class="main-article">
     <header class="article-header">
 
     <div class="article-details">
@@ -399,7 +294,7 @@
     
 
     <h2 class="article-title">
-        <a href="/2021/bug%E6%96%B9%E6%B3%95-a-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-a-%E5%8C%85%E5%90%AB%E6%96%B9%E6%B3%95-b-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-b%E7%84%B6%E5%90%8E%E5%9C%A8-a-%E5%88%87%E9%9D%A2%E8%B0%83%E7%94%A8-b-%E6%96%B9%E6%B3%95b-%E6%96%B9%E6%B3%95%E5%9B%9E%E8%B0%83-a-%E6%96%B9%E6%B3%95%E7%9A%84%E5%88%87%E5%85%A5%E7%82%B9%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84-aopcontext.currentproxy-%E6%8B%BF%E4%B8%8D%E5%88%B0%E6%96%B9%E6%B3%95-a-%E7%9A%84%E4%BB%A3%E7%90%86%E7%B1%BB/">BUG：方法 A 有环绕切面 a 包含方法 B 有环绕切面 b，然后在 a 切面调用 b 方法，B 方法回调 A 方法的切入点方法，导致的 AopContext.currentProxy () 拿不到方法 A 的代理类</a>
+        <a href="/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/">TransactionSynchronizationManager  afterCommit afterCompletion 坑记录</a>
     </h2>
 
     
@@ -417,7 +312,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2021-08-03</time>
+                <time class="article-time--published">2023-10-26</time>
             </div>
         
 
@@ -432,7 +327,7 @@
 
 
                 <time class="article-words">
-                    926字
+                    550字
                 </time>
             </div>
         
@@ -440,198 +335,226 @@
     
 </div>
 </header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
 
-    <div class="article-details">
+    <section class="article-content">
     
-    <header class="article-category">
-        
-            <a href="/categories/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/" >
-                踩坑记录
-            </a>
-        
-    </header>
     
+    <h4 id="坑场景">坑场景</h4>
+<h4 id="1事务a里面注册事务成功回调bb为一个加了transactional注解的方法但结果会导致b里面的事务失效">1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。</h4>
+<p>参考TransactionSynchronization注释：</p>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 138; 
+			flex-basis: 333px"
+	>
+	<a href="/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/img.png" data-size="731x526">
+		<img src="/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/img.png"
+			width="731"
+			height="526"
+			srcset="/2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/img_hu8432a4117081d2fe1cf66d1293e144a6_298780_480x0_resize_box_3.png 480w, /2023/transactionsynchronizationmanager-aftercommit-aftercompletion-%E5%9D%91%E8%AE%B0%E5%BD%95/img_hu8432a4117081d2fe1cf66d1293e144a6_298780_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>注意描述：不再执行提交，除非它明确声明它需要在单独的事务中运行。</p>
+<h4 id="2事务a里面注册回调b回调b里面注册回调c回调c不会执行">2.事务A里面注册回调B，回调B里面注册回调C，回调C不会执行。</h4>
+<p>原因跟1里面一样，因为回调B就算加了@Transactional注解，由于没有自定义传播行为，则相当于没有添加事务（这里得注意，通过TransactionSynchronizationManager#isSynchronizationActive判断，事务仍是活动状态，但实际回调B里面相当于没有事务）所以回调C不会执行。</p>
+<h4 id="解决">解决</h4>
+<pre><code class="language-java">public class TransactionUtil {
+    private static volatile TransactionHelper TRANSACTION_HELPER;
 
-    <h2 class="article-title">
-        <a href="/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/">生产环境 java.util.concurrent.RejectedExecutionException: event executor terminated 错误分析</a>
-    </h2>
 
+    public static void doSomethingIfCommittedOrNow(Runnable runnable){
+        if( TransactionSynchronizationManager.isSynchronizationActive()){
+            TransactionSynchronizationManager.registerSynchronization( new TransactionSynchronizationAdapter() {
+                @Override
+                public void afterCommit() {
+                    transactionHelper().doRequiredNewTransaction(()-&gt;{
+                        runnable.run();
+                    });
+
+                }
+            });
+        }else{
+            runnable.run();
+        }
+
+    }
+    public static void doSomethingIfCompletionOrNow(Consumer&lt;Integer&gt; consumer){
+        if( TransactionSynchronizationManager.isSynchronizationActive()){
+            TransactionSynchronizationManager.registerSynchronization( new TransactionSynchronizationAdapter() {
+                @Override
+                public void afterCompletion(int status) {
+                    transactionHelper().doRequiredNewTransaction(()-&gt;{
+                        consumer.accept(status);
+                    });
+                }
+            });
+        }else{
+            consumer.accept(null);
+        }
+
+    }
+
+    public static TransactionHelper transactionHelper(){
+        if(TRANSACTION_HELPER == null){
+            TRANSACTION_HELPER = SpringUtil.getBean(TransactionHelper.class);
+            return TRANSACTION_HELPER;
+        }else{
+            return TRANSACTION_HELPER;
+        }
+    }
+}
+
+@Component
+public class TransactionHelper {
+
+
+    @Transactional
+    public &lt;T&gt; T doRequiredTransaction(Supplier&lt;T&gt; supplier) {
+        return supplier.get();
+    }
+
+    @Transactional
+    public void doRequiredTransaction(Runnable  runnable) {
+         runnable.run();
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public &lt;T&gt; T doRequiredNewTransaction(Supplier&lt;T&gt; supplier) {
+        return supplier.get();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void doRequiredNewTransaction(Runnable  runnable) {
+         runnable.run();
+    }
+
+
+    @Transactional(propagation = Propagation.NESTED)
+    public &lt;T&gt; T doNestedTransaction(Supplier&lt;T&gt; supplier) {
+        return supplier.get();
+    }
+
+    @Transactional(propagation = Propagation.NESTED)
+    public void doNestedTransaction(Runnable  runnable) {
+        runnable.run();
+    }
+}
+</code></pre>
+<p>只需要每次回调的时候在新事务里面就行了（原先的工具类没有添加新事务）。</p>
+<p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
+    >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
+
+</section>
+
+
+    <footer class="article-footer">
     
-
-    
-    <footer class="article-time">
+    <section class="article-tags">
         
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">2020-12-09</time>
-            </div>
+            <a href="/tags/springboot/">SpringBoot</a>
         
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-words">
-                    1910字
-                </time>
-            </div>
-        
-    </footer>
-    
-</div>
-</header>
-</article>
-        
-            
-<article class="">
-    <header class="article-header">
-
-    <div class="article-details">
-    
-    <header class="article-category">
-        
-            <a href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/" >
-                技术杂谈
-            </a>
-        
-    </header>
-    
-
-    <h2 class="article-title">
-        <a href="/2020/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%B9%82%E7%AD%89%E7%BB%84%E4%BB%B6%E5%88%86%E4%BA%AB/">手写一个幂等组件分享</a>
-    </h2>
-
-    
-
-    
-    <footer class="article-time">
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-  <circle cx="18" cy="18" r="4" />
-  <path d="M15 3v4" />
-  <path d="M7 3v4" />
-  <path d="M3 11h16" />
-  <path d="M18 16.496v1.504l1 1" />
-</svg>
-                <time class="article-time--published">2020-09-17</time>
-            </div>
-        
-
-        
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
-</svg>
-
-
-
-                <time class="article-words">
-                    2447字
-                </time>
-            </div>
-        
-    </footer>
-    
-</div>
-</header>
-</article>
+            <a href="/tags/%E4%BA%8B%E5%8A%A1/">事务</a>
         
     </section>
-    <nav class='pagination'>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+        <h2 class="section-title">相关文章</h2>
+        <div class="related-contents">
+            <div class="flex article-list--tile">
+                
+                    
+<article class="">
+    <a href="/2023/%E8%AE%B0%E5%BD%95springapplicationevent%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E7%9A%84%E5%9D%91/">
         
         
 
+        <div class="article-details">
+            <h2 class="article-title">记录SpringApplicationEvent事件监听的坑</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2021/bug%E6%96%B9%E6%B3%95-a-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-a-%E5%8C%85%E5%90%AB%E6%96%B9%E6%B3%95-b-%E6%9C%89%E7%8E%AF%E7%BB%95%E5%88%87%E9%9D%A2-b%E7%84%B6%E5%90%8E%E5%9C%A8-a-%E5%88%87%E9%9D%A2%E8%B0%83%E7%94%A8-b-%E6%96%B9%E6%B3%95b-%E6%96%B9%E6%B3%95%E5%9B%9E%E8%B0%83-a-%E6%96%B9%E6%B3%95%E7%9A%84%E5%88%87%E5%85%A5%E7%82%B9%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E7%9A%84-aopcontext.currentproxy-%E6%8B%BF%E4%B8%8D%E5%88%B0%E6%96%B9%E6%B3%95-a-%E7%9A%84%E4%BB%A3%E7%90%86%E7%B1%BB/">
         
-            
-                    <a class='page-link' href='/'>1</a>
-                
-            
-            
-                <span class='page-link current'>2</span>
-                
-            
-            
-                    <a class='page-link' href='/page/3/'>3</a>
-                
-            
-            
-                    
-                        
-                        <span class='page-link dots'>&hellip;</span>
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    
-                
-            
-            
-                    <a class='page-link' href='/page/15/'>15</a>
-                
-            
-    </nav>
+        
 
-<footer class="site-footer">
+        <div class="article-details">
+            <h2 class="article-title">BUG：方法 A 有环绕切面 a 包含方法 B 有环绕切面 b，然后在 a 切面调用 b 方法，B 方法回调 A 方法的切入点方法，导致的 AopContext.currentProxy () 拿不到方法 A 的代理类</h2>
+        </div>
+    </a>
+</article>
+                
+                    
+<article class="">
+    <a href="/2020/%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83-java.util.concurrent.rejectedexecutionexception-event-executor-terminated-%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">生产环境 java.util.concurrent.RejectedExecutionException: event executor terminated 错误分析</h2>
+        </div>
+    </a>
+</article>
+                
+            </div>
+        </div>
+    
+</aside>
+
+     
+     
+        
+    <script src='//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js'></script>
+<div id="waline" class="waline-container"></div>
+<style>
+    .waline-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    .waline-container .vcount {
+        color: var(--card-text-color-main);
+    }
+</style><script>
+    
+    new Waline({"dark":"html[data-scheme=\"dark\"]","el":"#waline","emoji":["https://npm.elemecdn.com/@waline/emojis@1.1.0/bilibili","https://npm.elemecdn.com/@waline/emojis@1.1.0/bmoji","https://npm.elemecdn.com/@waline/emojis@1.1.0/weibo"],"lang":"zh-CN","locale":{"admin":"站长","sofa":"还没有人评论哦！快来抢沙发吧~"},"placeholder":"欢迎留下宝贵的评论！","requiredMeta":["name","email","url"],"serverURL":"https://vercel.rfyjjuc.cn/"});
+</script>
+
+    
+
+    <footer class="site-footer">
   
 
 
@@ -827,7 +750,87 @@ document.getElementById('days').innerHTML = number_of_days;
 </footer>
 
 
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+
             </main>
+    
     
     
     <aside class="sidebar right-sidebar sticky">
@@ -851,6 +854,41 @@ document.getElementById('days').innerHTML = number_of_days;
     </form>
         
             
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#坑场景">坑场景</a></li>
+            <li><a href="#1事务a里面注册事务成功回调bb为一个加了transactional注解的方法但结果会导致b里面的事务失效">1.事务A里面注册事务成功回调B，B为一个加了@Transactional注解的方法。但结果会导致B里面的事务失效。</a></li>
+            <li><a href="#2事务a里面注册回调b回调b里面注册回调c回调c不会执行">2.事务A里面注册回调B，回调B里面注册回调C，回调C不会执行。</a></li>
+            <li><a href="#解决">解决</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
         
             <section class="widget categories">
         <div class="widget-icon">
