@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Mon, 06 Nov 2023 14:15:25 +0800</lastBuildDate><atom:link href="https://runningccode.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>1106 授权与认证之OAuth</title>
-        <link>https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</link>
+        <title>授权与认证之OAuth</title>
+        <link>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</link>
         <pubDate>Mon, 06 Nov 2023 14:15:25 +0800</pubDate>
         
-        <guid>https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</guid>
+        <guid>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</guid>
         <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;h2 id=&#34;关于授权&#34;&gt;关于授权&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;即根据用户身份授予他访问特定资源的权限。&lt;/code&gt;
@@ -58,11 +58,11 @@
 			flex-grow: 183; 
 			flex-basis: 440px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34; data-size=&#34;772x421&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34; data-size=&#34;772x421&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34;
 			width=&#34;772&#34;
 			height=&#34;421&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img.png&#34;&gt;
 	&lt;/a&gt;
@@ -84,11 +84,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 133; 
 			flex-basis: 321px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34; data-size=&#34;790x590&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34; data-size=&#34;790x590&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34;
 			width=&#34;790&#34;
 			height=&#34;590&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_1.png&#34;&gt;
 	&lt;/a&gt;
@@ -103,11 +103,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 218; 
 			flex-basis: 524px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34; data-size=&#34;1116x511&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34; data-size=&#34;1116x511&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34;
 			width=&#34;1116&#34;
 			height=&#34;511&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_6.png&#34;&gt;
 	&lt;/a&gt;
@@ -132,11 +132,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 114; 
 			flex-basis: 274px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34; data-size=&#34;699x612&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34; data-size=&#34;699x612&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34;
 			width=&#34;699&#34;
 			height=&#34;612&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_2.png&#34;&gt;
 	&lt;/a&gt;
@@ -153,7 +153,7 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 &lt;li&gt;因为客户端本身是纯前端或本地易抓包应用， 无法安全保管AccessToken或客户端凭证,所以索性省略客户端的身份验证。简化验证流程。&lt;/li&gt;
 &lt;li&gt;基于重定向，所以资源所有者的用户代理通常是浏览器。&lt;/li&gt;
 &lt;li&gt;客户端必须能够与资源所有者的用户代理交互,所以一般是前端页面脚本，为什么不是后端服务器，因为如果是就能使用授权码更安全一点了。&lt;/li&gt;
-&lt;li&gt;OAUTH2.1中已移除，就算客户端本身是纯前端无后端服务，也可以使用PKCE加强安全性，防中间人攻击。&lt;/li&gt;
+&lt;li&gt;OAUTH2.1中已移除，就算客户端本身是纯前端无后端服务，也可以使用PKCE加强安全性，防止恶意的攻击。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;resource-owner-password-credentials密码模式&#34;&gt;Resource Owner Password Credentials——密码模式&lt;/h4&gt;
 &lt;p&gt;&lt;figure 
@@ -163,11 +163,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 217; 
 			flex-basis: 521px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34; data-size=&#34;721x332&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34; data-size=&#34;721x332&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34;
 			width=&#34;721&#34;
 			height=&#34;332&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_3.png&#34;&gt;
 	&lt;/a&gt;
@@ -192,11 +192,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 417; 
 			flex-basis: 1001px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34; data-size=&#34;672x161&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34; data-size=&#34;672x161&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34;
 			width=&#34;672&#34;
 			height=&#34;161&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_4.png&#34;&gt;
 	&lt;/a&gt;
@@ -225,11 +225,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 148; 
 			flex-basis: 356px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34; data-size=&#34;681x459&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34; data-size=&#34;681x459&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34;
 			width=&#34;681&#34;
 			height=&#34;459&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_7.png&#34;&gt;
 	&lt;/a&gt;
@@ -259,11 +259,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 216; 
 			flex-basis: 520px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34; data-size=&#34;689x318&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34; data-size=&#34;689x318&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34;
 			width=&#34;689&#34;
 			height=&#34;318&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_8.png&#34;&gt;
 	&lt;/a&gt;
@@ -278,11 +278,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 190; 
 			flex-basis: 456px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34; data-size=&#34;771x405&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34; data-size=&#34;771x405&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34;
 			width=&#34;771&#34;
 			height=&#34;405&#34;
-			srcset=&#34;https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/1106-%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_9.png&#34;&gt;
 	&lt;/a&gt;
