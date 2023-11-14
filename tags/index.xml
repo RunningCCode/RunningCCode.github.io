@@ -6,7 +6,25 @@
     <description>Recent content in Tags on 青葱与志</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 06 Nov 2023 14:15:25 +0800</lastBuildDate><atom:link href="https://runningccode.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Nov 2023 14:20:14 +0800</lastBuildDate><atom:link href="https://runningccode.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OIDC</title>
+      <link>https://runningccode.github.io/tags/oidc/</link>
+      <pubDate>Fri, 10 Nov 2023 14:20:14 +0800</pubDate>
+      
+      <guid>https://runningccode.github.io/tags/oidc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>认证</title>
+      <link>https://runningccode.github.io/tags/%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Fri, 10 Nov 2023 14:20:14 +0800</pubDate>
+      
+      <guid>https://runningccode.github.io/tags/%E8%AE%A4%E8%AF%81/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>OAuth</title>
       <link>https://runningccode.github.io/tags/oauth/</link>

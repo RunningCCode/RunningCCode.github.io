@@ -6,12 +6,80 @@
         <description>Recent content on 青葱与志</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 06 Nov 2023 14:15:25 +0800</lastBuildDate><atom:link href="https://runningccode.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>授权与认证之OAuth</title>
-        <link>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</link>
+        <lastBuildDate>Fri, 10 Nov 2023 14:20:14 +0800</lastBuildDate><atom:link href="https://runningccode.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>授权与认证之认证</title>
+        <link>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/</link>
+        <pubDate>Fri, 10 Nov 2023 14:20:14 +0800</pubDate>
+        
+        <guid>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/</guid>
+        <description>&lt;h2 id=&#34;oidc-openid-connect&#34;&gt;OIDC-OpenID Connect&lt;/h2&gt;
+&lt;p&gt;OIDC-OpenID Connect,是基于OAuth的扩展协议。&lt;/p&gt;
+&lt;h3 id=&#34;解决的问题&#34;&gt;解决的问题&lt;/h3&gt;
+&lt;p&gt;OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获取用户数据的权利。
+但OIDC提出了一个ID令牌的概念，这个ID令牌就是JSON Web Token（JWT）,携带OP(对应OAUTH中的认证服务器)认证用户之后获取的用户身份相关信息。
+当RP(对应OAuth的客户端)收到这个ID令牌后,就知道了用户是谁，不光能解决授权问题，也能解决用户认证问题，常用于SSO单点登录场景。&lt;/p&gt;
+&lt;h3 id=&#34;oidc中的角色&#34;&gt;OIDC中的角色&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;OP OpenID Provider,OpenId提供商,对应OAUTH中的认证服务器&lt;/li&gt;
+&lt;li&gt;RP Relying Party,依赖方，对应OAuth中的客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;三种模式&#34;&gt;三种模式&lt;/h3&gt;
+&lt;p&gt;对应的，OIDC中也规定了三种获取OpenId的流程&lt;/p&gt;
+&lt;h4 id=&#34;authorization-code-flow-授权码流&#34;&gt;authorization code flow 授权码流&lt;/h4&gt;
+&lt;p&gt;最常用的流程，主要用在web应用以及原生app场景。id token主要依靠后端而不是前端比如javascript和OP进行交互来获取。&lt;/p&gt;
+&lt;h5 id=&#34;流程&#34;&gt;流程&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;客户端准备一个包含所需请求参数的身份验证请求。&lt;/li&gt;
+&lt;li&gt;客户端将请求发送到授权服务器。&lt;/li&gt;
+&lt;li&gt;授权服务器对终端用户进行身份验证。&lt;/li&gt;
+&lt;li&gt;授权服务器获得终端用户的同意/授权。&lt;/li&gt;
+&lt;li&gt;授权服务器使用授权代码将终端用户重定向回客户端。&lt;/li&gt;
+&lt;li&gt;客户端使用令牌端点的授权码请求响应。&lt;/li&gt;
+&lt;li&gt;客户端接收响应，该响应在响应正文中包含ID Token和Access Token。&lt;/li&gt;
+&lt;li&gt;客户端验证ID令牌并检索终端用户的唯一标识符。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;implicit-flow-隐式流&#34;&gt;implicit flow 隐式流&lt;/h4&gt;
+&lt;p&gt;对于基于浏览器（javascript）的应用，它们往往没有后端，id token是直接从OP的重定向里面得到的（依靠前端代码）。&lt;/p&gt;
+&lt;h5 id=&#34;流程-1&#34;&gt;流程&lt;/h5&gt;
+&lt;p&gt;Client prepares an Authentication Request containing the desired request parameters.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;客户端准备一个包含所需请求参数的身份验证请求。&lt;/li&gt;
+&lt;li&gt;客户端将请求发送到授权服务器。&lt;/li&gt;
+&lt;li&gt;授权服务器对终端用户进行身份验证。&lt;/li&gt;
+&lt;li&gt;授权服务器获得终端用户的同意/授权。&lt;/li&gt;
+&lt;li&gt;授权服务器将终端用户发送回一个ID令牌，如果请求，还有一个访问令牌。&lt;/li&gt;
+&lt;li&gt;客户端验证ID令牌并检索终端用户的唯一标识符。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;hybrid-flow-混合流&#34;&gt;hybrid flow 混合流&lt;/h4&gt;
+&lt;p&gt;上面两种方式的综合，前后端独立获取id token，这种方式很少使用&lt;/p&gt;
+&lt;h5 id=&#34;流程-2&#34;&gt;流程&lt;/h5&gt;
+&lt;ol&gt;
+&lt;li&gt;客户端准备一个包含所需请求参数的身份验证请求。&lt;/li&gt;
+&lt;li&gt;客户端将请求发送到授权服务器。&lt;/li&gt;
+&lt;li&gt;授权服务器对终端用户进行身份验证。&lt;/li&gt;
+&lt;li&gt;授权服务器获得终端用户的同意/授权。&lt;/li&gt;
+&lt;li&gt;授权服务器将终端用户发送回客户端，其中包含授权代码和一个或多个附加参数（取决于response_type）。&lt;/li&gt;
+&lt;li&gt;客户端使用授权码请求授权服务器的令牌接口。&lt;/li&gt;
+&lt;li&gt;客户端接收响应，该响应在响应正文中包含ID Token和Access Token。&lt;/li&gt;
+&lt;li&gt;客户端验证ID令牌并检索终端用户的主题标识符。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;OIDC的授权码流和隐式流分别对应OAuth中的授权码模式和隐式模式授权模式,只不过多返回了个IDToken。而混合流则是隐式授权模式+授权码模式
+在授权服务器响应授权码code和请求AccessToken时都可以响应ID_TOKEN和AccessToken。&lt;/p&gt;
+&lt;h3 id=&#34;参考文献&#34;&gt;参考文献&lt;/h3&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/rfc7636&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Proof Key for Code Exchange by OAuth Public Clients&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;版权信息&#34;&gt;版权信息&lt;/h3&gt;
+&lt;p&gt;本文原载于&lt;a class=&#34;link&#34; href=&#34;https://runningccode.github.io&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;runningccode.github.io&lt;/a&gt;，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>授权与认证之授权</title>
+        <link>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/</link>
         <pubDate>Mon, 06 Nov 2023 14:15:25 +0800</pubDate>
         
-        <guid>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/</guid>
+        <guid>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/</guid>
         <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
 &lt;h2 id=&#34;关于授权&#34;&gt;关于授权&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;即根据用户身份授予他访问特定资源的权限。&lt;/code&gt;
@@ -23,7 +91,7 @@
 如果你的角色是一个单点登录系统下的某个客户端后台服务,需要考虑如何认证用户是否可以访问自己系统的资源。
 你需要参考业界关于认证主流协议：OIDC,CAS&lt;/p&gt;
 &lt;h2 id=&#34;关于本文&#34;&gt;关于本文&lt;/h2&gt;
-&lt;p&gt;本文主要介绍OAuth。后面持续了解其他协议再补充。&lt;/p&gt;
+&lt;p&gt;本文主要介绍授权，参考了OAuth2.0和OAuth2.1(草案阶段)。后面持续了解其他协议再补充。&lt;/p&gt;
 &lt;h1 id=&#34;协议介绍&#34;&gt;协议介绍&lt;/h1&gt;
 &lt;h2 id=&#34;oauth协议&#34;&gt;OAuth协议&lt;/h2&gt;
 &lt;p&gt;我们聊的OAuth，一般指OAuth2.0,因为2.0出来之后1.0就废弃了。&lt;/p&gt;
@@ -58,11 +126,11 @@
 			flex-grow: 183; 
 			flex-basis: 440px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34; data-size=&#34;772x421&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img.png&#34; data-size=&#34;772x421&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img.png&#34;
 			width=&#34;772&#34;
 			height=&#34;421&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_hu969831626ddaba8aebf23b2d6d219a7e_13367_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img.png&#34;&gt;
 	&lt;/a&gt;
@@ -84,11 +152,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 133; 
 			flex-basis: 321px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34; data-size=&#34;790x590&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_1.png&#34; data-size=&#34;790x590&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_1.png&#34;
 			width=&#34;790&#34;
 			height=&#34;590&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_1_hu4a508e77642f56fb1c40712202786e4b_18923_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_1.png&#34;&gt;
 	&lt;/a&gt;
@@ -103,11 +171,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 218; 
 			flex-basis: 524px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34; data-size=&#34;1116x511&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_6.png&#34; data-size=&#34;1116x511&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_6.png&#34;
 			width=&#34;1116&#34;
 			height=&#34;511&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_6_hu22cfaabdecf62b67fb7b4c70ba94eec8_50218_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_6.png&#34;&gt;
 	&lt;/a&gt;
@@ -132,11 +200,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 114; 
 			flex-basis: 274px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34; data-size=&#34;699x612&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_2.png&#34; data-size=&#34;699x612&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_2.png&#34;
 			width=&#34;699&#34;
 			height=&#34;612&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_2_hu538f90428d46e79f83a3cab3e73fe668_15767_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_2.png&#34;&gt;
 	&lt;/a&gt;
@@ -163,11 +231,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 217; 
 			flex-basis: 521px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34; data-size=&#34;721x332&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_3.png&#34; data-size=&#34;721x332&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_3.png&#34;
 			width=&#34;721&#34;
 			height=&#34;332&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_3_hu4fb3c61f6b83fa6b95c6904991eaef5d_9404_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_3.png&#34;&gt;
 	&lt;/a&gt;
@@ -192,11 +260,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 417; 
 			flex-basis: 1001px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34; data-size=&#34;672x161&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_4.png&#34; data-size=&#34;672x161&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_4.png&#34;
 			width=&#34;672&#34;
 			height=&#34;161&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_4_huac4102f55d3fbea35cacb5a3a32a103d_3957_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_4.png&#34;&gt;
 	&lt;/a&gt;
@@ -213,11 +281,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 &lt;li&gt;认证服务器认为授权资源的范围能够给客户端使用。&lt;/li&gt;
 &lt;li&gt;比如客户端是机密的客户端。意味着客户端不可能是前端应用， 而只能是尽量安全的应用比如后台服务。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;oauth21&#34;&gt;OAuth2.1&lt;/h3&gt;
-&lt;p&gt;RFC中该协议处于草案阶段&lt;/p&gt;
-&lt;h4 id=&#34;变化&#34;&gt;变化&lt;/h4&gt;
-&lt;h5 id=&#34;引入pkceproof-key-for-code-exchange最佳实践变成了authorization-code--pkce&#34;&gt;引入PKCE(Proof Key for Code Exchange)，最佳实践变成了Authorization Code + PKCE&lt;/h5&gt;
-&lt;h6 id=&#34;pkce解决的问题&#34;&gt;PKCE解决的问题&lt;/h6&gt;
+&lt;h2 id=&#34;oauth21&#34;&gt;OAuth2.1&lt;/h2&gt;
+&lt;p&gt;RFC中该协议处于草案阶段
+####变化&lt;/p&gt;
+&lt;h4 id=&#34;引入pkceproof-key-for-code-exchange最佳实践变成了authorization-code--pkce&#34;&gt;引入PKCE(Proof Key for Code Exchange)，最佳实践变成了Authorization Code + PKCE&lt;/h4&gt;
+&lt;h5 id=&#34;pkce解决的问题&#34;&gt;PKCE解决的问题&lt;/h5&gt;
 &lt;p&gt;&lt;figure 
 	
 		class=&#34;gallery-image&#34; 
@@ -225,11 +293,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 148; 
 			flex-basis: 356px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34; data-size=&#34;681x459&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_7.png&#34; data-size=&#34;681x459&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_7.png&#34;
 			width=&#34;681&#34;
 			height=&#34;459&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_7_hu6c503b8b4c964ec7943b04a68c94afcd_14551_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_7.png&#34;&gt;
 	&lt;/a&gt;
@@ -251,7 +319,7 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 &lt;li&gt;恶意应用可以获取到ClientId和Secret,。在非后台服务的应用中预配的密钥不能被视为绝对安全，所以攻击还是可能发生。&lt;/li&gt;
 &lt;li&gt;恶意应用注册了相同的自定义URI协议，这会导致本来跳转到服务提供商提供的用户代理程序变为恶意应用，导致请求被劫持&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h6 id=&#34;流程&#34;&gt;流程&lt;/h6&gt;
+&lt;h5 id=&#34;流程&#34;&gt;流程&lt;/h5&gt;
 &lt;p&gt;&lt;figure 
 	
 		class=&#34;gallery-image&#34; 
@@ -259,11 +327,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 216; 
 			flex-basis: 520px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34; data-size=&#34;689x318&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_8.png&#34; data-size=&#34;689x318&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_8.png&#34;
 			width=&#34;689&#34;
 			height=&#34;318&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_8_hu7296ba3ed90c0e825382e61dc6d77f4c_10987_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_8.png&#34;&gt;
 	&lt;/a&gt;
@@ -278,11 +346,11 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 			flex-grow: 190; 
 			flex-basis: 456px&#34;
 	&gt;
-	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34; data-size=&#34;771x405&#34;&gt;
-		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9.png&#34;
+	&lt;a href=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_9.png&#34; data-size=&#34;771x405&#34;&gt;
+		&lt;img src=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_9.png&#34;
 			width=&#34;771&#34;
 			height=&#34;405&#34;
-			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8Boauth/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_1024x0_resize_box_3.png 1024w&#34;
+			srcset=&#34;https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_480x0_resize_box_3.png 480w, https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E6%8E%88%E6%9D%83/img_9_hu6d3e7e38d0c2597aee26a52e69da3f29_33339_1024x0_resize_box_3.png 1024w&#34;
 			loading=&#34;lazy&#34;
 			alt=&#34;img_9.png&#34;&gt;
 	&lt;/a&gt;
@@ -290,26 +358,26 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
 	&lt;figcaption&gt;img_9.png&lt;/figcaption&gt;
 	
 &lt;/figure&gt;&lt;/p&gt;
-&lt;h5 id=&#34;使用精确字符串匹配来比较重定向-uri&#34;&gt;使用精确字符串匹配来比较重定向 URI&lt;/h5&gt;
+&lt;h4 id=&#34;使用精确字符串匹配来比较重定向-uri&#34;&gt;使用精确字符串匹配来比较重定向 URI&lt;/h4&gt;
 &lt;p&gt;在OAuth 2.0中，对重定向URI的匹配有时允许部分匹配或者模糊匹配，
 这可能导致攻击者提供类似的重定向URI来试图截获授权码。在OAuth 2.1中，
 比较重定向URI的过程被限制为只允许精确字符串匹配，这增加了安全性，
 降低了攻击者使用伪造或类似重定向URI进行中间人攻击的风险。&lt;/p&gt;
-&lt;h5 id=&#34;移除了隐式授权模式&#34;&gt;移除了隐式授权模式&lt;/h5&gt;
+&lt;h4 id=&#34;移除了隐式授权模式&#34;&gt;移除了隐式授权模式&lt;/h4&gt;
 &lt;p&gt;OAuth 2.0的隐式授权模式是设计用于单页面应用（SPA）的，目的是便捷地为SPA提供访问令牌。
 在隐式模式中，访问令牌直接通过URL从授权服务器返回给客户端。
-然而，这种模式存在安全问题，例如令牌可能被记录在浏览器的历史记录中或被泄漏给第三方。OAuth 2.1移除了隐式授权模式，而是推荐使用更安全的授权码模式结合PKCE（Proof Key for Code Exchange），这为前端应用提供了更高的安全性。
-#####移除了密码模式
-不安全：密码模式需要用户直接向客户端应用程序提供用户名和密码，如果客户端应用不能被完全信任（也就是除非它是资源所有者自己的应用），有可能造成密码泄露的风险。另一个问题是，一旦授权给了客户端，它就可能无限期地访问用户的资源，直到用户更改密码。&lt;/p&gt;
+然而，这种模式存在安全问题，例如令牌可能被记录在浏览器的历史记录中或被泄漏给第三方。OAuth 2.1移除了隐式授权模式，而是推荐使用更安全的授权码模式结合PKCE（Proof Key for Code Exchange），这为前端应用提供了更高的安全性。&lt;/p&gt;
+&lt;h4 id=&#34;移除了密码模式&#34;&gt;移除了密码模式&lt;/h4&gt;
+&lt;p&gt;不安全：密码模式需要用户直接向客户端应用程序提供用户名和密码，如果客户端应用不能被完全信任（也就是除非它是资源所有者自己的应用），有可能造成密码泄露的风险。另一个问题是，一旦授权给了客户端，它就可能无限期地访问用户的资源，直到用户更改密码。&lt;/p&gt;
 &lt;p&gt;体验不佳：密码模式需要用户直接在客户端应用中输入用户名和密码，这对用户而言是一种不佳的体验，特别是在涉及多因素认证或其他复杂身份验证方法时。&lt;/p&gt;
 &lt;p&gt;缺乏灵活性：密码模式不支持用户对应用访问资源的精细划分控制。用户无法限制应用的访问权限，例如只读或特定的资源。&lt;/p&gt;
-&lt;h5 id=&#34;移除了在url中使用token的方式&#34;&gt;移除了在url中使用token的方式&lt;/h5&gt;
+&lt;h4 id=&#34;移除了在url中使用token的方式&#34;&gt;移除了在url中使用token的方式&lt;/h4&gt;
 &lt;p&gt;在OAuth 2.0中，访问令牌可能被通过URL片段进行传递。这可能导致安全问题，因为URL片段可能会暴露给第三方或被记录在服务器日志中。
 在OAuth 2.1中，规范删除了在URL中使用token的方式， 要求访问令牌在HTTP请求头中以Authorization头字段的形式传递，以此增加访问令牌的传递安全性。&lt;/p&gt;
-&lt;h5 id=&#34;刷新令牌必须进行身份验证或只能一次性使用&#34;&gt;刷新令牌必须进行身份验证或只能一次性使用&lt;/h5&gt;
+&lt;h4 id=&#34;刷新令牌必须进行身份验证或只能一次性使用&#34;&gt;刷新令牌必须进行身份验证或只能一次性使用&lt;/h4&gt;
 &lt;p&gt;在OAuth 2.0中，刷新令牌可以多次使用，直到达到设定的过期时间。这可能为攻击者提供了窃取刷新令牌的机会，从而恶意获取新的访问令牌。在OAuth 2.1中，
 要求刷新令牌在使用后立即失效，并生成一个新的刷新令牌，或者要求客户端在使用刷新令牌时进行身份验证，以此增加安全性。&lt;/p&gt;
-&lt;h5 id=&#34;授权码模式中请求accesstoken时不再包含redirect_uri参数&#34;&gt;授权码模式中请求AccessToken时不再包含redirect_uri参数&lt;/h5&gt;
+&lt;h4 id=&#34;授权码模式中请求accesstoken时不再包含redirect_uri参数&#34;&gt;授权码模式中请求AccessToken时不再包含redirect_uri参数&lt;/h4&gt;
 &lt;p&gt;因为提出了PKCE,原有的redirect_uri参数功能被PCKE模式替代了。&lt;/p&gt;
 &lt;h3 id=&#34;参考文献&#34;&gt;参考文献&lt;/h3&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.cloudentify.com/archives/834&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -326,6 +394,8 @@ OAuth协议中定义了4种类型(但没否定其他类型的扩展机制)。&lt
     &gt;draft-ietf-oauth-v2-1-09&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://datatracker.ietf.org/doc/html/rfc7636&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Proof Key for Code Exchange by OAuth Public Clients&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Final: OpenID Connect Core 1.0 incorporating errata set 1&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&#34;版权信息&#34;&gt;版权信息&lt;/h3&gt;
 &lt;p&gt;本文原载于&lt;a class=&#34;link&#34; href=&#34;https://runningccode.github.io&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;runningccode.github.io&lt;/a&gt;，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。&lt;/p&gt;
