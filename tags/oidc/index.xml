@@ -13,7 +13,7 @@
       <pubDate>Fri, 10 Nov 2023 14:20:14 +0800</pubDate>
       
       <guid>https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/</guid>
-      <description>OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获</description>
+      <description>常见SSO协议 常见的SSO协议包括OIDC,CAS,SAML。接下来依次学习。 OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 O</description>
     </item>
     
   </channel>

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获'><title>授权与认证之认证</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='常见SSO协议 常见的SSO协议包括OIDC,CAS,SAML。接下来依次学习。 OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 O'><title>授权与认证之认证</title>
 
 <link rel='canonical' href='https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/'>
 
 <link rel="stylesheet" href="/scss/style.min.e6c6a8eb379099a52a1148e4f0a5152d4590bfbcd698edad53dbb030ed6b66d3.css"><meta property='og:title' content='授权与认证之认证'>
-<meta property='og:description' content='OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获'>
+<meta property='og:description' content='常见SSO协议 常见的SSO协议包括OIDC,CAS,SAML。接下来依次学习。 OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 O'>
 <meta property='og:url' content='https://runningccode.github.io/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/'>
 <meta property='og:site_name' content='青葱与志'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='认证' /><meta property='article:tag' content='OIDC' /><meta property='article:published_time' content='2023-11-10T14:20:14&#43;08:00'/><meta property='article:modified_time' content='2023-11-10T14:20:14&#43;08:00'/>
 <meta name="twitter:title" content="授权与认证之认证">
-<meta name="twitter:description" content="OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获">
+<meta name="twitter:description" content="常见SSO协议 常见的SSO协议包括OIDC,CAS,SAML。接下来依次学习。 OIDC-OpenID Connect OIDC-OpenID Connect,是基于OAuth的扩展协议。 解决的问题 O">
     <link rel="shortcut icon" href="/favicon.ico" />
 <style>
     :root {
@@ -327,7 +327,7 @@
 
 
                 <time class="article-words">
-                    1235字
+                    5333字
                 </time>
             </div>
         
@@ -339,7 +339,9 @@
     <section class="article-content">
     
     
-    <h2 id="oidc-openid-connect">OIDC-OpenID Connect</h2>
+    <h1 id="常见sso协议">常见SSO协议</h1>
+<p>常见的SSO协议包括OIDC,CAS,SAML。接下来依次学习。</p>
+<h2 id="oidc-openid-connect">OIDC-OpenID Connect</h2>
 <p>OIDC-OpenID Connect,是基于OAuth的扩展协议。</p>
 <h3 id="解决的问题">解决的问题</h3>
 <p>OAuth2.0只是描述授权的协议，并不关心客户端是否能验证用户是谁，而只关心获取用户数据的权利。
@@ -393,9 +395,253 @@
 <h3 id="总结">总结</h3>
 <p>OIDC的授权码流和隐式流分别对应OAuth中的授权码模式和隐式模式授权模式,只不过多返回了个IDToken。而混合流则是隐式授权模式+授权码模式
 在授权服务器响应授权码code和请求AccessToken时都可以响应ID_TOKEN和AccessToken。</p>
+<h2 id="cas">CAS</h2>
+<p>CAS是一种仅用于Authentication的服务，它和OAuth/OIDC协议不一样，并不能作为一种Authorization的协议。
+当前CAS协议包括CAS 1.0、CAS2.0、CAS3.0版本，这三个版本的认证流程基本类似。</p>
+<h3 id="角色">角色</h3>
+<ul>
+<li>
+<p>Client: 通常为使用浏览器的用户</p>
+</li>
+<li>
+<p>CAS Client: 实现CAS协议的Web应用</p>
+</li>
+<li>
+<p>CAS Server: 作为统一认证的CAS服务器</p>
+</li>
+</ul>
+<h3 id="ticket">Ticket</h3>
+<ul>
+<li>TGT：Ticket Grangting Ticket</li>
+</ul>
+<p>为用户签发的登录票据，其中封装了Cookie的值（Cookie值中包含用户信息），用户CAS认证通过后，
+CAS Server生成TGT存储在缓存中，并生成TGC（Ticket Grangting Cookie）理解为sessionId，写入浏览器。
+HTTP请求到达时，会验证是否包含TGC，包含则以此为key在缓存中查找TGT，如果有说明用户登录过并且未过期，如果没有需要重新登录。</p>
+<ul>
+<li>TGC：Ticket Grangting Cookie</li>
+</ul>
+<p>上面提到的TGT存入缓存中，而TGC即为缓存标识，通过TGC寻找到TGT。</p>
+<ul>
+<li>ST：Service Ticket</li>
+</ul>
+<p>用户访问某一Service的票据。当用户调用CAS Client某一Service时，会验证用户是否含有ST，如果没有，则要求用户到CAS Server获取ST， 如果用户请求中包含TGC，
+则CAS会以此查找缓存中的TGT，如果存在TGT，则用此TGT签发ST，返回给用户。
+用户凭借ST再次访问该Service，Service携带ST到CAS Server进行验证，验证通过后允许用户访问资源。
+了保证安全，ST是随机生成的，另外，CAS规定，CAS只能存活一定的时间，并且规定ST只能使用一次，无论ST是否验证成功，CAS Server都会清除服务端缓存中的该Ticket，保证同一个ST不能被使用两次。</p>
+<ul>
+<li>PGT: Proxy Granting Ticket</li>
+</ul>
+<p>Proxy Service的代理凭据。用户通过CAS成功登录某一Proxy Service后，CAS生成一个PGT对象，
+缓存在CAS本地，同时将PGT的值（一个UUID字符串）回传给Proxy Service， 并保存在Proxy Service里。
+Proxy Service拿到PGT后，就可以为Target Service（back-end service）做代理，为其申请PT。</p>
+<ul>
+<li>PGTIOU（Proxy Granting Ticket I Owe You）</li>
+</ul>
+<p>PGTIOU是CAS协议中定义的一种附加票据，它增强了传输、获取PGT的安全性。
+PGT的传输与获取的过程：Proxy Service调用CAS的serviceValidate接口验证ST成功后，CAS首先会访问pgtUrl指向的https url，
+将生成的 PGT及PGTIOU传输给proxy service，proxy service会以PGTIOU为key，PGT为value，
+将其存储在Map中；然后CAS会生成验证ST成功的xml消息，返回给Proxy Service，
+xml消息中含有PGTIOU，proxy service收到Xml消息后，会从中解析出PGTIOU的值，
+然后以其为key，在map中找出PGT的值，赋值给代表用户信息的Assertion对象的pgtId，同时在map中将其删除。</p>
+<ul>
+<li>PT（Proxy Ticket）</li>
+</ul>
+<p>PT是用户访问Target Service（back-end service）的票据。如果用户访问的是一个Web应用，则Web应用会要求浏览器提供ST，
+浏览器就会用cookie去CAS获取一个ST，然后就可以访问这个Web应用了。
+如果用户访问的不是一个Web应用，而是一个C/S结构的应用，
+因为C/S结构的应用得不到cookie，所以用户不能自己去CAS获取ST，而是通过访问proxy service的接口，
+凭借proxy service的PGT去获取一个PT，然后才能访问到此应用。</p>
+<h3 id="流程-3">流程</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 102; 
+			flex-basis: 247px"
+	>
+	<a href="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img.png" data-size="413x401">
+		<img src="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img.png"
+			width="413"
+			height="401"
+			srcset="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_hu52a1130c13d869385e870945af221c8d_31504_480x0_resize_box_3.png 480w, /2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_hu52a1130c13d869385e870945af221c8d_31504_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img.png">
+	</a>
+	
+	<figcaption>img.png</figcaption>
+	
+</figure></p>
+<p>第一步：</p>
+<p>1、用户请求客户端，客户端验证本地Session没有该用户信息。</p>
+<p>2、客户端检测到此次请求中没有ST。</p>
+<p>3、客户端返回给用户Redirect响应，到CAS Server，携带service参数，例如：</p>
+<p>302 Location : <a class="link" href="https://cas.example.com/cas/login?service=http0%3A8081%2F"  target="_blank" rel="noopener"
+    >https://cas.example.com/cas/login?service=http0%3A8081%2F</a></p>
+<p>第二步：</p>
+<p>1、CAS Server检测到该次请求中不包含TGC，跳转到登录页。</p>
+<p>2、用户输入用户名密码进行登录认证，成功后CAS Server生成TGT（集成用户信息及ST），并随机生成TGC，将TGC写入Cookie。</p>
+<p>3、CAS Server返回给用户Redirect响应，到service中的地址，携带ST参数及包含TGC的Cookie，例如：</p>
+<p>Set-Cookie : CASTGC=TGT-2345678</p>
+<p>302 Location : <a class="link" href="http://baidu.com/web1?ticket=ST-5-Sx6eyvj7cPPCfn0pMZ"  target="_blank" rel="noopener"
+    >http://baidu.com/web1?ticket=ST-5-Sx6eyvj7cPPCfn0pMZ</a></p>
+<p>第三步：</p>
+<p>1、用户携带ticket(ST)再次请求CAS Client，客户端Authentication Filter检测到请求中带有ticket参数，会跳过，由Ticket Validation Filter处理。</p>
+<p>2、Ticket Validation Filter 携带ticket(ST)及service访问CAS Server的/serviceValidate接口，希望CAS Server验证ST有效性。</p>
+<p>3、CAS Server验证成功，将用户信息通过xml方式返回给Ticket Validation Filter，当该Filter接收到验证成功的响应时，把用户信息存入缓存。至此，SSO会话成功建立。</p>
+<p>第四步：</p>
+<p>1、Client将用户信息存入缓存，并生成SessionId写入cookie，返回给用户Redirect响应，到用户请求的服务地址。 例如：</p>
+<p>Set-Cookie : JSESSIONID=ABC123456</p>
+<p>302 Location : <a class="link" href="http://baidu.com/web1"  target="_blank" rel="noopener"
+    >http://baidu.com/web1</a></p>
+<p>2、用户接下来的访问只需要验证SessionId即可，无需再向CAS Server请求验证。</p>
+<p>当用户访问同一个CAS Server但是不同的CAS Client时：</p>
+<p>1、同样CAS Client2检测缓存中没有该次请求的用户信息，没有ST，Client2返回给用户Redirect响应，携带service参数，到CAS Server。</p>
+<p>2、这是用户第二次访问CAS Server，此时Request的Cookie中会携带第一次签发的TGC，CAS Server根据TGC查找缓存中是否有对应的TGT，例如：</p>
+<p>Set-Cookie : CASTGC=TGT-2345678</p>
+<p>302 Location : <a class="link" href="https://cas.example.com/cas/login?service=http://app.com/web"  target="_blank" rel="noopener"
+    >https://cas.example.com/cas/login?service=http://app.com/web</a></p>
+<p>3、如果有，说明用户登录过且未过期，用户不必再次登陆，CAS Server会直接找到TGT签发ST，返回给客户端Redirect响应，到service中的地址，例如：</p>
+<p>Set-Cookie : CASTGC=TGT-2345678</p>
+<p>302 Location : <a class="link" href="http://app.com/web?ticket=ST-8-SoIdlj7cPPCfn0pMZ"  target="_blank" rel="noopener"
+    >http://app.com/web?ticket=ST-8-SoIdlj7cPPCfn0pMZ</a></p>
+<p>4、用户携带ticket(ST)再次请求CAS Client，客户端Authentication Filter检测到请求中带有ticket参数，会跳过，由Ticket Validation Filter处理。</p>
+<p>5、Ticket Validation Filter 携带ticket(ST)及service访问CAS Server的/serviceValidate接口，希望CAS Server验证ST有效性。</p>
+<p>6、CAS Server验证成功，将用户信息通过xml方式返回给Ticket Validation Filter，当该Filter接收到验证成功的响应时，把用户信息存入缓存。至此，SSO会话成功建立。</p>
+<p>7、Client将用户信息存入缓存，并生成SessionId写入cookie，返回给用户Redirect响应，到用户请求的服务地址。例如：</p>
+<p>Set-Cookie : JSESSIONID=ABC123456</p>
+<p>302 Location : <a class="link" href="http://app.com/web"  target="_blank" rel="noopener"
+    >http://app.com/web</a></p>
+<p>8、用户接下来的访问只需要验证SessionId即可，无需再向CAS Server请求验证。</p>
+<h3 id="代理模式">代理模式</h3>
+<p>CAS2.0后，引入代理模式，CAS服务能够充当另一个CAS服务的代理，传输用户身份。</p>
+<h4 id="使用场景">使用场景</h4>
+<p>当浏览器用户访问代理应用A，代理应用A中调用了被代理应用B的授权性资源，代理应用A想代表用户去访问被代理应用B，
+因此代理应用A需要告诉被代理应用B当前用户是谁，以便被代理应用B对当前的用户请求进行授权。</p>
+<p>代理的前提是需要 CAS Client 拥有用户的身份信息 ( 类似凭据 ) 。
+之前我们提到的 TGC 是用户持有对自己身份信息的一种凭据，这里的 PGT 就是 CAS Client 端持有的对用户身份信息的一种凭据。
+凭借TGC，User 可以免去输入密码以获取访问其它服务的 Service Ticket 。
+所以，这里凭借 PGT ， Web应用可以代理用户去实现后端的认证，而 无需前端用户的参与 。</p>
+<h4 id="流程图">流程图</h4>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 66; 
+			flex-basis: 158px"
+	>
+	<a href="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_1.png" data-size="1131x1708">
+		<img src="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_1.png"
+			width="1131"
+			height="1708"
+			srcset="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_1_huaa75c6190bd5b01a5d7a353d5f31c408_726975_480x0_resize_box_3.png 480w, /2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_1_huaa75c6190bd5b01a5d7a353d5f31c408_726975_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_1.png">
+	</a>
+	
+	<figcaption>img_1.png</figcaption>
+	
+</figure></p>
+<p>与CAS1.0的区别在于，在客户端使用ST找CAS验证有效性的时候携带一个回调url，让CAS回传,CAS回调的时候会携带PGT和PGTIOU,
+之后如果要向被代理服务请求资源的时候，将用PGT去CAS换取ST以请求被代理服务。</p>
+<h3 id="cas-30">CAS 3.0</h3>
+<p>CAS又引入了基于SAML对Service Ticket进行校验。</p>
+<h3 id="总结-1">总结</h3>
+<p>CAS是较老的协议，解决的场景比较单一，更适用于企业内部系统，尤其是对于已经部署了CAS的环境，在安全性较高，开放性较高的场景下，
+更建议使用OIDC+PKCE来实现单点登录。</p>
+<h2 id="saml">SAML</h2>
+<h3 id="角色-1">角色</h3>
+<ul>
+<li>IdP: 身份提供者</li>
+<li>SP: 服务提供者</li>
+</ul>
+<h3 id="流程-4">流程</h3>
+<p><figure 
+	
+		class="gallery-image" 
+		style="
+			flex-grow: 134; 
+			flex-basis: 322px"
+	>
+	<a href="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_2.png" data-size="582x433">
+		<img src="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_2.png"
+			width="582"
+			height="433"
+			srcset="/2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_2_huad4f5d853c043dee2fa451eb52de7396_43891_480x0_resize_box_3.png 480w, /2023/%E6%8E%88%E6%9D%83%E4%B8%8E%E8%AE%A4%E8%AF%81%E4%B9%8B%E8%AE%A4%E8%AF%81/img_2_huad4f5d853c043dee2fa451eb52de7396_43891_1024x0_resize_box_3.png 1024w"
+			loading="lazy"
+			alt="img_2.png">
+	</a>
+	
+	<figcaption>img_2.png</figcaption>
+	
+</figure></p>
+<ol>
+<li>用户访问服务提供者（SP）：</li>
+</ol>
+<ul>
+<li>用户试图访问某个受保护的服务，如Web应用或资源。</li>
+</ul>
+<ol start="2">
+<li>服务提供者（SP）重定向至身份提供者（IdP）：</li>
+</ol>
+<ul>
+<li>由于用户尚未被认证，服务提供者将用户重定向至指定的身份提供者（IdP）。</li>
+</ul>
+<ol start="3">
+<li>身份提供者认证用户：</li>
+</ol>
+<ul>
+<li>用户在身份提供者进行身份验证。这通常包括提供用户名和密码等凭据。</li>
+</ul>
+<ol start="4">
+<li>生成SAML响应：</li>
+</ol>
+<ul>
+<li>一旦用户被身份提供者成功认证，身份提供者将生成SAML响应。</li>
+<li>SAML响应包括身份断言（Assertion），其中包含用户的身份信息，以及可能的其他信息，如授权信息、过期时间等。</li>
+</ul>
+<ol start="5">
+<li>SAML断言传递给用户：</li>
+</ol>
+<ul>
+<li>SAML断言被签名加密被传递回服务提供者。这通常是通过浏览器重定向(base64附加到参数)进行传递。</li>
+</ul>
+<ol start="6">
+<li>服务提供者验证SAML断言：</li>
+</ol>
+<ul>
+<li>服务提供者接收到SAML断言后，会验证断言的签名和信任相关的身份提供者。</li>
+<li>如果验证成功，服务提供者将信任该用户并允许其访问受保护的资源或应用。</li>
+</ul>
+<ol start="7">
+<li>用户获得访问权限：</li>
+</ol>
+<ul>
+<li>用户成功被认证，服务提供者向用户提供所需的服务或资源。</li>
+</ul>
+<h1 id="总结-2">总结</h1>
+<p>推荐排序：</p>
+<ul>
+<li>
+<p>OIDC + PKCE: 提供全面的身份验证和授权解决方案，特别适用于现代Web和移动应用。</p>
+</li>
+<li>
+<p>SAML: 适用于企业级场景，特别是需要集成不同组织间的身份验证和授权。</p>
+</li>
+<li>
+<p>CAS: 对于小型组织或者轻量级的需求，提供基本的单点登录功能。</p>
+</li>
+</ul>
 <h3 id="参考文献">参考文献</h3>
-<p><a class="link" href="https://datatracker.ietf.org/doc/html/rfc7636"  target="_blank" rel="noopener"
-    >Proof Key for Code Exchange by OAuth Public Clients</a></p>
+<p><a class="link" href="https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims"  target="_blank" rel="noopener"
+    >Final: OpenID Connect Core 1.0 incorporating errata set 1</a></p>
+<p><a class="link" href="https://www.cloudentify.com/archives/834"  target="_blank" rel="noopener"
+    >单点登录协议有哪些？CAS、OAuth、OIDC、SAML有何异同？</a></p>
+<p><a class="link" href="https://apereo.github.io/cas/6.6.x/protocol/CAS-Protocol.html"  target="_blank" rel="noopener"
+    >CAS - CAS Protocol</a></p>
+<p><a class="link" href="https://blog.csdn.net/CSDN1187178055/article/details/122067694"  target="_blank" rel="noopener"
+    >CAS协议简单介绍_君君的小叮当的博客-CSDN博客</a></p>
+<p><a class="link" href="https://blog.csdn.net/joeljx/article/details/89350385"  target="_blank" rel="noopener"
+    >【精选】CAS单点登录开源框架解读（十一）&ndash;CAS单点登录代理模式之概述_cas 委托与代理-CSDN博客</a></p>
 <h3 id="版权信息">版权信息</h3>
 <p>本文原载于<a class="link" href="https://runningccode.github.io"  target="_blank" rel="noopener"
     >runningccode.github.io</a>，遵循CC BY-NC-SA 4.0协议，复制请保留原文出处。</p>
@@ -715,7 +961,7 @@
 &copy; 
         
         2023 <a href="https://runningccode.github.io/">青葱与志</a>·<i class="fas fa-bell"></i> <a id="days">0</a>Days<br>
-        共书写了144k字·共 75篇文章</br><span><p>
+        共书写了148.7k字·共 75篇文章</br><span><p>
     </section>
     
     <section class="powerby">
@@ -870,6 +1116,34 @@ document.getElementById('days').innerHTML = number_of_days;
           </ol>
         </li>
         <li><a href="#总结">总结</a></li>
+      </ol>
+    </li>
+    <li><a href="#cas">CAS</a>
+      <ol>
+        <li><a href="#角色">角色</a></li>
+        <li><a href="#ticket">Ticket</a></li>
+        <li><a href="#流程-3">流程</a></li>
+        <li><a href="#代理模式">代理模式</a>
+          <ol>
+            <li><a href="#使用场景">使用场景</a></li>
+            <li><a href="#流程图">流程图</a></li>
+          </ol>
+        </li>
+        <li><a href="#cas-30">CAS 3.0</a></li>
+        <li><a href="#总结-1">总结</a></li>
+      </ol>
+    </li>
+    <li><a href="#saml">SAML</a>
+      <ol>
+        <li><a href="#角色-1">角色</a></li>
+        <li><a href="#流程-4">流程</a></li>
+      </ol>
+    </li>
+  </ol>
+
+  <ol>
+    <li>
+      <ol>
         <li><a href="#参考文献">参考文献</a></li>
         <li><a href="#版权信息">版权信息</a></li>
       </ol>
